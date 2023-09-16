@@ -7,21 +7,19 @@ import client, {
 import { ID, Query, Role, Permission } from 'appwrite'
 
 import Header from '../components/header'
+import { Message, MessageType } from '../model/message/message'
 
 import { useAuth } from '../utils/auth-context'
-import { Message } from '../types/message'
-import { Edit, Trash2 } from 'react-feather'
 
 const Room = () => {
   const { user } = useAuth()
-  const [messages, setMessages] = useState<Array<Message>>([])
-  console.log(messages)
+  const [messages, setMessages] = useState<Array<MessageType>>([])
   const [messageBody, setMessageBody] = useState('')
   const [isEdit, setIsEdit] = useState(false)
   const [id, setId] = useState('')
 
   const getMessages = async () => {
-    const response = await databases.listDocuments<Message>(
+    const response = await databases.listDocuments<MessageType>(
       DATABASE_ID,
       COLLECTION_ID_MESSAGES,
       [Query.orderDesc('$createdAt'), Query.limit(20)]
@@ -32,7 +30,7 @@ const Room = () => {
 
   useEffect(() => {
     getMessages()
-    const unsubscribe = client.subscribe<Message>(
+    const unsubscribe = client.subscribe<MessageType>(
       [
         `databases.${DATABASE_ID}.collections.${COLLECTION_ID_MESSAGES}.documents`,
       ],
@@ -85,7 +83,7 @@ const Room = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    if (!user) return //marvelous null handling
+    if (!user) return
 
     const messageSent = {
       body: messageBody,
@@ -96,7 +94,7 @@ const Room = () => {
     const permissions = [Permission.write(Role.user(user.$id))]
 
     if (isEdit) {
-      await databases.updateDocument<Message>(
+      await databases.updateDocument<MessageType>(
         DATABASE_ID,
         COLLECTION_ID_MESSAGES,
         id,
@@ -105,7 +103,7 @@ const Room = () => {
       setIsEdit(false)
       setMessageBody('')
     } else {
-      const response = await databases.createDocument<Message>(
+      const response = await databases.createDocument<MessageType>(
         DATABASE_ID,
         COLLECTION_ID_MESSAGES,
         ID.unique(),
@@ -115,19 +113,6 @@ const Room = () => {
       console.log('created', response)
       setMessageBody('')
     }
-  }
-
-  const deleteMessage = async (message_id: string) =>
-    await databases.deleteDocument(
-      DATABASE_ID,
-      COLLECTION_ID_MESSAGES,
-      message_id
-    )
-
-  const editMessage = async (message: Message) => {
-    setMessageBody(message.body)
-    setId(message.$id)
-    setIsEdit(true)
   }
 
   return (
@@ -150,38 +135,12 @@ const Room = () => {
         </form>
         <div>
           {messages.map((message) => (
-            <div key={message.$id} className="message--wrapper">
-              <div className="message--header">
-                <p>
-                  {message.user_name ? (
-                    <span>{message.user_name}</span>
-                  ) : (
-                    <span>Anonymous user</span>
-                  )}
-                  <small className="message-timestamp">
-                    {new Date(message.$createdAt).toLocaleString()}
-                  </small>
-                </p>
-                {user &&
-                  message.$permissions.includes(
-                    `delete("user:${user.$id}")`
-                  ) && (
-                    <div className="icons--wrapper">
-                      <Edit
-                        className="edit--btn"
-                        onClick={() => editMessage(message)}
-                      />
-                      <Trash2
-                        className="delete--btn"
-                        onClick={() => deleteMessage(message.$id)}
-                      />
-                    </div>
-                  )}
-              </div>
-              <div className="message--body">
-                <span>{message.body}</span>
-              </div>
-            </div>
+            <Message
+              message={message}
+              setMessageBody={setMessageBody}
+              setId={setId}
+              setIsEdit={setIsEdit}
+            />
           ))}
         </div>
       </div>
