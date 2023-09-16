@@ -7,78 +7,16 @@ import client, {
 import { ID, Query, Role, Permission } from 'appwrite'
 
 import Header from '../components/header'
-import { Message, MessageType } from '../model/message/message'
+import { MessageType } from '../model/message/message'
+import MemoizedMessageList from '../model/message/message-list'
 
 import { useAuth } from '../utils/auth-context'
 
 const Room = () => {
   const { user } = useAuth()
-  const [messages, setMessages] = useState<Array<MessageType>>([])
   const [messageBody, setMessageBody] = useState('')
   const [isEdit, setIsEdit] = useState(false)
   const [id, setId] = useState('')
-
-  const getMessages = async () => {
-    const response = await databases.listDocuments<MessageType>(
-      DATABASE_ID,
-      COLLECTION_ID_MESSAGES,
-      [Query.orderDesc('$createdAt'), Query.limit(20)]
-    )
-    console.log(response)
-    setMessages(response.documents)
-  }
-
-  useEffect(() => {
-    getMessages()
-    const unsubscribe = client.subscribe<MessageType>(
-      [
-        `databases.${DATABASE_ID}.collections.${COLLECTION_ID_MESSAGES}.documents`,
-      ],
-      (response) => {
-        console.log(response)
-
-        if (
-          response.events.includes(
-            'databases.*.collections.*.documents.*.create'
-          )
-        ) {
-          console.log('message was created')
-          setMessages((prevState) => [response.payload, ...prevState])
-        }
-
-        if (
-          response.events.includes(
-            'databases.*.collections.*.documents.*.delete'
-          )
-        ) {
-          console.log('message was deleted')
-          setMessages((prevState) =>
-            prevState.filter((message) => message.$id !== response.payload.$id)
-          )
-        }
-
-        if (
-          response.events.includes(
-            'databases.*.collections.*.documents.*.update'
-          )
-        ) {
-          console.log('message was updated')
-          setMessages((prevState) => {
-            const prevCopy = [...prevState]
-            const messageToUpdate = prevCopy.find(
-              (m) => m.$id === response.payload.$id
-            )
-            if (messageToUpdate) messageToUpdate.body = response.payload.body
-            return prevCopy
-          })
-        }
-      }
-    )
-
-    return () => {
-      unsubscribe()
-    }
-  }, [])
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -133,16 +71,11 @@ const Room = () => {
             <input className="btn btn--secondary" type="submit" value="Send" />
           </div>
         </form>
-        <div>
-          {messages.map((message) => (
-            <Message
-              message={message}
-              setMessageBody={setMessageBody}
-              setId={setId}
-              setIsEdit={setIsEdit}
-            />
-          ))}
-        </div>
+        <MemoizedMessageList
+          setMessageBody={setMessageBody}
+          setId={setId}
+          setIsEdit={setIsEdit}
+        />
       </div>
     </main>
   )

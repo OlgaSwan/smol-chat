@@ -24,7 +24,7 @@ interface MessageProps {
   setIsEdit: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export const Message: FunctionComponent<MessageProps> = ({
+const Message: FunctionComponent<MessageProps> = ({
   message,
   setMessageBody,
   setId,
@@ -46,7 +46,7 @@ export const Message: FunctionComponent<MessageProps> = ({
   }
 
   return (
-    <div key={message.$id} className="message--wrapper">
+    <div className="message--wrapper">
       <div className="message--header">
         <p>
           {message.user_name ? (
