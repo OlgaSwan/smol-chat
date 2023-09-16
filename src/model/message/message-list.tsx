@@ -10,15 +10,11 @@ import { ID, Query, Role, Permission } from 'appwrite'
 import Message, { MessageType } from '../message/message'
 
 interface MessageListProps {
-  setMessageBody: React.Dispatch<React.SetStateAction<string>>
   setId: React.Dispatch<React.SetStateAction<string>>
-  setIsEdit: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const MessageList: FunctionComponent<MessageListProps> = ({
-  setMessageBody,
   setId,
-  setIsEdit,
 }) => {
   const [messages, setMessages] = useState<Array<MessageType>>([])
 
@@ -85,9 +81,7 @@ const MessageList: FunctionComponent<MessageListProps> = ({
         <Message
           key={message.$id}
           message={message}
-          setMessageBody={setMessageBody}
           setId={setId}
-          setIsEdit={setIsEdit}
         />
       ))}
     </div>
