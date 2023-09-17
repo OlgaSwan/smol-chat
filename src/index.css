@@ -78,7 +78,7 @@ input[type="text"], input[type="password"], input[type="email"], textarea{
 .btn{
   padding: 0.5em 1em;
   border: none;
-  border-radius: 2px;
+  border-radius: 3px;
   cursor: pointer;
   transition: 0.3s;
 }
@@ -94,6 +94,12 @@ input[type="text"], input[type="password"], input[type="email"], textarea{
 
 .btn--secondary{
   background-color: #8db3dd;
+}
+
+.btn--cancel{
+  background: none;
+  border: 1px solid #8db3dd ;
+  color: #8db3dd;
 }
 
 .btn:hover{
@@ -140,6 +146,7 @@ input[type="text"], input[type="password"], input[type="email"], textarea{
 .send-btn--wrapper{
   display: flex;
   justify-content: flex-end;
+  gap: 20px;
 }
 
 .message--wrapper{

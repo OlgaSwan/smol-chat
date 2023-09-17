@@ -11,26 +11,25 @@ import { MessageType } from './message'
 import { useAuth } from '../../utils/auth-context'
 
 interface MessageFormProps {
-  id: string
-  setId: Dispatch<React.SetStateAction<string>>
+  message: MessageType | null
+  setMessage: Dispatch<React.SetStateAction<MessageType | null>>
 }
 
-const MessageForm: FunctionComponent<MessageFormProps> = (messageFormProps) => {
+const MessageForm: FunctionComponent<MessageFormProps> = ({
+  message,
+  setMessage,
+}) => {
   const { user } = useAuth()
   const [messageBody, setMessageBody] = useState('')
 
-  const getMessage = async (id: string) => {
-    const message = await databases.getDocument<MessageType>(
-      DATABASE_ID,
-      COLLECTION_ID_MESSAGES,
-      id
-    )
-    setMessageBody(message.body)
-  }
-
   useEffect(() => {
-    if (messageFormProps.id) getMessage(messageFormProps.id)
-  }, [messageFormProps.id])
+    if (message) setMessageBody(message.body)
+  }, [message])
+
+  const resetForm = () => {
+    setMessage(null)
+    setMessageBody('')
+  }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -45,15 +44,14 @@ const MessageForm: FunctionComponent<MessageFormProps> = (messageFormProps) => {
 
     const permissions = [Permission.write(Role.user(user.$id))]
 
-    if (messageFormProps.id) {
+    if (message) {
       await databases.updateDocument<MessageType>(
         DATABASE_ID,
         COLLECTION_ID_MESSAGES,
-        messageFormProps.id,
+        message.$id,
         messageSent
       )
-      messageFormProps.setId('')
-      setMessageBody('')
+      resetForm()
     } else {
       const response = await databases.createDocument<MessageType>(
         DATABASE_ID,
@@ -67,7 +65,7 @@ const MessageForm: FunctionComponent<MessageFormProps> = (messageFormProps) => {
     }
   }
   return (
-    <form onSubmit={handleSubmit} id="message--form">
+    <form onSubmit={handleSubmit} onReset={resetForm} id="message--form">
       <div>
         <textarea
           required
@@ -78,10 +76,17 @@ const MessageForm: FunctionComponent<MessageFormProps> = (messageFormProps) => {
         ></textarea>
       </div>
       <div className="send-btn--wrapper">
+        {message && (
+          <button className="btn btn--cancel" type="reset">
+            Cancel
+          </button>
+        )}
+
         <input
           className="btn btn--secondary"
           type="submit"
-          value={messageFormProps.id ? 'Edit' : 'Send'}
+          value={message ? 'Edit' : 'Send'}
+          disabled={messageBody ? false : true}
         />
       </div>
     </form>

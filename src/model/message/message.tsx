@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react'
+import React, { FunctionComponent, Dispatch } from 'react'
 
 import type { Models } from 'appwrite'
 import {
@@ -19,10 +19,10 @@ export type MessageType = {
 
 interface MessageProps {
   message: MessageType
-  setId: React.Dispatch<React.SetStateAction<string>>
+  setMessage: Dispatch<React.SetStateAction<MessageType | null>>
 }
 
-const Message: FunctionComponent<MessageProps> = ({ message, setId }) => {
+const Message: FunctionComponent<MessageProps> = ({ message, setMessage }) => {
   const { user } = useAuth()
 
   const deleteMessage = async (message_id: string) =>
@@ -33,7 +33,7 @@ const Message: FunctionComponent<MessageProps> = ({ message, setId }) => {
     )
 
   const editMessage = async (message: MessageType) => {
-    setId(message.$id)
+    setMessage(message)
   }
 
   return (

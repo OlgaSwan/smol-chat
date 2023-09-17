@@ -1,4 +1,10 @@
-import React, { FunctionComponent, useState, useEffect, memo } from 'react'
+import React, {
+  FunctionComponent,
+  Dispatch,
+  useState,
+  useEffect,
+  memo,
+} from 'react'
 import client, {
   databases,
   DATABASE_ID,
@@ -10,10 +16,10 @@ import { Query } from 'appwrite'
 import Message, { MessageType } from '../message/message'
 
 interface MessageListProps {
-  setId: React.Dispatch<React.SetStateAction<string>>
+  setMessage: Dispatch<React.SetStateAction<MessageType | null>>
 }
 
-const MessageList: FunctionComponent<MessageListProps> = ({ setId }) => {
+const MessageList: FunctionComponent<MessageListProps> = ({ setMessage }) => {
   const [messages, setMessages] = useState<Array<MessageType>>([])
 
   const getMessages = async () => {
@@ -75,7 +81,7 @@ const MessageList: FunctionComponent<MessageListProps> = ({ setId }) => {
   return (
     <div>
       {messages.map((message) => (
-        <Message key={message.$id} message={message} setId={setId} />
+        <Message key={message.$id} message={message} setMessage={setMessage} />
       ))}
     </div>
   )

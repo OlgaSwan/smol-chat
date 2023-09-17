@@ -1,4 +1,3 @@
-import './App.css'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import PrivateRoutes from './components/private-routes'
 import { AuthProvider } from './utils/auth-context'

@@ -2,19 +2,24 @@ import React, { useState } from 'react'
 
 import Header from '../components/header'
 
+import { MessageType } from '../model/message/message'
+
+import EditedMessage from '../model/message/edited-message'
+
 import MessageForm from '../model/message/message-form'
 
 import MemoizedMessageList from '../model/message/message-list'
 
 const Room = () => {
-  const [id, setId] = useState('')
+  const [message, setMessage] = useState<MessageType | null>(null)
 
   return (
     <main className="container">
       <Header />
       <div className="room--container">
-        <MessageForm id={id} setId={setId} />
-        <MemoizedMessageList setId={setId} />
+        {message && <EditedMessage messageBody={message.body} />}
+        <MessageForm message={message} setMessage={setMessage} />
+        <MemoizedMessageList setMessage={setMessage} />
       </div>
     </main>
   )
