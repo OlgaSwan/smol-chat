@@ -19,16 +19,12 @@ export type MessageType = {
 
 interface MessageProps {
   message: MessageType
-  setMessageBody: React.Dispatch<React.SetStateAction<string>>
   setId: React.Dispatch<React.SetStateAction<string>>
-  setIsEdit: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const Message: FunctionComponent<MessageProps> = ({
   message,
-  setMessageBody,
   setId,
-  setIsEdit,
 }) => {
   const { user } = useAuth()
 
@@ -40,9 +36,7 @@ const Message: FunctionComponent<MessageProps> = ({
     )
 
   const editMessage = async (message: MessageType) => {
-    setMessageBody(message.body)
     setId(message.$id)
-    setIsEdit(true)
   }
 
   return (
