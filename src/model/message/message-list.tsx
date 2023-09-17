@@ -5,7 +5,7 @@ import client, {
   COLLECTION_ID_MESSAGES,
 } from '../../appwrite-config'
 
-import { ID, Query, Role, Permission } from 'appwrite'
+import { Query } from 'appwrite'
 
 import Message, { MessageType } from '../message/message'
 
@@ -13,9 +13,7 @@ interface MessageListProps {
   setId: React.Dispatch<React.SetStateAction<string>>
 }
 
-const MessageList: FunctionComponent<MessageListProps> = ({
-  setId,
-}) => {
+const MessageList: FunctionComponent<MessageListProps> = ({ setId }) => {
   const [messages, setMessages] = useState<Array<MessageType>>([])
 
   const getMessages = async () => {
@@ -74,15 +72,10 @@ const MessageList: FunctionComponent<MessageListProps> = ({
     }
   }, [])
 
-  console.log('x')
   return (
     <div>
       {messages.map((message) => (
-        <Message
-          key={message.$id}
-          message={message}
-          setId={setId}
-        />
+        <Message key={message.$id} message={message} setId={setId} />
       ))}
     </div>
   )

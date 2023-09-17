@@ -33,7 +33,7 @@ export const AuthProvider: FunctionComponent<AuthContextProps> = ({
       const accountDetails = await account.get<noPreferences>()
       setUser(accountDetails)
     } catch (error) {
-      console.log(error)
+      console.error(error)
     }
     setLoading(false)
   }

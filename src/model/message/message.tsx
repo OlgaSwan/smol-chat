@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react'
 
 import type { Models } from 'appwrite'
-import client, {
+import {
   databases,
   DATABASE_ID,
   COLLECTION_ID_MESSAGES,
@@ -22,10 +22,7 @@ interface MessageProps {
   setId: React.Dispatch<React.SetStateAction<string>>
 }
 
-const Message: FunctionComponent<MessageProps> = ({
-  message,
-  setId,
-}) => {
+const Message: FunctionComponent<MessageProps> = ({ message, setId }) => {
   const { user } = useAuth()
 
   const deleteMessage = async (message_id: string) =>

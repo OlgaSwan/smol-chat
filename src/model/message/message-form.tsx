@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useState, useEffect, Dispatch } from 'react'
 
-import { Permission, Role, ID, Query } from 'appwrite'
-import client, {
+import { Permission, Role, ID } from 'appwrite'
+import {
   databases,
   DATABASE_ID,
   COLLECTION_ID_MESSAGES,
