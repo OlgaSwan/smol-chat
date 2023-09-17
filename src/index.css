@@ -126,6 +126,7 @@ input[type="text"], input[type="password"], input[type="email"], textarea{
 
 .header--link:hover{
   color: #8db3dd;
+  text-decoration: underline;
 }
 
 /* Room Styling */

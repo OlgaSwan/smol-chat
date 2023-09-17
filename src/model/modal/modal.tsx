@@ -1,6 +1,6 @@
 // Modal as a separate component
-import { FunctionComponent, PropsWithChildren, useEffect, useRef } from "react"
-import "./style.css"
+import { FunctionComponent, PropsWithChildren, useEffect, useRef } from 'react'
+import './style.css'
 
 interface ModalProps {
   isOpen: boolean
@@ -22,7 +22,7 @@ const Modal: FunctionComponent<PropsWithChildren<ModalProps>> = ({
     }
   }, [isOpen])
 
-const closeModal = () => setIsOpen(false)
+  const closeModal = () => setIsOpen(false)
 
   return (
     <dialog ref={ref} onCancel={closeModal}>
