@@ -8,12 +8,24 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.5s;
+}
+
+.modal.active {
+    opacity: 1;
+    pointer-events: all;
 }
 
 .modal--content {
     padding: 20px;
     border-radius: 12px;
     background-color: white;
-    height: 200px;
-    width: 400px;
+    transform: scale(0.5);
+    transition: 0.4s all;
+}
+
+.modal--content.active {
+    transform: scale(1);
 }
