@@ -26,8 +26,8 @@ const Modal: FunctionComponent<PropsWithChildren<ModalProps>> = ({
 
   return (
     <dialog ref={ref} onCancel={closeModal}>
-      <div className="modal" onClick={closeModal}>
-        <div className="modal--content" onClick={(e) => e.stopPropagation()}>
+      <div className={isOpen ?'modal active' :"modal"} onClick={closeModal}>
+        <div className={isOpen ?"modal--content active" :"modal--content"} onClick={(e) => e.stopPropagation()}>
           {children}
         </div>
       </div>
