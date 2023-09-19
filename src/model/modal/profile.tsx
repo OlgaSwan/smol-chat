@@ -20,7 +20,7 @@ const Profile = () => {
       const permissions = [Permission.write(Role.user(user.$id))]
       const photo = await storage.createFile(
         BUCKET_ID,
-        user?.$id,
+        user.$id,
         fileObj,
         permissions
       )

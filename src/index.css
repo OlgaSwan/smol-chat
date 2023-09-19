@@ -8,6 +8,7 @@
     --textColorMain:#fff;
     --textColorSecondary:rgb(226, 227, 232);
     --themeColorMain:rgba(219,26,90,1);
+    --themeColor:rgb(217, 118, 151);
     --themeColorSecondary:#386fd2;
 }
 
@@ -165,14 +166,35 @@ input[type="text"], input[type="password"], input[type="email"], textarea{
   margin-top: 1em;
 }
 
+.message--header--owner{
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  margin-top: 1em;
+  gap: 20px
+}
+
 .icons--wrapper{
   display: flex;
   justify-content: end;
-  gap: 20px;
+  gap: 15px;
   align-items: center;
 }
 
 .message--body{
+  padding: 0.5em 0;
+  color: var(--textColorSecondary);
+  background-color: var(--themeColor);
+  padding: 1em;
+  border-radius: 20px;
+  width:fit-content;
+  max-width: 100%;
+  word-wrap: break-word;
+  display: flex;
+  flex-direction: column; /* added */
+}
+
+.message--body--owner{
   padding: 0.5em 0;
   color: var(--textColorSecondary);
   background-color: var(--themeColorMain);
@@ -180,15 +202,12 @@ input[type="text"], input[type="password"], input[type="email"], textarea{
   border-radius: 20px;
   width:fit-content;
   max-width: 100%;
-  word-wrap: break-word; /* added */
-}
-
-.message--body--owner{
-  border: 1px solid rgba(219,26,90,1);
-  background-color: var(--secondaryBgColor);
+  word-wrap: break-word;
+  margin-left: auto; 
 }
 
 .message-timestamp{
+  font-size: 12px;
   margin-left: 1em;
   color: rgb(164, 161, 161);
 }
