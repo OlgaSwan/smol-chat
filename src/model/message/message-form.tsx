@@ -21,6 +21,7 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
 }) => {
   const { user } = useAuth()
   const [messageBody, setMessageBody] = useState('')
+  const maxSymbolsMessage = 500
 
   useEffect(() => {
     if (message) setMessageBody(message.body)
@@ -37,7 +38,7 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
     if (!user) return
 
     const messageSent = {
-      body: messageBody,
+      body: messageBody.trimStart().trimEnd(),
       user_name: user.name,
       user_id: user.$id,
     }
@@ -60,7 +61,6 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
         messageSent,
         permissions
       )
-      console.log('created', response)
       setMessageBody('')
     }
   }
@@ -68,26 +68,32 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
     <form onSubmit={handleSubmit} onReset={resetForm} id="message--form">
       <div>
         <textarea
+          style={{ resize: 'vertical', maxHeight: '400px', minHeight: '100px' }}
           required
-          maxLength={1000}
+          maxLength={maxSymbolsMessage}
           placeholder="Say something..."
           onChange={(e) => setMessageBody(e.target.value)}
           value={messageBody}
         ></textarea>
       </div>
-      <div className="send-btn--wrapper">
-        {message && (
-          <button className="btn btn--cancel" type="reset">
-            Cancel
-          </button>
-        )}
+      <div className="form--footer--wrapper">
+        <div className="countdown--symbols">
+          {messageBody && messageBody.length + '/' + maxSymbolsMessage}
+        </div>
+        <div className="send-btn--wrapper">
+          {message && (
+            <button className="btn btn--cancel" type="reset">
+              Cancel
+            </button>
+          )}
 
-        <input
-          className="btn btn--secondary"
-          type="submit"
-          value={message ? 'Edit' : 'Send'}
-          disabled={messageBody ? false : true}
-        />
+          <input
+            className="btn btn--secondary"
+            type="submit"
+            value={message ? 'Edit' : 'Send'}
+            disabled={messageBody.trim().length > 0 ? false : true}
+          />
+        </div>
       </div>
     </form>
   )

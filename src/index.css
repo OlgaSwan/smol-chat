@@ -73,6 +73,16 @@ input[type="text"], input[type="password"], input[type="email"], textarea{
   text-shadow: none !important;
 }
 
+.form--footer--wrapper{
+  display: flex;
+  justify-content: space-between;
+}
+
+.countdown--symbols{
+  font-size: 14px;
+  align-self: center;
+  color: rgb(164, 161, 161);
+}
 
 /* Button Styling */
 
@@ -157,26 +167,28 @@ input[type="text"], input[type="password"], input[type="email"], textarea{
   gap: 20px;
 }
 
+.message--list{
+  margin-top: 1.5em;
+}
+
 .message--wrapper{
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
   gap: 0.5em;
-  margin: 1em 0 1em 1em;
+  margin: 1em 0 0 1em;
 }
 
 .message--header{
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 1em;
 }
 
 .message--header--owner{
   display: flex;
   justify-content: end;
   align-items: center;
-  margin-top: 1em;
   gap: 20px
 }
 

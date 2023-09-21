@@ -79,7 +79,7 @@ const MessageList: FunctionComponent<MessageListProps> = ({ setMessage }) => {
   }, [])
 
   return (
-    <div>
+    <div className='message--list'>
       {messages.map((message) => (
         <Message key={message.$id} message={message} setMessage={setMessage} />
       ))}
