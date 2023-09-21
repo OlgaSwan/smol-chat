@@ -119,6 +119,12 @@ input[type="text"], input[type="password"], input[type="email"], textarea{
   border-bottom: none;
 }
 
+.header--link--wrapper{
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
 .header--link{
   color: #c7d8eb;
   cursor: pointer;

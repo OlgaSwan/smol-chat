@@ -34,6 +34,7 @@ const Profile = () => {
         style={{ display: 'none' }}
         ref={inputRef}
         type="file"
+        accept="image/jpg, image/png"
         onChange={handleFileChange}
       />
       <button onClick={handleClick}>Add Photo</button>
