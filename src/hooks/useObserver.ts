@@ -16,7 +16,7 @@ const useObserver = (ref: MutableRefObject<HTMLDivElement | null>) => {
     return () => {
       observer.disconnect()
     }
-  }, [ref, observer])
+  }, [ref.current, observer])
 
   return isIntersecting
 }
