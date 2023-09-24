@@ -5,6 +5,7 @@ import React, {
   useEffect,
   useRef,
   memo,
+  useCallback,
 } from 'react'
 import client, {
   databases,
@@ -23,18 +24,41 @@ interface MessageListProps {
 
 const MessageList: FunctionComponent<MessageListProps> = ({ setMessage }) => {
   const [messages, setMessages] = useState<Array<MessageType>>([])
+  const lastId = messages.length > 0 ? messages[messages.length - 1].$id : null
   const ref = useRef<HTMLDivElement | null>(null)
-  const isIntersecting = useObserver(ref, messages)
-  console.log(isIntersecting)
+  const { isIntersecting, resetObserver } = useObserver(ref)
+  const [keepFetching, setKeepFetching] = useState(true)
+  const limit = 10
 
   const getMessages = async () => {
     const response = await databases.listDocuments<MessageType>(
       DATABASE_ID,
       COLLECTION_ID_MESSAGES,
-      [Query.orderDesc('$createdAt'), Query.limit(10), Query.offset(0)]
+      [Query.orderDesc('$createdAt'), Query.limit(limit)]
     )
     setMessages(response.documents)
   }
+
+  const getMoreMessages = useCallback(
+    async (lastId: string) => {
+      const response = await databases.listDocuments<MessageType>(
+        DATABASE_ID,
+        COLLECTION_ID_MESSAGES,
+        [
+          Query.orderDesc('$createdAt'),
+          Query.limit(limit),
+          Query.cursorAfter(lastId),
+        ]
+      )
+      if (response.documents.length > 0) {
+        setMessages((prev) => [...prev, ...response.documents])
+      } else {
+        setKeepFetching(false)
+      }
+      resetObserver()
+    },
+    [resetObserver]
+  )
 
   useEffect(() => {
     getMessages()
@@ -83,16 +107,19 @@ const MessageList: FunctionComponent<MessageListProps> = ({ setMessage }) => {
     }
   }, [])
 
+  useEffect(() => {
+    if (isIntersecting && lastId && keepFetching) getMoreMessages(lastId)
+  }, [isIntersecting, lastId, keepFetching, getMoreMessages])
+
   return (
     <div className="message--list">
       {messages.map((message, index) => (
-        <div ref={index == messages.length - 1 ? ref : null}>
-          <Message
-            key={message.$id}
-            message={message}
-            setMessage={setMessage}
-          />
-        </div>
+        <Message
+          key={message.$id}
+          message={message}
+          setMessage={setMessage}
+          ref={index == messages.length - 1 ? ref : null}
+        />
       ))}
     </div>
   )
