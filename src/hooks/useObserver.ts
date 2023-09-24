@@ -1,24 +1,27 @@
-import React, { useEffect, useState, useMemo, MutableRefObject } from 'react'
+import { useEffect, useState, useMemo, RefObject, useCallback } from "react"
 
-const useObserver = (ref: MutableRefObject<HTMLDivElement | null>) => {
+const useObserver = (
+  ref: RefObject<HTMLDivElement>,
+  options?: IntersectionObserverInit
+) => {
   const [isIntersecting, setIsIntersecting] = useState(false)
-
   const observer = useMemo(
     () =>
-      new IntersectionObserver(([entry]) =>
+      new IntersectionObserver(([entry]) => {
         setIsIntersecting(entry.isIntersecting)
-      ),
-    []
+      }, options),
+    [options]
   )
+  const resetObserver = useCallback(() => setIsIntersecting(false), [])
 
   useEffect(() => {
     if (ref.current) observer.observe(ref.current)
     return () => {
       observer.disconnect()
     }
-  }, [ref.current, observer])
+  })
 
-  return isIntersecting
+  return { isIntersecting, resetObserver }
 }
 
 export default useObserver
