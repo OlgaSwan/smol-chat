@@ -1,6 +1,9 @@
 import React, { useEffect, useState, useMemo, MutableRefObject } from 'react'
 
-const useObserver = (ref: MutableRefObject<HTMLDivElement | null>) => {
+const useObserver = (
+  ref: MutableRefObject<HTMLDivElement | null>,
+  data: object[]
+) => {
   const [isIntersecting, setIsIntersecting] = useState(false)
 
   const observer = useMemo(
@@ -16,7 +19,7 @@ const useObserver = (ref: MutableRefObject<HTMLDivElement | null>) => {
     return () => {
       observer.disconnect()
     }
-  }, [ref.current, observer])
+  }, [data, observer])
 
   return isIntersecting
 }
