@@ -32,7 +32,11 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
     setMessageBody('')
   }
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (
+    e:
+      | React.FormEvent<HTMLFormElement>
+      | React.KeyboardEvent<HTMLTextAreaElement>
+  ) => {
     e.preventDefault()
 
     if (!user) return
@@ -64,6 +68,13 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
       setMessageBody('')
     }
   }
+
+  const onEnterSubmit = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key == 'Enter' && e.shiftKey == false) {
+      handleSubmit(e)
+    }
+  }
+
   return (
     <form onSubmit={handleSubmit} onReset={resetForm} id="message--form">
       <div>
@@ -73,6 +84,7 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
           maxLength={maxSymbolsMessage}
           placeholder="Say something..."
           onChange={(e) => setMessageBody(e.target.value)}
+          onKeyDown={onEnterSubmit}
           value={messageBody}
         ></textarea>
       </div>
@@ -92,6 +104,7 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
             type="submit"
             value={message ? 'Edit' : 'Send'}
             disabled={messageBody.trim().length > 0 ? false : true}
+            accessKey="s"
           />
         </div>
       </div>
