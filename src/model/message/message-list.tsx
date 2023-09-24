@@ -24,7 +24,7 @@ interface MessageListProps {
 const MessageList: FunctionComponent<MessageListProps> = ({ setMessage }) => {
   const [messages, setMessages] = useState<Array<MessageType>>([])
   const ref = useRef<HTMLDivElement | null>(null)
-  const isIntersecting = useObserver(ref)
+  const isIntersecting = useObserver(ref, messages)
   console.log(isIntersecting)
 
   const getMessages = async () => {
