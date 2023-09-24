@@ -1,26 +1,25 @@
 import React, { useState } from 'react'
 import { LogOut } from 'react-feather'
-import { Avatar } from '@mui/material'
+import { Avatar, Dialog } from '@mui/material'
 
-import Modal from '../model/modal/modal'
-import Profile from '../model/modal/profile'
+import Profile from './profile'
 import { useAuth } from '../utils/auth-context'
 import { storage, BUCKET_ID } from '../appwrite-config'
 
 const Header = () => {
   const { user, handleUserLogOut } = useAuth()
-  const [isOpen, setIsOpen] = useState(false)
+  const [open, setOpen] = useState(false)
   const avatar = storage.getFilePreview(BUCKET_ID, user?.$id ?? '')
 
   return (
     <div id="header--wrapper">
       {user && (
         <>
-          <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
+          <Dialog open={open} onClose={() => setOpen(false)}>
             <Profile />
-          </Modal>
+          </Dialog>
           <div className="header--link--wrapper">
-            <div className="header--link" onClick={() => setIsOpen(true)}>
+            <div className="header--link" onClick={() => setOpen(true)}>
               Welcome, {user.name}
             </div>
             <Avatar
