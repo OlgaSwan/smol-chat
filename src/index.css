@@ -1,66 +1,67 @@
 /* Global settings */
 
-:root{
-    --mainBgColor:rgba(20,20,31,11);
-    --secondaryBgColor:rgba(27,27,39,1);
-    --borderColor1:rgba(40,41,57,1);
-    --borderColor2:rgba(79,86,105,1);
-    --textColorMain:#fff;
-    --textColorSecondary:rgb(226, 227, 232);
-    --themeColorMain:rgba(219,26,90,1);
-    --themeColor:rgb(217, 118, 151);
-    --themeColorSecondary:#386fd2;
+:root {
+  --mainBgColor: rgba(20, 20, 31, 11);
+  --secondaryBgColor: rgba(27, 27, 39, 1);
+  --borderColor1: rgba(40, 41, 57, 1);
+  --borderColor2: rgba(79, 86, 105, 1);
+  --textColorMain: #fff;
+  --textColorSecondary: rgb(226, 227, 232);
+  --themeColorMain: rgba(219, 26, 90, 1);
+  --themeColor: rgb(217, 118, 151);
+  --themeColorSecondary: #386fd2;
 }
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
-      'Open Sans', 'Helvetica Neue', sans-serif;
-  }
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
 
-a{
+a {
   color: #40e0d0;
 }
 
-body{
-    background-color: var(--mainBgColor);
-    color: var(--textColorMain);
+body {
+  background-color: var(--mainBgColor);
+  color: var(--textColorMain);
 }
 
-.container{
+.container {
   max-width: 600px;
-  margin:20px auto;
+  margin: 20px auto;
 }
 
 /* Login & Register Pages */
 
-.auth--container{
+.auth--container {
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.form--wrapper{
+.form--wrapper {
   width: 600px;
   width: 600px;
   padding: 2em;
 }
 
-.field--wrapper{
+.field--wrapper {
   display: flex;
   flex-direction: column;
   gap: 1em;
   padding: 0.5em 0;
 }
 
-
-
 /* Form Input Styling */
 
-input[type="text"], input[type="password"], input[type="email"], textarea{
+input[type='text'],
+input[type='password'],
+input[type='email'],
+textarea {
   background: var(--mainBgColor);
   border: none;
   border-bottom: 1px solid var(--borderColor1);
@@ -73,12 +74,12 @@ input[type="text"], input[type="password"], input[type="email"], textarea{
   text-shadow: none !important;
 }
 
-.form--footer--wrapper{
+.form--footer--wrapper {
   display: flex;
   justify-content: space-between;
 }
 
-.countdown--symbols{
+.countdown--symbols {
   font-size: 14px;
   align-self: center;
   color: rgb(164, 161, 161);
@@ -86,7 +87,7 @@ input[type="text"], input[type="password"], input[type="email"], textarea{
 
 /* Button Styling */
 
-.btn{
+.btn {
   padding: 0.5em 1em;
   border: none;
   border-radius: 3px;
@@ -94,84 +95,84 @@ input[type="text"], input[type="password"], input[type="email"], textarea{
   transition: 0.3s;
 }
 
-.btn--lg{
+.btn--lg {
   padding: 1em 2em;
 }
 
-.btn--main{
-  background-color: rgba(219,26,90,1);
+.btn--main {
+  background-color: rgba(219, 26, 90, 1);
   color: #fff;
 }
 
-.btn--secondary{
+.btn--secondary {
   background-color: #8db3dd;
 }
 
-.btn--cancel{
+.btn--cancel {
   background: none;
-  border: 1px solid #8db3dd ;
+  border: 1px solid #8db3dd;
   color: #8db3dd;
 }
 
-.btn:hover{
+.btn:hover {
   opacity: 0.7;
 }
 
 /* Header Styling */
 
-#header--wrapper{
+#header--wrapper {
   background-color: var(--mainBgColor);
   padding: 1em;
   display: flex;
   justify-content: space-between;
   border-radius: 10px 10px 0 0;
-  border:1px solid var(--borderColor1);
+  border: 1px solid var(--borderColor1);
   border-bottom: none;
 }
 
-.header--link--wrapper{
+.header--link--wrapper {
   display: flex;
   flex-direction: row;
   gap: 10px;
+  cursor: pointer;
 }
 
-.header--link{
+.header--link {
   color: #c7d8eb;
-  cursor: pointer;
   transition: 0.3s;
 }
 
-.header--link:hover{
+.header--link:hover {
   color: #8db3dd;
   text-decoration: underline;
 }
 
 /* Room Styling */
 
-.room--container{
+.room--container {
   padding: 2em;
   background-color: var(--secondaryBgColor);
   border-radius: 0 0 10px 10px;
-  border:1px solid var(--borderColor1);
+  border: 1px solid var(--borderColor1);
 }
 
-#message--form{
+#message--form {
   display: flex;
   flex-direction: column;
   gap: 0.5em;
 }
 
-.send-btn--wrapper{
+.send-btn--wrapper {
   display: flex;
   justify-content: flex-end;
   gap: 20px;
 }
 
-.message--list{
+.message--list {
   margin-top: 1.5em;
 }
 
-.message--wrapper{
+.message--wrapper {
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
@@ -179,79 +180,75 @@ input[type="text"], input[type="password"], input[type="email"], textarea{
   margin: 1em 0 0 1em;
 }
 
-.message--header{
+.message--header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.message--header--owner{
+.message--header--owner {
   display: flex;
   justify-content: end;
   align-items: center;
-  gap: 20px
+  gap: 20px;
 }
 
-.icons--wrapper{
+.icons--wrapper {
   display: flex;
   justify-content: end;
   gap: 15px;
   align-items: center;
 }
 
-.message--body{
+.message--body {
   padding: 0.5em 0;
   color: var(--textColorSecondary);
   background-color: var(--themeColor);
   padding: 1em;
   border-radius: 20px;
-  width:fit-content;
+  width: fit-content;
   max-width: 100%;
   word-wrap: break-word;
   display: flex;
   flex-direction: column; /* added */
 }
 
-.message--body--owner{
+.message--body--owner {
   padding: 0.5em 0;
   color: var(--textColorSecondary);
   background-color: var(--themeColorMain);
   padding: 1em;
   border-radius: 20px;
-  width:fit-content;
+  width: fit-content;
   max-width: 100%;
   word-wrap: break-word;
-  margin-left: auto; 
+  margin-left: auto;
 }
 
-.message-timestamp{
+.message-timestamp {
   font-size: 12px;
   margin-left: 1em;
   color: rgb(164, 161, 161);
 }
 
-.delete--btn{
-  color:#8db3dd;
+.delete--btn {
+  color: #8db3dd;
   cursor: pointer;
   transition: 0.3s;
   width: 16px;
 }
 
-.delete--btn:hover{
-  color:red;
+.delete--btn:hover {
+  color: red;
 }
 
-.edit--btn{
-  color:#8db3dd;
+.edit--btn {
+  color: #8db3dd;
   cursor: pointer;
   transition: 0.3s;
   width: 16px;
 }
 
-.edit--btn:hover{
-  color:#daebff;
+.edit--btn:hover {
+  color: #daebff;
 }
-
-
-
-
