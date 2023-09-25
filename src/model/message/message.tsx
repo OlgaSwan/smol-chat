@@ -38,11 +38,11 @@ const Message = forwardRef<HTMLDivElement, MessageProps>(
     }
 
     return (
-      <div className="message--wrapper" ref={ref}>
+      <div className='message--wrapper' ref={ref}>
         {user?.$id == message.user_id ? (
           <>
-            <div className="message--header--owner">
-              <small className="message-timestamp">
+            <div className='message--header--owner'>
+              <small className='message-timestamp'>
                 {new Date(message.$createdAt).toLocaleString([], {
                   dateStyle: 'short',
                   timeStyle: 'short',
@@ -50,32 +50,32 @@ const Message = forwardRef<HTMLDivElement, MessageProps>(
               </small>
               {user &&
                 message.$permissions.includes(`delete("user:${user.$id}")`) && (
-                  <div className="icons--wrapper">
+                  <div className='icons--wrapper'>
                     <Edit
-                      className="edit--btn"
+                      className='edit--btn'
                       onClick={() => editMessage(message)}
                     />
                     <Trash2
-                      className="delete--btn"
+                      className='delete--btn'
                       onClick={() => deleteMessage(message.$id)}
                     />
                   </div>
                 )}
             </div>
-            <div className="message--body--owner">
+            <div className='message--body--owner'>
               <span>{message.body}</span>
             </div>
           </>
         ) : (
           <>
-            <div className="message--header">
+            <div className='message--header'>
               <p>
                 {message.user_name ? (
                   <span>{message.user_name}</span>
                 ) : (
                   <span>Anonymous user</span>
                 )}
-                <small className="message-timestamp">
+                <small className='message-timestamp'>
                   {new Date(message.$createdAt).toLocaleString([], {
                     dateStyle: 'short',
                     timeStyle: 'short',
@@ -83,7 +83,7 @@ const Message = forwardRef<HTMLDivElement, MessageProps>(
                 </small>
               </p>
             </div>
-            <div className="message--body">
+            <div className='message--body'>
               <span>{message.body}</span>
             </div>
           </>

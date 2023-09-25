@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo, RefObject, useCallback } from "react"
+import { useEffect, useState, useMemo, RefObject, useCallback } from 'react'
 
 const useObserver = (
   ref: RefObject<HTMLDivElement>,

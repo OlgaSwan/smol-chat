@@ -47,10 +47,7 @@ export const AuthProvider: FunctionComponent<AuthContextProps> = ({
     e.preventDefault()
 
     try {
-      const response = await account.createEmailSession(
-        credentials.email,
-        credentials.password
-      )
+      await account.createEmailSession(credentials.email, credentials.password)
       const accountDetails = await account.get<noPreferences>()
       setUser(accountDetails)
       navigate('/')

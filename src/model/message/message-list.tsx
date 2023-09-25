@@ -112,7 +112,7 @@ const MessageList: FunctionComponent<MessageListProps> = ({ setMessage }) => {
   }, [isIntersecting, lastId, keepFetching, getMoreMessages])
 
   return (
-    <div className="message--list">
+    <div className='message--list'>
       {messages.map((message, index) => (
         <Message
           key={message.$id}

@@ -11,11 +11,11 @@ function App() {
     <BrowserRouter>
       <AuthProvider>
         <Routes>
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
+          <Route path='/login' element={<LoginPage />} />
+          <Route path='/register' element={<RegisterPage />} />
 
           <Route element={<PrivateRoutes />}>
-            <Route path="/" element={<Room />} />
+            <Route path='/' element={<Room />} />
           </Route>
         </Routes>
       </AuthProvider>
