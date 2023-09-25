@@ -1,6 +1,7 @@
+import { Models } from 'appwrite'
+
 import { Credentials } from '../pages/login-page'
 import { CredentialsRegister } from '../pages/register-page'
-import { Models } from 'appwrite'
 
 export type AuthContextType = {
   user: User | null

@@ -7,13 +7,13 @@ import React, {
   memo,
   useCallback,
 } from 'react'
+
+import { Query } from 'appwrite'
 import client, {
   databases,
   DATABASE_ID,
   COLLECTION_ID_MESSAGES,
 } from '../../appwrite-config'
-
-import { Query } from 'appwrite'
 
 import Message, { MessageType } from '../message/message'
 import useObserver from '../../hooks/useObserver'

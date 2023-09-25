@@ -1,8 +1,10 @@
-import React, { useRef } from "react"
-import { Permission, Role } from "appwrite"
-import { storage, BUCKET_ID } from "../appwrite-config"
-import { useAuth } from "../utils/auth-context"
-import { Avatar } from "@mui/material"
+import React, { useRef } from 'react'
+import { Permission, Role } from 'appwrite'
+import { storage, BUCKET_ID } from '../appwrite-config'
+import { Avatar } from '@mui/material'
+
+import { useAuth } from '../utils/auth-context'
+
 
 const Profile = () => {
   const { user } = useAuth()
@@ -19,29 +21,24 @@ const Profile = () => {
 
     if (user) {
       const permissions = [Permission.write(Role.user(user.$id))]
-      const photo = await storage.createFile(
-        BUCKET_ID,
-        user.$id,
-        fileObj,
-        permissions
-      )
+      await storage.createFile(BUCKET_ID, user.$id, fileObj, permissions)
     }
-    e.target.value = ""
+    e.target.value = ''
   }
 
   if (!user) {
-    return "Loading..."
+    return 'Loading...'
   }
 
   return (
-    <div style={{ display: "flex" }}>
+    <div style={{ display: 'flex' }}>
       <div>
         <Avatar alt={user.name} sx={{ width: 100, height: 100 }}>
           {user.name.slice(0, 1)}
         </Avatar>
         <div>
           <input
-            style={{ display: "none" }}
+            style={{ display: 'none' }}
             ref={inputRef}
             type="file"
             accept="image/jpg, image/png"
@@ -53,9 +50,9 @@ const Profile = () => {
       </div>
       <div>
         Name
-        <input type="text"/>
+        <input type="text" />
         Bio
-        <input type="text"/>
+        <input type="text" />
       </div>
     </div>
   )

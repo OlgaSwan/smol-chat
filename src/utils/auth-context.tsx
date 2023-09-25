@@ -6,12 +6,14 @@ import {
   PropsWithChildren,
   useContext,
 } from 'react'
+import { useNavigate } from 'react-router-dom'
+
+import { ID } from 'appwrite'
+import { account } from '../appwrite-config'
+
 import { AuthContextType, User, noPreferences } from '../types/auth-context'
 import { Credentials } from '../pages/login-page'
 import { CredentialsRegister } from '../pages/register-page'
-import { ID } from 'appwrite'
-import { account } from '../appwrite-config'
-import { useNavigate } from 'react-router-dom'
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType)
 
