@@ -5,7 +5,6 @@ import { Avatar } from '@mui/material'
 
 import { useAuth } from '../utils/auth-context'
 
-
 const Profile = () => {
   const { user } = useAuth()
   const inputRef = useRef<HTMLInputElement | null>(null)
@@ -40,8 +39,8 @@ const Profile = () => {
           <input
             style={{ display: 'none' }}
             ref={inputRef}
-            type="file"
-            accept="image/jpg, image/png"
+            type='file'
+            accept='image/jpg, image/png'
             onChange={handleFileChange}
           />
           <button onClick={handleClick}>Change photo</button>
@@ -50,9 +49,9 @@ const Profile = () => {
       </div>
       <div>
         Name
-        <input type="text" />
+        <input type='text' />
         Bio
-        <input type="text" />
+        <input type='text' />
       </div>
     </div>
   )

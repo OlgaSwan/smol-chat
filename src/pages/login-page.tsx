@@ -30,43 +30,43 @@ const LoginPage = () => {
   }
 
   return (
-    <div className="auth--container">
-      <div className="form--wrapper">
+    <div className='auth--container'>
+      <div className='form--wrapper'>
         <form onSubmit={(e) => handleUserLogin(e, credentials)}>
-          <div className="field--wrapper">
+          <div className='field--wrapper'>
             <label>Email</label>
             <input
-              type="email"
+              type='email'
               required
-              name="email"
-              placeholder="Enter your email..."
+              name='email'
+              placeholder='Enter your email...'
               value={credentials.email}
               onChange={handleInputChange}
             />
           </div>
-          <div className="field--wrapper">
+          <div className='field--wrapper'>
             <label>Password</label>
             <input
-              type="password"
+              type='password'
               required
-              name="password"
-              placeholder="Enter password"
+              name='password'
+              placeholder='Enter password'
               value={credentials.password}
               onChange={handleInputChange}
             />
           </div>
 
-          <div className="field--wrapper">
+          <div className='field--wrapper'>
             <input
-              className="btn btn--lg btn--main"
-              type="submit"
-              value="Log in"
+              className='btn btn--lg btn--main'
+              type='submit'
+              value='Log in'
             />
           </div>
         </form>
 
         <p>
-          Don't have an account? Register <Link to="/register">here</Link>
+          Don't have an account? Register <Link to='/register'>here</Link>
         </p>
       </div>
     </div>

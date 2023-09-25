@@ -76,35 +76,35 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
   }
 
   return (
-    <form onSubmit={handleSubmit} onReset={resetForm} id="message--form">
+    <form onSubmit={handleSubmit} onReset={resetForm} id='message--form'>
       <div>
         <textarea
           style={{ resize: 'vertical', maxHeight: '400px', minHeight: '100px' }}
           required
           maxLength={maxSymbolsMessage}
-          placeholder="Say something..."
+          placeholder='Say something...'
           onChange={(e) => setMessageBody(e.target.value)}
           onKeyDown={onEnterSubmit}
           value={messageBody}
         ></textarea>
       </div>
-      <div className="form--footer--wrapper">
-        <div className="countdown--symbols">
+      <div className='form--footer--wrapper'>
+        <div className='countdown--symbols'>
           {messageBody && messageBody.length + '/' + maxSymbolsMessage}
         </div>
-        <div className="send-btn--wrapper">
+        <div className='send-btn--wrapper'>
           {message && (
-            <button className="btn btn--cancel" type="reset">
+            <button className='btn btn--cancel' type='reset'>
               Cancel
             </button>
           )}
 
           <input
-            className="btn btn--secondary"
-            type="submit"
+            className='btn btn--secondary'
+            type='submit'
             value={message ? 'Edit' : 'Send'}
             disabled={messageBody.trim().length > 0 ? false : true}
-            accessKey="s"
+            accessKey='s'
           />
         </div>
       </div>

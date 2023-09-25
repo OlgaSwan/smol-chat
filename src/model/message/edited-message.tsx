@@ -8,7 +8,7 @@ const EditedMessage: FunctionComponent<EditedMessageProps> = ({
   messageBody,
 }) => {
   return (
-    <div id="header--wrapper">
+    <div id='header--wrapper'>
       {messageBody.slice(0, 50) + (messageBody.length > 50 ? '...' : '')}
     </div>
   )

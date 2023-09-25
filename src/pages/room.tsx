@@ -10,9 +10,9 @@ const Room = () => {
   const [message, setMessage] = useState<MessageType | null>(null)
 
   return (
-    <main className="container">
+    <main className='container'>
       <Header />
-      <div className="room--container">
+      <div className='room--container'>
         {message && <EditedMessage messageBody={message.body} />}
         <MessageForm message={message} setMessage={setMessage} />
         <MemoizedMessageList setMessage={setMessage} />
