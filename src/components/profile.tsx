@@ -3,7 +3,7 @@ import { Permission, Role } from 'appwrite'
 import { storage, BUCKET_ID } from '../appwrite-config'
 import { Avatar } from '@mui/material'
 
-import { useAuth } from '../utils/auth-context'
+import { useAuth } from '../context/auth-context'
 
 const Profile = () => {
   const { user } = useAuth()

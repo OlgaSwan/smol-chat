@@ -7,7 +7,7 @@ import {
   COLLECTION_ID_MESSAGES,
 } from '../../appwrite-config'
 
-import { useAuth } from '../../utils/auth-context'
+import { useAuth } from '../../context/auth-context'
 
 import { Edit, Trash2 } from 'react-feather'
 

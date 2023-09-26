@@ -15,9 +15,12 @@ const useObserver = (
   const resetObserver = useCallback(() => setIsIntersecting(false), [])
 
   useEffect(() => {
-    if (ref.current) observer.observe(ref.current)
+    const element = ref.current
+    if (!element) return
+    
+    observer.observe(element)
     return () => {
-      observer.disconnect()
+      observer.unobserve(element)
     }
   })
 

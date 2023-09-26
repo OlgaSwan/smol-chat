@@ -5,7 +5,7 @@ import { Avatar, Dialog } from '@mui/material'
 import { Logout } from '@mui/icons-material'
 
 import Profile from './profile'
-import { useAuth } from '../utils/auth-context'
+import { useAuth } from '../context/auth-context'
 
 const Header = () => {
   const { user, handleUserLogOut } = useAuth()

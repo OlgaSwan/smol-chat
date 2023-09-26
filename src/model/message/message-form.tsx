@@ -8,7 +8,7 @@ import {
 } from '../../appwrite-config'
 
 import { MessageType } from './message'
-import { useAuth } from '../../utils/auth-context'
+import { useAuth } from '../../context/auth-context'
 
 interface MessageFormProps {
   message: MessageType | null
