@@ -10,7 +10,7 @@ import { useAuth } from '../context/auth-context'
 const Header = () => {
   const { user, handleUserLogOut } = useAuth()
   const [open, setOpen] = useState(false)
-  const avatar = storage.getFilePreview(BUCKET_ID, user?.$id ?? '')
+  const avatar = user && storage.getFilePreview(BUCKET_ID, user.$id)
 
   return (
     <div id='header--wrapper'>
@@ -23,7 +23,7 @@ const Header = () => {
             <div className='header--link'>Welcome, {user.name}</div>
             <Avatar
               alt={user.name}
-              src={avatar.href}
+              src={avatar?.href}
               sx={{ width: 24, height: 24 }}
             >
               {user.name.slice(0, 1)}

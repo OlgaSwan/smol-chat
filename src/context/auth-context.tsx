@@ -17,9 +17,7 @@ import { CredentialsRegister } from '../pages/register-page'
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType)
 
-interface AuthContextProps extends PropsWithChildren {}
-
-export const AuthProvider: FunctionComponent<AuthContextProps> = ({
+export const AuthProvider: FunctionComponent<PropsWithChildren> = ({
   children,
 }) => {
   const [loading, setLoading] = useState(true)
@@ -73,7 +71,7 @@ export const AuthProvider: FunctionComponent<AuthContextProps> = ({
     }
 
     try {
-      const response = await account.create(
+      await account.create(
         ID.unique(),
         credentials.email,
         credentials.password,
