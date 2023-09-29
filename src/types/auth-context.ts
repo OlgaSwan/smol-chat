@@ -16,6 +16,10 @@ export type AuthContextType = {
   ) => Promise<void>
 }
 
-export type User = Models.User<noPreferences>
+export type User = {
+  name: string
+  bio?: string
+  photo_id?: string
+} & Models.Document
 
 export type noPreferences = Record<string, never>

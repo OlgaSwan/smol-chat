@@ -7,12 +7,13 @@ import {
   COLLECTION_ID_MESSAGES,
 } from '../../appwrite-config'
 
-import { MessageType } from './message'
 import { useAuth } from '../../context/auth-context'
 
+import { MessageExternal, MessageInternal } from '../../types/message'
+
 interface MessageFormProps {
-  message: MessageType | null
-  setMessage: Dispatch<React.SetStateAction<MessageType | null>>
+  message: MessageInternal | null
+  setMessage: Dispatch<React.SetStateAction<MessageInternal | null>>
 }
 
 const MessageForm: FunctionComponent<MessageFormProps> = ({
@@ -43,14 +44,13 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
 
     const messageSent = {
       body: messageBody.trimStart().trimEnd(),
-      user_name: user.name,
       user_id: user.$id,
     }
 
     const permissions = [Permission.write(Role.user(user.$id))]
 
     if (message) {
-      await databases.updateDocument<MessageType>(
+      await databases.updateDocument<MessageExternal>(
         DATABASE_ID,
         COLLECTION_ID_MESSAGES,
         message.$id,
@@ -58,7 +58,7 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
       )
       resetForm()
     } else {
-      const response = await databases.createDocument<MessageType>(
+      await databases.createDocument<MessageExternal>(
         DATABASE_ID,
         COLLECTION_ID_MESSAGES,
         ID.unique(),

@@ -15,15 +15,21 @@ import client, {
   COLLECTION_ID_MESSAGES,
 } from '../../appwrite-config'
 
-import Message, { MessageType } from '../message/message'
+import Message from '../message/message'
 import useObserver from '../../hooks/useObserver'
 
+import { MessageExternal, MessageInternal } from '../../types/message'
+import {
+  createInternalType,
+  createSingleInternalType,
+} from '../../utils/createInternalType'
+
 interface MessageListProps {
-  setMessage: Dispatch<React.SetStateAction<MessageType | null>>
+  setMessage: Dispatch<React.SetStateAction<MessageInternal | null>>
 }
 
 const MessageList: FunctionComponent<MessageListProps> = ({ setMessage }) => {
-  const [messages, setMessages] = useState<Array<MessageType>>([])
+  const [messages, setMessages] = useState<Array<MessageInternal>>([])
   const lastId = messages.length > 0 ? messages[messages.length - 1].$id : null
   const ref = useRef<HTMLDivElement | null>(null)
   const { isIntersecting, resetObserver } = useObserver(ref)
@@ -31,17 +37,19 @@ const MessageList: FunctionComponent<MessageListProps> = ({ setMessage }) => {
   const limit = 10
 
   const getMessages = async () => {
-    const response = await databases.listDocuments<MessageType>(
+    const response = await databases.listDocuments<MessageExternal>(
       DATABASE_ID,
       COLLECTION_ID_MESSAGES,
       [Query.orderDesc('$createdAt'), Query.limit(limit)]
     )
-    setMessages(response.documents)
+
+    const messages = await createInternalType(response.documents)
+    setMessages(messages)
   }
 
   const getMoreMessages = useCallback(
     async (lastId: string) => {
-      const response = await databases.listDocuments<MessageType>(
+      const response = await databases.listDocuments<MessageExternal>(
         DATABASE_ID,
         COLLECTION_ID_MESSAGES,
         [
@@ -51,7 +59,8 @@ const MessageList: FunctionComponent<MessageListProps> = ({ setMessage }) => {
         ]
       )
       if (response.documents.length > 0) {
-        setMessages((prev) => [...prev, ...response.documents])
+        const messages = await createInternalType(response.documents)
+        setMessages((prev) => [...prev, ...messages])
       } else {
         setKeepFetching(false)
       }
@@ -62,17 +71,19 @@ const MessageList: FunctionComponent<MessageListProps> = ({ setMessage }) => {
 
   useEffect(() => {
     getMessages()
-    const unsubscribe = client.subscribe<MessageType>(
+    const unsubscribe = client.subscribe<MessageExternal>(
       [
         `databases.${DATABASE_ID}.collections.${COLLECTION_ID_MESSAGES}.documents`,
       ],
-      (response) => {
+      async (response) => {
+        const message = await createSingleInternalType(response.payload)
+
         if (
           response.events.includes(
             'databases.*.collections.*.documents.*.create'
           )
         ) {
-          setMessages((prevState) => [response.payload, ...prevState])
+          setMessages((prevState) => [message, ...prevState])
         }
 
         if (

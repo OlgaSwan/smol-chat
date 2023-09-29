@@ -1,6 +1,5 @@
 import React, { Dispatch, forwardRef } from 'react'
 
-import type { Models } from 'appwrite'
 import {
   databases,
   DATABASE_ID,
@@ -9,17 +8,13 @@ import {
 
 import { useAuth } from '../../context/auth-context'
 
+import { MessageInternal } from '../../types/message'
+
 import { Edit, Trash2 } from 'react-feather'
 
-export type MessageType = {
-  body: string
-  user_name?: string
-  user_id?: string
-} & Models.Document
-
 interface MessageProps {
-  message: MessageType
-  setMessage: Dispatch<React.SetStateAction<MessageType | null>>
+  message: MessageInternal
+  setMessage: Dispatch<React.SetStateAction<MessageInternal | null>>
 }
 
 const Message = forwardRef<HTMLDivElement, MessageProps>(
@@ -33,7 +28,7 @@ const Message = forwardRef<HTMLDivElement, MessageProps>(
         message_id
       )
 
-    const editMessage = async (message: MessageType) => {
+    const editMessage = async (message: MessageInternal) => {
       setMessage(message)
     }
 
@@ -70,11 +65,7 @@ const Message = forwardRef<HTMLDivElement, MessageProps>(
           <>
             <div className='message--header'>
               <p>
-                {message.user_name ? (
-                  <span>{message.user_name}</span>
-                ) : (
-                  <span>Anonymous user</span>
-                )}
+                <span>{message.user.name}</span>
                 <small className='message-timestamp'>
                   {new Date(message.$createdAt).toLocaleString([], {
                     dateStyle: 'short',

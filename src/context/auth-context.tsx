@@ -8,8 +8,13 @@ import {
 } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { ID } from 'appwrite'
-import { account } from '../appwrite-config'
+import { Permission, Role, ID } from 'appwrite'
+import {
+  COLLECTION_ID_USERS,
+  DATABASE_ID,
+  account,
+  databases,
+} from '../appwrite-config'
 
 import { AuthContextType, User, noPreferences } from '../types/auth-context'
 import { Credentials } from '../pages/login-page'
@@ -30,8 +35,13 @@ export const AuthProvider: FunctionComponent<PropsWithChildren> = ({
 
   const getUserOnLoad = async () => {
     try {
-      const accountDetails = await account.get<noPreferences>()
-      setUser(accountDetails)
+      const authAccount = await account.get<noPreferences>()
+      const user = await databases.getDocument<User>(
+        DATABASE_ID,
+        COLLECTION_ID_USERS,
+        authAccount.$id
+      )
+      setUser(user)
     } catch (error) {
       console.error(error)
     }
@@ -45,9 +55,16 @@ export const AuthProvider: FunctionComponent<PropsWithChildren> = ({
     e.preventDefault()
 
     try {
-      await account.createEmailSession(credentials.email, credentials.password)
-      const accountDetails = await account.get<noPreferences>()
-      setUser(accountDetails)
+      const session = await account.createEmailSession(
+        credentials.email,
+        credentials.password
+      )
+      const user = await databases.getDocument<User>(
+        DATABASE_ID,
+        COLLECTION_ID_USERS,
+        session.userId
+      )
+      setUser(user)
       navigate('/')
     } catch (error) {
       console.error(error)
@@ -71,15 +88,25 @@ export const AuthProvider: FunctionComponent<PropsWithChildren> = ({
     }
 
     try {
-      await account.create(
+      const authAccount = await account.create(
         ID.unique(),
         credentials.email,
         credentials.password,
         credentials.name
       )
+
+      const permissions = [Permission.write(Role.user(authAccount.$id))]
+      const user = await databases.createDocument<User>(
+        DATABASE_ID,
+        COLLECTION_ID_USERS,
+        authAccount.$id,
+        { name: credentials.name },
+        permissions
+      )
+
       await account.createEmailSession(credentials.email, credentials.password)
-      const accountDetails = await account.get<noPreferences>()
-      setUser(accountDetails)
+
+      setUser(user)
       navigate('/')
     } catch (error) {
       console.error(error)
