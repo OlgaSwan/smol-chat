@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { FunctionComponent, useEffect, useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 
 import { useAuth } from '../context/auth-context'
@@ -9,7 +9,7 @@ export interface Credentials {
   password1?: string
 }
 
-const LoginPage = () => {
+const LoginPage: FunctionComponent = () => {
   const { user, handleUserLogin } = useAuth()
   const navigate = useNavigate()
 

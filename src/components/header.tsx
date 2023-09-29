@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { FunctionComponent, useState } from 'react'
 import { storage, BUCKET_ID } from '../appwrite-config'
 
 import { Avatar, Dialog } from '@mui/material'
@@ -7,7 +7,7 @@ import { Logout } from '@mui/icons-material'
 import Profile from './profile'
 import { useAuth } from '../context/auth-context'
 
-const Header = () => {
+const Header: FunctionComponent = () => {
   const { user, handleUserLogOut } = useAuth()
   const [open, setOpen] = useState(false)
   const avatar = user && storage.getFilePreview(BUCKET_ID, user.$id)

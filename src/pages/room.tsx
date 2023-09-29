@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { FunctionComponent, useState } from 'react'
 
 import Header from '../components/header'
 import { MessageType } from '../model/message/message'
@@ -6,7 +6,7 @@ import EditedMessage from '../model/message/edited-message'
 import MessageForm from '../model/message/message-form'
 import MemoizedMessageList from '../model/message/message-list'
 
-const Room = () => {
+const Room: FunctionComponent = () => {
   const [message, setMessage] = useState<MessageType | null>(null)
 
   return (

@@ -1,11 +1,11 @@
-import React, { useRef } from 'react'
+import React, { FunctionComponent, useRef } from 'react'
 import { Permission, Role } from 'appwrite'
 import { storage, BUCKET_ID } from '../appwrite-config'
 import { Avatar } from '@mui/material'
 
 import { useAuth } from '../context/auth-context'
 
-const Profile = () => {
+const Profile: FunctionComponent = () => {
   const { user } = useAuth()
   const inputRef = useRef<HTMLInputElement | null>(null)
 

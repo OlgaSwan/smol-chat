@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { FunctionComponent, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import { useAuth } from '../context/auth-context'
@@ -10,7 +10,7 @@ export type CredentialsRegister = {
   password1: string
 }
 
-const RegisterPage = () => {
+const RegisterPage: FunctionComponent = () => {
   const { handleUserRegister } = useAuth()
   const [credentials, setCredentials] = useState<CredentialsRegister>({
     name: '',
