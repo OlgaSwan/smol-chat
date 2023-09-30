@@ -1,4 +1,3 @@
-import { DATABASE_ID, COLLECTION_ID_USERS, databases } from '../appwrite-config'
 import { getUser } from './getUser'
 import { MessageExternal, MessageInternal } from '../types/message'
 
@@ -13,11 +12,26 @@ export const createInternalType = async (
 export const createSingleInternalType = async (
   obj: MessageExternal
 ): Promise<MessageInternal> => {
-  const user = await getUser(obj.user_id)
+  const key = 'user' + obj.$id
+  const user = await cacheGetOrAdd(key, () => getUser(obj.user_id))
   return {
     ...obj,
     body: obj.body,
     user_id: obj.user_id,
     user,
   } as MessageInternal
+}
+
+const cacheGetOrAdd = async <T>(
+  key: string,
+  addCallback: () => Promise<T>
+): Promise<T> => {
+  const user = localStorage.getItem(key)
+  if (user) {
+    return JSON.parse(user) as T
+  } else {
+    const user = await addCallback()
+    localStorage.setItem(key, JSON.stringify(user))
+    return user as T
+  }
 }
