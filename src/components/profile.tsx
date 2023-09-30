@@ -1,9 +1,17 @@
 import React, { FunctionComponent, useRef } from 'react'
-import { Permission, Role } from 'appwrite'
-import { storage, BUCKET_ID } from '../appwrite-config'
+import { Permission, Role, ID } from 'appwrite'
+import {
+  databases,
+  storage,
+  BUCKET_ID,
+  DATABASE_ID,
+  COLLECTION_ID_USERS,
+} from '../appwrite-config'
+
 import { Avatar } from '@mui/material'
 
 import { useAuth } from '../context/auth-context'
+import { User } from '../types/auth-context'
 
 const Profile: FunctionComponent = () => {
   const { user } = useAuth()
@@ -20,7 +28,18 @@ const Profile: FunctionComponent = () => {
 
     if (user) {
       const permissions = [Permission.write(Role.user(user.$id))]
-      await storage.createFile(BUCKET_ID, user.$id, fileObj, permissions)
+      const photo = await storage.createFile(
+        BUCKET_ID,
+        ID.unique(),
+        fileObj,
+        permissions
+      )
+      await databases.updateDocument<User>(
+        DATABASE_ID,
+        COLLECTION_ID_USERS,
+        user.$id,
+        { photo_id: photo.$id }
+      )
     }
     e.target.value = ''
   }

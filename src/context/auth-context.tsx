@@ -16,6 +16,7 @@ import {
   databases,
 } from '../appwrite-config'
 
+import { getUser } from '../utils/getUser'
 import { AuthContextType, User, noPreferences } from '../types/auth-context'
 import { Credentials } from '../pages/login-page'
 import { CredentialsRegister } from '../pages/register-page'
@@ -36,11 +37,7 @@ export const AuthProvider: FunctionComponent<PropsWithChildren> = ({
   const getUserOnLoad = async () => {
     try {
       const authAccount = await account.get<noPreferences>()
-      const user = await databases.getDocument<User>(
-        DATABASE_ID,
-        COLLECTION_ID_USERS,
-        authAccount.$id
-      )
+      const user = await getUser(authAccount.$id)
       setUser(user)
     } catch (error) {
       console.error(error)
@@ -59,11 +56,7 @@ export const AuthProvider: FunctionComponent<PropsWithChildren> = ({
         credentials.email,
         credentials.password
       )
-      const user = await databases.getDocument<User>(
-        DATABASE_ID,
-        COLLECTION_ID_USERS,
-        session.userId
-      )
+      const user = await getUser(session.userId)
       setUser(user)
       navigate('/')
     } catch (error) {
@@ -95,6 +88,8 @@ export const AuthProvider: FunctionComponent<PropsWithChildren> = ({
         credentials.name
       )
 
+      await account.createEmailSession(credentials.email, credentials.password)
+
       const permissions = [Permission.write(Role.user(authAccount.$id))]
       const user = await databases.createDocument<User>(
         DATABASE_ID,
@@ -103,8 +98,6 @@ export const AuthProvider: FunctionComponent<PropsWithChildren> = ({
         { name: credentials.name },
         permissions
       )
-
-      await account.createEmailSession(credentials.email, credentials.password)
 
       setUser(user)
       navigate('/')

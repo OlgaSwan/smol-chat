@@ -1,4 +1,5 @@
 import { DATABASE_ID, COLLECTION_ID_USERS, databases } from '../appwrite-config'
+import { getUser } from './getUser'
 import { MessageExternal, MessageInternal } from '../types/message'
 
 export const createInternalType = async (
@@ -12,12 +13,9 @@ export const createInternalType = async (
 export const createSingleInternalType = async (
   obj: MessageExternal
 ): Promise<MessageInternal> => {
-  const user = await databases.getDocument(
-    DATABASE_ID,
-    COLLECTION_ID_USERS,
-    obj.user_id
-  )
+  const user = await getUser(obj.user_id)
   return {
+    ...obj,
     body: obj.body,
     user_id: obj.user_id,
     user,
