@@ -6,12 +6,11 @@ import { Logout } from '@mui/icons-material'
 
 import Profile from './profile'
 import { useAuth } from '../context/auth-context'
+import { getUserPhoto } from '../utils/getUserPhoto'
 
 const Header: FunctionComponent = () => {
   const { user, handleUserLogOut } = useAuth()
   const [open, setOpen] = useState(false)
-  const avatar =
-    user?.photo_id && storage.getFilePreview(BUCKET_ID, user.photo_id)
 
   return (
     <div id='header--wrapper'>
@@ -24,7 +23,7 @@ const Header: FunctionComponent = () => {
             <div className='header--link'>Welcome, {user.name}</div>
             <Avatar
               alt={user.name}
-              src={avatar ? avatar.href : ''}
+              src={getUserPhoto(user) ?? ''}
               sx={{ width: 24, height: 24 }}
             >
               {user.name.slice(0, 1)}

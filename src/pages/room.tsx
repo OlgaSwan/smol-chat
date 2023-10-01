@@ -1,6 +1,5 @@
-import React, { FunctionComponent, useState } from 'react'
+import { FunctionComponent, useState } from 'react'
 
-import Header from '../components/header'
 import EditedMessage from '../model/message/edited-message'
 import MessageForm from '../model/message/message-form'
 import MemoizedMessageList from '../model/message/message-list'
