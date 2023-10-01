@@ -1,10 +1,20 @@
 import React, { FunctionComponent } from 'react'
 import { Outlet, Navigate } from 'react-router-dom'
 import { useAuth } from '../context/auth-context'
+import Header from './header'
 
 const PrivateRoutes: FunctionComponent = () => {
   const { user } = useAuth()
-  return <>{user ? <Outlet /> : <Navigate to='/login' />}</>
+
+  if (!user) return <Navigate to='/login' />
+  return (
+    <main className='container'>
+      <Header />
+      <div className='room--container'>
+        <Outlet />
+      </div>
+    </main>
+  )
 }
 
 export default PrivateRoutes

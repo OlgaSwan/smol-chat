@@ -11,14 +11,11 @@ const Room: FunctionComponent = () => {
   const [message, setMessage] = useState<MessageInternal | null>(null)
 
   return (
-    <main className='container'>
-      <Header />
-      <div className='room--container'>
-        {message && <EditedMessage messageBody={message.body} />}
-        <MessageForm message={message} setMessage={setMessage} />
-        <MemoizedMessageList setMessage={setMessage} />
-      </div>
-    </main>
+    <>
+      {message && <EditedMessage messageBody={message.body} />}
+      <MessageForm message={message} setMessage={setMessage} />
+      <MemoizedMessageList setMessage={setMessage} />
+    </>
   )
 }
 

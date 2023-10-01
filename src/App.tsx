@@ -5,6 +5,7 @@ import PrivateRoutes from './components/private-routes'
 import Room from './pages/room'
 import LoginPage from './pages/login-page'
 import RegisterPage from './pages/register-page'
+import Chats from './pages/chats'
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
 
           <Route element={<PrivateRoutes />}>
             <Route path='/' element={<Room />} />
+            <Route path='/chats' element={<Chats />} />
           </Route>
         </Routes>
       </AuthProvider>
