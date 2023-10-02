@@ -156,6 +156,36 @@ textarea {
   border: 1px solid var(--borderColor1);
 }
 
+.profile--container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
+  padding: 2em;
+  background-color: var(--secondaryBgColor);
+  border: 1px solid var(--borderColor1);
+  color: var(--textColorSecondary);
+}
+
+.profile-photo--wrapper {
+  display: flex;
+  gap: 0.5em;
+  flex-direction: column;
+}
+
+.profile-btn--wrapper {
+  display: flex;
+  gap: 0.5em;
+  flex-direction: row;
+}
+
+.profile-fields--wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
 #message--form {
   display: flex;
   flex-direction: column;
