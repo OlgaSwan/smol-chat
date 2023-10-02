@@ -1,5 +1,6 @@
-import { getUser } from './getUser'
 import { MessageExternal, MessageInternal } from '../types/message'
+import { getUser } from './getUser'
+import { cacheGetOrAdd } from './cacheGetOrAdd'
 
 export const createInternalType = async (
   arr: MessageExternal[]
@@ -12,7 +13,7 @@ export const createInternalType = async (
 export const createSingleInternalType = async (
   obj: MessageExternal
 ): Promise<MessageInternal> => {
-  const key = 'user' + obj.$id
+  const key = 'user' + obj.user_id
   const user = await cacheGetOrAdd(key, () => getUser(obj.user_id))
   return {
     ...obj,
@@ -20,18 +21,4 @@ export const createSingleInternalType = async (
     user_id: obj.user_id,
     user,
   } as MessageInternal
-}
-
-const cacheGetOrAdd = async <T>(
-  key: string,
-  addCallback: () => Promise<T>
-): Promise<T> => {
-  const user = localStorage.getItem(key)
-  if (user) {
-    return JSON.parse(user) as T
-  } else {
-    const user = await addCallback()
-    localStorage.setItem(key, JSON.stringify(user))
-    return user as T
-  }
 }
