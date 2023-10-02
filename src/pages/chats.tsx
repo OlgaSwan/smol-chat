@@ -1,16 +1,17 @@
 import { FunctionComponent, useEffect, useState } from 'react'
+
 import UserSearch from '../components/userSearch'
-import { User } from '../types/auth-context'
 import { createPrivateChatId } from '../utils/getPrivateChatId'
 import { useAuth } from '../context/auth-context'
+
+import { User } from '../types/auth-context'
+import { Chat, ChatType, ChatsMembers } from '../types/chat'
 
 const Chats: FunctionComponent = () => {
   const { user } = useAuth()
   const [searchedUser, setSearchedUser] = useState<User | null>(null)
-
-  //TODO: Add chat type
-  const [chats, setChats] = useState([])
-  const [selectedChat, setSelectedChat] = useState()
+  const [chats, setChats] = useState<Chat[]>([])
+  const [selectedChat, setSelectedChat] = useState<Chat | null>(null)
 
   useEffect(() => {
     if (!searchedUser || !user) return
