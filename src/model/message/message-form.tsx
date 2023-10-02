@@ -103,7 +103,7 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
             className='btn btn--secondary'
             type='submit'
             value={message ? 'Edit' : 'Send'}
-            disabled={messageBody.trim().length > 0 ? false : true}
+            disabled={!messageBody.trim().length}
             accessKey='s'
           />
         </div>

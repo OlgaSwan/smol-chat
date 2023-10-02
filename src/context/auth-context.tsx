@@ -108,6 +108,7 @@ export const AuthProvider: FunctionComponent<PropsWithChildren> = ({
 
   const contextData = {
     user,
+    getUserOnLoad,
     handleUserLogin,
     handleUserLogOut,
     handleUserRegister,

@@ -5,6 +5,7 @@ import { CredentialsRegister } from '../pages/register-page'
 
 export type AuthContextType = {
   user: User | null
+  getUserOnLoad: () => Promise<void>
   handleUserLogin: (
     e: React.FormEvent<HTMLFormElement>,
     credentials: Credentials

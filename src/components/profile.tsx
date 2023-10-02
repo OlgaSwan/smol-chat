@@ -6,18 +6,14 @@ import React, {
   useState,
 } from 'react'
 import { Permission, Role, ID } from 'appwrite'
-import {
-  databases,
-  storage,
-  BUCKET_ID,
-  DATABASE_ID,
-  COLLECTION_ID_USERS,
-} from '../appwrite-config'
+import { storage, BUCKET_ID } from '../appwrite-config'
+
+import { isEqual } from 'lodash-es'
 
 import { Avatar, Dialog } from '@mui/material'
 
 import { useAuth } from '../context/auth-context'
-import { User } from '../types/auth-context'
+import { updateUser } from '../utils/updateUser'
 import { getUserPhoto } from '../utils/getUserPhoto'
 import { UnsavedChangesSnackbar } from './unsavedChangesSnackbar'
 
@@ -34,13 +30,13 @@ interface ProfileProps {
 const emptyUserInfo: UserInfo = { name: '', bio: '' }
 
 const Profile: FunctionComponent<ProfileProps> = ({ open, onClose }) => {
-  const { user } = useAuth()
+  const { user, getUserOnLoad } = useAuth()
 
   const inputRef = useRef<HTMLInputElement | null>(null)
 
   const [initialValue, setInitialValue] = useState<UserInfo>(emptyUserInfo)
   const [userInfo, setUserInfo] = useState<UserInfo>(emptyUserInfo)
-  
+
   const [isSnackbarOpen, setIsSnackbarOpen] = useState(false)
 
   useEffect(() => {
@@ -53,40 +49,34 @@ const Profile: FunctionComponent<ProfileProps> = ({ open, onClose }) => {
   }, [user])
 
   useEffect(() => {
-    const hasChanges = (): boolean => {
-      //TODO: Implement hasChanges
-      return true
-    }
-
-    setIsSnackbarOpen(hasChanges())
+    setIsSnackbarOpen(!isEqual(initialValue, userInfo))
   }, [initialValue, userInfo])
 
   const changePhotoClick = () => {
     if (inputRef.current) inputRef.current.click()
   }
 
-  const deletePhotoClick = () => {
-    //TODO: Implement deleting of photo
+  const deletePhotoClick = async () => {
+    if (user && user.photo_id) {
+      await storage.deleteFile(BUCKET_ID, user.photo_id)
+      await updateUser(user.$id, { photo_id: null })
+      await getUserOnLoad()
+    }
   }
+
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileObj = e.target.files && e.target.files[0]
     if (!fileObj || !user) {
       return
     }
 
-    if (user.photo_id) {
-      //TODO: Update photo
-    } else {
-      const photo = await storage.createFile(BUCKET_ID, ID.unique(), fileObj, [
-        Permission.write(Role.user(user.$id)),
-      ])
-      await databases.updateDocument<User>(
-        DATABASE_ID,
-        COLLECTION_ID_USERS,
-        user.$id,
-        { photo_id: photo.$id }
-      )
-    }
+    if (user.photo_id) await storage.deleteFile(BUCKET_ID, user.photo_id)
+
+    const photo = await storage.createFile(BUCKET_ID, ID.unique(), fileObj, [
+      Permission.write(Role.user(user.$id)),
+    ])
+    await updateUser(user.$id, { photo_id: photo.$id })
+    await getUserOnLoad()
 
     e.target.value = ''
   }
@@ -98,26 +88,34 @@ const Profile: FunctionComponent<ProfileProps> = ({ open, onClose }) => {
     setUserInfo((prev) => ({ ...prev, [name]: value }))
   }
 
-  const handleDialogClose = () => {
+  const handleDialogClose = useCallback(() => {
     //if (isSnackbarOpen) return
 
     if (onClose) onClose()
-  }
+  }, [onClose])
 
-  const saveChanges = useCallback(() => {
-    //TODO: Implement saveChanges
-  }, [])
+  const saveChanges = useCallback(async () => {
+    if (user)
+      await updateUser(user.$id, { name: userInfo.name, bio: userInfo.bio })
+    setInitialValue(userInfo)
+    handleDialogClose()
+  }, [user, userInfo, handleDialogClose])
 
   const reset = useCallback(() => {
-    //TODO: Implement reset
-  }, [])
+    setUserInfo(initialValue)
+  }, [initialValue])
 
   if (!user) {
     return <p>Loading...</p>
   }
 
   return (
-    <Dialog open={open} onClose={handleDialogClose}>
+    <Dialog
+      open={open}
+      onClose={handleDialogClose}
+      sx={{ backdropFilter: 'blur(7px) sepia(5%)' }}
+      PaperProps={{ sx: { borderRadius: '10px' } }}
+    >
       <div className='profile--container'>
         <div className='profile-photo--wrapper'>
           <Avatar
@@ -138,7 +136,11 @@ const Profile: FunctionComponent<ProfileProps> = ({ open, onClose }) => {
             <button className='btn btn--secondary' onClick={changePhotoClick}>
               Change photo
             </button>
-            <button className='btn btn--cancel' onClick={deletePhotoClick}>
+            <button
+              style={!user.photo_id ? { display: 'none' } : {}}
+              className='btn btn--cancel'
+              onClick={deletePhotoClick}
+            >
               Delete photo
             </button>
           </div>

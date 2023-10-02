@@ -118,6 +118,7 @@ textarea {
   opacity: 0.7;
 }
 
+
 /* Header Styling */
 
 #header--wrapper {
@@ -176,7 +177,7 @@ textarea {
 .profile-btn--wrapper {
   display: flex;
   gap: 0.5em;
-  flex-direction: row;
+  flex-direction: column;
 }
 
 .profile-fields--wrapper {
