@@ -8,10 +8,10 @@ import {
 import { Chat } from '../../types/chat'
 
 interface ChatGlobalProps {
-  onClick: () => void
+  onClick: (chat: Chat) => void
 }
 
-const ChatGlobal: FunctionComponent = () => {
+const ChatGlobal: FunctionComponent<ChatGlobalProps> = ({ onClick }) => {
   const [chatGlobal, setChatGlobal] = useState<Chat | null>(null)
 
   const getChatGlobal = async () => {
