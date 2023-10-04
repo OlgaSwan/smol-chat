@@ -10,12 +10,11 @@ import { storage, BUCKET_ID } from '../appwrite-config'
 
 import { isEqual } from 'lodash-es'
 
-import { Avatar, Dialog } from '@mui/material'
+import { Avatar, Dialog, Snackbar } from '@mui/material'
 
 import { useAuth } from '../context/auth-context'
 import { updateUser } from '../utils/updateUser'
 import { getUserPhoto } from '../utils/getUserPhoto'
-import { UnsavedChangesSnackbar } from './unsavedChangesSnackbar'
 
 type UserInfo = {
   name: string
@@ -170,10 +169,24 @@ const Profile: FunctionComponent<ProfileProps> = ({ open, onClose }) => {
             />
           </div>
         </div>
-        <UnsavedChangesSnackbar
+        <Snackbar
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
           open={isSnackbarOpen}
-          saveChanges={saveChanges}
-          reset={reset}
+          message='Careful - you have unsaved changes!'
+          action={
+            <>
+              <button
+                className='btn btn--cancel'
+                onClick={reset}
+                style={{ margin: '0 10px 0 0' }}
+              >
+                Reset
+              </button>
+              <button className='btn btn--secondary' onClick={saveChanges}>
+                Save
+              </button>
+            </>
+          }
         />
       </div>
     </Dialog>
