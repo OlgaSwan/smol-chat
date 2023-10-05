@@ -83,7 +83,7 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
   }
 
   const onEnterSubmit = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key == 'Enter' && e.shiftKey == false) {
+    if (e.key == 'Enter' && e.shiftKey == false && messageBody.trim()) {
       handleSubmit(e)
     }
   }

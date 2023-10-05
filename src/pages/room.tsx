@@ -15,11 +15,11 @@ const Room: FunctionComponent<RoomProps> = ({chat}) => {
   const [message, setMessage] = useState<MessageInternal | null>(null)
 
   return (
-    <>
+    <div>
       {message && <EditedMessage messageBody={message.body} />}
       <MessageForm chat={chat} message={message} setMessage={setMessage} />
       <MemoizedMessageList chat={chat} setMessage={setMessage} />
-    </>
+    </div>
   )
 }
 

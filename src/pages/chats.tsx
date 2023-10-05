@@ -84,7 +84,7 @@ const Chats: FunctionComponent = () => {
   }, [searchedUser, user, checkOrAdd])
 
   return (
-    <div className='chats--container' style={{ display: 'flex' }}>
+    <div className='chats--container'>
       <div style={{ background: 'green' }}>
         Chats{' '}
         <UserSearch

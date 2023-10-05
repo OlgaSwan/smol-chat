@@ -1,4 +1,4 @@
-import React, { Dispatch, forwardRef } from 'react'
+import React, { Dispatch, forwardRef, useRef, useState } from 'react'
 
 import {
   databases,
@@ -6,10 +6,12 @@ import {
   COLLECTION_ID_MESSAGES,
 } from '../../appwrite-config'
 
-import { useAuth } from '../../context/auth-context'
+import MiniProfile from '../../components/mini-profile'
 
+import { useAuth } from '../../context/auth-context'
 import { MessageInternal } from '../../types/message'
 
+import { Popover } from '@mui/material'
 import { Edit, Trash2 } from 'react-feather'
 
 interface MessageProps {
@@ -20,6 +22,18 @@ interface MessageProps {
 const Message = forwardRef<HTMLDivElement, MessageProps>(
   ({ message, setMessage }, ref) => {
     const { user } = useAuth()
+    const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null)
+    const [open, setOpen] = useState(false)
+
+    const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
+      setAnchorEl(event.currentTarget)
+      setOpen(true)
+    }
+
+    const handleClose = () => {
+      setAnchorEl(null)
+      setOpen(false)
+    }
 
     const deleteMessage = async (message_id: string) =>
       await databases.deleteDocument(
@@ -63,7 +77,15 @@ const Message = forwardRef<HTMLDivElement, MessageProps>(
           </>
         ) : (
           <>
-            <div className='message--header'>
+            <Popover
+              open={open}
+              anchorEl={anchorEl}
+              onClose={handleClose}
+              slotProps={{ paper: { sx: { borderRadius: '10px' } } }}
+            >
+              <MiniProfile id={message.user_id} />
+            </Popover>
+            <div className='message--header' onClick={(e) => handleClick(e)}>
               <p>
                 <span>{message.user.name}</span>
                 <small className='message-timestamp'>

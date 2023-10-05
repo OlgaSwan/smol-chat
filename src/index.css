@@ -148,6 +148,11 @@ textarea {
   text-decoration: underline;
 }
 
+/* Chats page Styling */
+
+.chats--container {
+  display: flex;
+}
 /* Room Styling */
 
 .room--container {
@@ -156,6 +161,8 @@ textarea {
   border-radius: 0 0 10px 10px;
   border: 1px solid var(--borderColor1);
 }
+
+/* Profile styling */
 
 .profile--container {
   display: flex;
@@ -187,6 +194,38 @@ textarea {
   flex-direction: column;
 }
 
+/* MiniProfile styling */
+
+.miniprofile--container {
+  display: flex;
+  align-items: start;
+  justify-content: center;
+  gap: 1em;
+  padding: 1em;
+  background-color: var(--secondaryBgColor);
+  border: 1px solid var(--borderColor1);
+  color: var(--textColorSecondary);
+  max-width: 350px;
+}
+.miniprofile-fields--wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.miniprofile-field--wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.miniprofile-field--label  {
+  font-size: 12px;
+  color:  rgb(164, 161, 161);
+}
+
+/* Form Styling */
+
 #message--form {
   display: flex;
   flex-direction: column;
@@ -198,6 +237,8 @@ textarea {
   justify-content: flex-end;
   gap: 20px;
 }
+
+/* Message Styling */
 
 .message--list {
   margin-top: 1.5em;
