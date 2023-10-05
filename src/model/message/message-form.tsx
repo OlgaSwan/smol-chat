@@ -8,19 +8,24 @@ import {
 } from '../../appwrite-config'
 
 import { useAuth } from '../../context/auth-context'
+import { useFriendId } from '../../hooks/useFriend'
 
 import { MessageExternal, MessageInternal } from '../../types/message'
+import { Chat, ChatType } from '../../types/chat'
 
 interface MessageFormProps {
+  chat: Chat
   message: MessageInternal | null
   setMessage: Dispatch<React.SetStateAction<MessageInternal | null>>
 }
 
 const MessageForm: FunctionComponent<MessageFormProps> = ({
+  chat,
   message,
   setMessage,
 }) => {
   const { user } = useAuth()
+  const friendId = useFriendId(chat)
   const [messageBody, setMessageBody] = useState('')
   const maxSymbolsMessage = 500
 
@@ -45,9 +50,17 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
     const messageSent = {
       body: messageBody.trimStart().trimEnd(),
       user_id: user.$id,
+      chat_id: chat.chat_id,
     }
 
     const permissions = [Permission.write(Role.user(user.$id))]
+
+    if (chat.type === ChatType.Global)
+      permissions.push(Permission.read(Role.users()))
+    if (chat.type === ChatType.Private && friendId) {
+      permissions.push(Permission.read(Role.user(user.$id)))
+      permissions.push(Permission.read(Role.user(friendId)))
+    }
 
     if (message) {
       await databases.updateDocument<MessageExternal>(

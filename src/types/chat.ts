@@ -6,6 +6,7 @@ export enum ChatType {
 }
 
 export type Chat = {
+  chat_id: string
   name?: string
   type: ChatType
   last_updated_time?: string

@@ -19,16 +19,22 @@ import Message from '../message/message'
 import useObserver from '../../hooks/useObserver'
 
 import { MessageExternal, MessageInternal } from '../../types/message'
+import { Chat } from '../../types/chat'
+
 import {
   createInternalType,
   createSingleInternalType,
 } from '../../utils/createInternalType'
 
 interface MessageListProps {
+  chat: Chat
   setMessage: Dispatch<React.SetStateAction<MessageInternal | null>>
 }
 
-const MessageList: FunctionComponent<MessageListProps> = ({ setMessage }) => {
+const MessageList: FunctionComponent<MessageListProps> = ({
+  chat,
+  setMessage,
+}) => {
   const [messages, setMessages] = useState<Array<MessageInternal>>([])
   const lastId = messages.length > 0 ? messages[messages.length - 1].$id : null
   const ref = useRef<HTMLDivElement | null>(null)
@@ -36,11 +42,15 @@ const MessageList: FunctionComponent<MessageListProps> = ({ setMessage }) => {
   const [keepFetching, setKeepFetching] = useState(true)
   const limit = 10
 
-  const getMessages = async () => {
+  const getMessages = async (chat_id: string) => {
     const response = await databases.listDocuments<MessageExternal>(
       DATABASE_ID,
       COLLECTION_ID_MESSAGES,
-      [Query.orderDesc('$createdAt'), Query.limit(limit)]
+      [
+        Query.orderDesc('$createdAt'),
+        Query.limit(limit),
+        Query.equal('chat_id', chat_id),
+      ]
     )
 
     const messages = await createInternalType(response.documents)
@@ -48,7 +58,7 @@ const MessageList: FunctionComponent<MessageListProps> = ({ setMessage }) => {
   }
 
   const getMoreMessages = useCallback(
-    async (lastId: string) => {
+    async (lastId: string, chat_id: string) => {
       const response = await databases.listDocuments<MessageExternal>(
         DATABASE_ID,
         COLLECTION_ID_MESSAGES,
@@ -56,6 +66,7 @@ const MessageList: FunctionComponent<MessageListProps> = ({ setMessage }) => {
           Query.orderDesc('$createdAt'),
           Query.limit(limit),
           Query.cursorAfter(lastId),
+          Query.equal('chat_id', chat_id),
         ]
       )
       if (response.documents.length > 0) {
@@ -70,45 +81,49 @@ const MessageList: FunctionComponent<MessageListProps> = ({ setMessage }) => {
   )
 
   useEffect(() => {
-    getMessages()
+    getMessages(chat.chat_id)
     const unsubscribe = client.subscribe<MessageExternal>(
       [
         `databases.${DATABASE_ID}.collections.${COLLECTION_ID_MESSAGES}.documents`,
       ],
       async (response) => {
-        const message = await createSingleInternalType(response.payload)
+        if (response.payload.chat_id === chat.chat_id) {
+          const message = await createSingleInternalType(response.payload)
 
-        if (
-          response.events.includes(
-            'databases.*.collections.*.documents.*.create'
-          )
-        ) {
-          setMessages((prevState) => [message, ...prevState])
-        }
-
-        if (
-          response.events.includes(
-            'databases.*.collections.*.documents.*.delete'
-          )
-        ) {
-          setMessages((prevState) =>
-            prevState.filter((message) => message.$id !== response.payload.$id)
-          )
-        }
-
-        if (
-          response.events.includes(
-            'databases.*.collections.*.documents.*.update'
-          )
-        ) {
-          setMessages((prevState) => {
-            const prevCopy = [...prevState]
-            const messageToUpdate = prevCopy.find(
-              (m) => m.$id === response.payload.$id
+          if (
+            response.events.includes(
+              'databases.*.collections.*.documents.*.create'
             )
-            if (messageToUpdate) messageToUpdate.body = response.payload.body
-            return prevCopy
-          })
+          ) {
+            setMessages((prevState) => [message, ...prevState])
+          }
+
+          if (
+            response.events.includes(
+              'databases.*.collections.*.documents.*.delete'
+            )
+          ) {
+            setMessages((prevState) =>
+              prevState.filter(
+                (message) => message.$id !== response.payload.$id
+              )
+            )
+          }
+
+          if (
+            response.events.includes(
+              'databases.*.collections.*.documents.*.update'
+            )
+          ) {
+            setMessages((prevState) => {
+              const prevCopy = [...prevState]
+              const messageToUpdate = prevCopy.find(
+                (m) => m.$id === response.payload.$id
+              )
+              if (messageToUpdate) messageToUpdate.body = response.payload.body
+              return prevCopy
+            })
+          }
         }
       }
     )
@@ -116,11 +131,12 @@ const MessageList: FunctionComponent<MessageListProps> = ({ setMessage }) => {
     return () => {
       unsubscribe()
     }
-  }, [])
+  }, [chat])
 
   useEffect(() => {
-    if (isIntersecting && lastId && keepFetching) getMoreMessages(lastId)
-  }, [isIntersecting, lastId, keepFetching, getMoreMessages])
+    if (isIntersecting && lastId && keepFetching)
+      getMoreMessages(lastId, chat.chat_id)
+  }, [isIntersecting, lastId, keepFetching, getMoreMessages, chat.chat_id])
 
   return (
     <div className='message--list'>

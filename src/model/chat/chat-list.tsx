@@ -34,7 +34,7 @@ const ChatList: FunctionComponent<ChatListProps> = ({ onClick }) => {
     <>
       <ChatGlobal onClick={onClick} />
       {chats.map((chat) => (
-        <ChatComponent chat={chat} onClick={onClick} />
+        <ChatComponent key={chat.$id} chat={chat} onClick={onClick} />
       ))}
     </>
   )
