@@ -24,7 +24,12 @@ const MiniProfile: FunctionComponent<MiniProfileProps> = ({ id }) => {
   return (
     <>
       {user && (
-        <div className='miniprofile--container'>
+        <div
+          className='miniprofile--container'
+          style={{
+            alignItems: user.bio && user.bio.length > 50 ? 'start' : 'center',
+          }}
+        >
           <div className='miniprofile-photo--wrapper'>
             <Avatar
               src={getUserPhoto(user) ?? ''}

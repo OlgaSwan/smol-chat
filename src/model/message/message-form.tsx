@@ -27,7 +27,7 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
   const { user } = useAuth()
   const friendId = useFriendId(chat)
   const [messageBody, setMessageBody] = useState('')
-  const maxSymbolsMessage = 500
+  const MaxSymbolsMessage = 500
 
   useEffect(() => {
     if (message) setMessageBody(message.body)
@@ -94,7 +94,7 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
         <textarea
           style={{ resize: 'vertical', maxHeight: '400px', minHeight: '100px' }}
           required
-          maxLength={maxSymbolsMessage}
+          maxLength={MaxSymbolsMessage}
           placeholder='Say something...'
           onChange={(e) => setMessageBody(e.target.value)}
           onKeyDown={onEnterSubmit}
@@ -103,7 +103,7 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
       </div>
       <div className='form--footer--wrapper'>
         <div className='countdown--symbols'>
-          {messageBody && messageBody.length + '/' + maxSymbolsMessage}
+          {messageBody && messageBody.length + '/' + MaxSymbolsMessage}
         </div>
         <div className='send-btn--wrapper'>
           {message && (

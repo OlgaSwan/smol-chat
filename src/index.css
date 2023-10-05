@@ -10,6 +10,7 @@
   --themeColorMain: rgba(219, 26, 90, 1);
   --themeColor: rgb(217, 118, 151);
   --themeColorSecondary: #386fd2;
+  --btnColorMain: #8db3dd;
 }
 
 * {
@@ -100,7 +101,7 @@ textarea {
 }
 
 .btn--main {
-  background-color: rgba(219, 26, 90, 1);
+  background-color: var(--themeColorMain);
   color: #fff;
 }
 
@@ -168,7 +169,7 @@ textarea {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1em;
+  gap: 2em;
   padding: 2em;
   background-color: var(--secondaryBgColor);
   border: 1px solid var(--borderColor1);
@@ -177,28 +178,36 @@ textarea {
 
 .profile-photo--wrapper {
   display: flex;
-  gap: 0.5em;
+  gap: 2em;
   flex-direction: column;
 }
 
 .profile-btn--wrapper {
   display: flex;
-  gap: 0.5em;
+  gap: 0.8em;
   flex-direction: column;
 }
 
 .profile-fields--wrapper {
   display: flex;
-  align-items: center;
-  justify-content: center;
   flex-direction: column;
+  gap: 1.6em;
+}
+
+.profile-field--wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px
+}
+
+.profile--label {
+  font-size: 14px;
 }
 
 /* MiniProfile styling */
 
 .miniprofile--container {
   display: flex;
-  align-items: start;
   justify-content: center;
   gap: 1em;
   padding: 1em;

@@ -38,6 +38,9 @@ const Profile: FunctionComponent<ProfileProps> = ({ open, onClose }) => {
 
   const [isSnackbarOpen, setIsSnackbarOpen] = useState(false)
 
+  const MaxSymbolsName = 40
+  const MaxSymbolsBio = 200
+
   useEffect(() => {
     if (!user) return
 
@@ -80,7 +83,7 @@ const Profile: FunctionComponent<ProfileProps> = ({ open, onClose }) => {
     e.target.value = ''
   }
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const name = e.target.name
     const value = e.target.value
 
@@ -120,7 +123,12 @@ const Profile: FunctionComponent<ProfileProps> = ({ open, onClose }) => {
           <Avatar
             src={getUserPhoto(user) ?? ''}
             alt={user.name}
-            sx={{ width: 100, height: 100, alignSelf: 'center' }}
+            sx={{
+              width: 130,
+              height: 130,
+              alignSelf: 'center',
+              border: 'solid 2px #8db3dd',
+            }}
           >
             {user.name.slice(0, 1)}
           </Avatar>
@@ -145,25 +153,35 @@ const Profile: FunctionComponent<ProfileProps> = ({ open, onClose }) => {
           </div>
         </div>
         <div className='profile-fields--wrapper'>
-          <div className='field--wrapper'>
-            <label>Name</label>
-            <input
-              type='text'
+          <div className='profile-field--wrapper'>
+            <label className='profile--label'>Name</label>
+            <textarea
+              style={{
+                resize: 'vertical',
+                maxHeight: '120px',
+                minHeight: '60px',
+              }}
               name='name'
               required
               placeholder='Enter your name...'
+              maxLength={MaxSymbolsName}
               value={userInfo.name}
               onChange={handleInputChange}
             />
           </div>
 
-          <div className='field--wrapper'>
-            <label>Bio</label>
-            <input
-              type='text'
+          <div className='profile-field--wrapper'>
+            <label className='profile--label'>Bio</label>
+            <textarea
+              style={{
+                resize: 'vertical',
+                maxHeight: '200px',
+                minHeight: '60px',
+              }}
               name='bio'
               required
               placeholder='Enter your bio...'
+              maxLength={MaxSymbolsBio}
               value={userInfo.bio}
               onChange={handleInputChange}
             />
