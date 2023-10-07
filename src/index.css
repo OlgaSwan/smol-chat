@@ -326,11 +326,10 @@ textarea {
 }
 
 .message--body {
-  padding: 0.5em 0;
   color: var(--textColorSecondary);
   background-color: var(--themeColor);
-  padding: 1em;
-  border-radius: 20px;
+  padding: 0.8em;
+  border-radius: 10px;
   width: fit-content;
   max-width: 100%;
   word-wrap: break-word;
@@ -339,11 +338,10 @@ textarea {
 }
 
 .message--body--owner {
-  padding: 0.5em 0;
   color: var(--textColorSecondary);
   background-color: var(--themeColorMain);
-  padding: 1em;
-  border-radius: 20px;
+  padding: 0.8em;
+  border-radius: 10px;
   width: fit-content;
   max-width: 100%;
   word-wrap: break-word;

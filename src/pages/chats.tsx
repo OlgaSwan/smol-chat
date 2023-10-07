@@ -16,7 +16,6 @@ import Room from './room'
 
 import { User } from '../types/auth-context'
 import { Chat, ChatType, ChatsMembers } from '../types/chat'
-import { divide } from 'lodash-es'
 
 const Chats: FunctionComponent = () => {
   const { user } = useAuth()
@@ -87,7 +86,6 @@ const Chats: FunctionComponent = () => {
   return (
     <div className='chats--container'>
       <div className='chats-search--container'>
-        Chats
         <UserSearch
           onUserChanged={(user) => {
             if (user) setSearchedUser(user)
