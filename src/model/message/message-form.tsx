@@ -55,12 +55,12 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
 
     const permissions = [Permission.write(Role.user(user.$id))]
 
-    if (chat.type === ChatType.Global)
-      permissions.push(Permission.read(Role.users()))
-    if (chat.type === ChatType.Private && friendId) {
-      permissions.push(Permission.read(Role.user(user.$id)))
-      permissions.push(Permission.read(Role.user(friendId)))
-    }
+    // if (chat.type === ChatType.Global)
+    //   permissions.push(Permission.read(Role.users()))
+    // if (chat.type === ChatType.Private && friendId) {
+    //   permissions.push(Permission.read(Role.user(user.$id)))
+    //   permissions.push(Permission.read(Role.user(friendId)))
+    // }
 
     if (message) {
       await databases.updateDocument<MessageExternal>(

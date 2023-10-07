@@ -6,9 +6,11 @@ import {
   COLLECTION_ID_CHATS,
 } from '../../appwrite-config'
 
-import { Chat } from '../../types/chat'
 import ChatGlobal from './chat-global'
 import ChatComponent from './chat-component'
+import { Chat } from '../../types/chat'
+
+import { Divider } from '@mui/material'
 
 interface ChatListProps {
   onClick: (chat: Chat) => void
@@ -33,8 +35,11 @@ const ChatList: FunctionComponent<ChatListProps> = ({ onClick }) => {
   return (
     <>
       <ChatGlobal onClick={onClick} />
+      <Divider />
       {chats.map((chat) => (
-        <ChatComponent key={chat.$id} chat={chat} onClick={onClick} />
+        <div className='chat-list--container'>
+          <ChatComponent key={chat.$id} chat={chat} onClick={onClick} />
+        </div>
       ))}
     </>
   )

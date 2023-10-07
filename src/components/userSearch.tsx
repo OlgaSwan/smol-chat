@@ -1,8 +1,9 @@
 import { FunctionComponent, useEffect, useMemo, useState } from 'react'
 import { searchUserByName } from '../utils/searchUserByName'
-import { Autocomplete, Avatar, TextField, debounce } from '@mui/material'
-import { User } from '../types/auth-context'
 import { getUserPhoto } from '../utils/getUserPhoto'
+
+import { User } from '../types/auth-context'
+import { Autocomplete, Avatar, TextField, debounce } from '@mui/material'
 
 interface UserSearchProps {
   onUserChanged?: (user: User | null) => void
@@ -30,7 +31,17 @@ const UserSearch: FunctionComponent<UserSearchProps> = ({ onUserChanged }) => {
 
   return (
     <Autocomplete
-      sx={{ width: 300 }}
+      sx={{
+        width: 300,
+        display: 'inline-block',
+        border: 'solid 1px rgba(40, 41, 57, 1)',
+        borderRadius: '5px',
+        '& input': {
+          width: 200,
+          color: 'white',
+          borderRadius: '5px',
+        },
+      }}
       getOptionLabel={(option) => option.name}
       options={options}
       filterOptions={(x) => x}
@@ -43,7 +54,6 @@ const UserSearch: FunctionComponent<UserSearchProps> = ({ onUserChanged }) => {
       onChange={(event, newValue: User | null) => {
         setOptions(newValue ? [newValue, ...options] : options)
         setValue(newValue)
-        console.log('User was selected', newValue)
 
         if (onUserChanged) onUserChanged(newValue)
       }}
@@ -51,7 +61,12 @@ const UserSearch: FunctionComponent<UserSearchProps> = ({ onUserChanged }) => {
         setInputValue(newInputValue)
       }}
       renderInput={(params) => (
-        <TextField {...params} label='Search' fullWidth />
+        <TextField
+          {...params}
+          InputLabelProps={{ style: { color: '#c7d8eb', fontFamily: 'Segoe UI' } }}
+          label='Search'
+          fullWidth
+        />
       )}
       renderOption={(props, option) => {
         return (

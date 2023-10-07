@@ -10,7 +10,7 @@ const PrivateRoutes: FunctionComponent = () => {
   return (
     <main className='container'>
       <Header />
-      <div className='room--container'>
+      <div className='outlet--container'>
         <Outlet />
       </div>
     </main>

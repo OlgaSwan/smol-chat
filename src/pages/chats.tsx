@@ -16,6 +16,7 @@ import Room from './room'
 
 import { User } from '../types/auth-context'
 import { Chat, ChatType, ChatsMembers } from '../types/chat'
+import { divide } from 'lodash-es'
 
 const Chats: FunctionComponent = () => {
   const { user } = useAuth()
@@ -40,7 +41,7 @@ const Chats: FunctionComponent = () => {
       } else {
         if (user && searchedUser) {
           const permissions = [Permission.write(Role.user(user.$id))]
-          permissions.push(Permission.write(Role.user(searchedUser.$id)))
+          // permissions.push(Permission.write(Role.user(searchedUser.$id)))
 
           const newChat = await databases.createDocument<Chat>(
             DATABASE_ID,
@@ -85,8 +86,8 @@ const Chats: FunctionComponent = () => {
 
   return (
     <div className='chats--container'>
-      <div style={{ background: 'green' }}>
-        Chats{' '}
+      <div className='chats-search--container'>
+        Chats
         <UserSearch
           onUserChanged={(user) => {
             if (user) setSearchedUser(user)
@@ -94,17 +95,9 @@ const Chats: FunctionComponent = () => {
         />
         <ChatList onClick={(chat) => setSelectedChat(chat)} />
       </div>
-      <div
-        style={{
-          background: 'blue',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        {!selectedChat && 'Please select a chat'}
+      <div className='room--container'>
+        {selectedChat ? <Room chat={selectedChat} /> : 'Please, select a chat :)'}
       </div>
-      {selectedChat && <Room chat={selectedChat} />}
     </div>
   )
 }

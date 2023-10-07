@@ -31,8 +31,15 @@ body {
 }
 
 .container {
-  max-width: 600px;
+  max-width: 900px;
   margin: 20px auto;
+}
+
+.outlet--container {
+  padding: 2em;
+  background-color: var(--secondaryBgColor);
+  border-radius: 0 0 10px 10px;
+  border: 1px solid var(--borderColor1);
 }
 
 /* Login & Register Pages */
@@ -119,7 +126,6 @@ textarea {
   opacity: 0.7;
 }
 
-
 /* Header Styling */
 
 #header--wrapper {
@@ -153,14 +159,52 @@ textarea {
 
 .chats--container {
   display: flex;
+  gap: 2em;
 }
+
+.chats-search--container {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.chat-list--container {
+
+}
+
+.chat--container {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border: solid 1px var(--borderColor1);
+  border-radius: 5px;
+
+}
+
+.chat--container:hover {
+  border-color: var(--borderColor2);
+  cursor: pointer;
+}
+
+.chat--name {
+
+}
+.chat--type {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: var(--btnColorMain);
+}
+
 /* Room Styling */
 
 .room--container {
   padding: 2em;
   background-color: var(--secondaryBgColor);
-  border-radius: 0 0 10px 10px;
   border: 1px solid var(--borderColor1);
+  border-radius: 10px;
+  width: 100%;
 }
 
 /* Profile styling */
