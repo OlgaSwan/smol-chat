@@ -187,7 +187,7 @@ const Profile: FunctionComponent<ProfileProps> = ({ open, onClose }) => {
             />
             {initialValue.bio !== userInfo.bio && (
               <div className='countdown--symbols'>
-                {userInfo.bio && userInfo.bio.length + '/' + 200}
+                {userInfo.bio && userInfo.bio.length + '/' + MaxSymbolsBio}
               </div>
             )}
           </div>

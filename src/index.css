@@ -181,13 +181,19 @@ textarea {
 
 }
 
+.chat-info--container {
+  display: flex;
+  flex-direction: row;
+  gap:0.5em;
+}
+
 .chat--container:hover {
   border-color: var(--borderColor2);
   cursor: pointer;
 }
 
 .chat--name {
-
+  text-align: center;
 }
 .chat--type {
   display: flex;
