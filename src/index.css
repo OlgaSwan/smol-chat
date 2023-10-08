@@ -89,7 +89,7 @@ textarea {
 
 .countdown--symbols {
   font-size: 14px;
-  align-self: center;
+  align-self: start;
   color: rgb(164, 161, 161);
 }
 

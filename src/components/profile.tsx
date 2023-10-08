@@ -185,6 +185,11 @@ const Profile: FunctionComponent<ProfileProps> = ({ open, onClose }) => {
               value={userInfo.bio}
               onChange={handleInputChange}
             />
+            {initialValue.bio !== userInfo.bio && (
+              <div className='countdown--symbols'>
+                {userInfo.bio && userInfo.bio.length + '/' + 200}
+              </div>
+            )}
           </div>
         </div>
         <Snackbar
