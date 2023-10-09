@@ -7,8 +7,13 @@ import {
   databases,
 } from '../appwrite-config'
 
+import { useStore } from '@nanostores/react'
+
+import { selectedChatStore } from '../model/store'
+
 import UserSearch from '../components/userSearch'
 import { createPrivateChatId } from '../utils/getPrivateChatId'
+import { getChat } from '../utils/getChat'
 import { useAuth } from '../context/auth-context'
 
 import ChatList from '../model/chat/chat-list'
@@ -19,24 +24,14 @@ import { Chat, ChatType, ChatsMembers } from '../types/chat'
 
 const Chats: FunctionComponent = () => {
   const { user } = useAuth()
+  const selectedChat = useStore(selectedChatStore.selectedChat)
   const [searchedUser, setSearchedUser] = useState<User | null>(null)
-  const [selectedChat, setSelectedChat] = useState<Chat | null>(null)
-
-  const getChat = async (chat_id: string): Promise<Chat | null> => {
-    const response = await databases.listDocuments<Chat>(
-      DATABASE_ID,
-      COLLECTION_ID_CHATS,
-      [Query.equal('chat_id', chat_id)]
-    )
-    if (response.documents.length > 0) return response.documents[0]
-    return null
-  }
 
   const checkOrAdd = useCallback(
     async (chat_id: string) => {
       const chat = await getChat(chat_id)
       if (chat) {
-        setSelectedChat(chat)
+        selectedChatStore.setSelectedChat(chat)
       } else {
         if (user && searchedUser) {
           const permissions = [Permission.write(Role.user(user.$id))]
@@ -70,7 +65,7 @@ const Chats: FunctionComponent = () => {
             permissions
           )
 
-          setSelectedChat(newChat)
+          selectedChatStore.setSelectedChat(newChat)
         }
       }
     },
@@ -91,10 +86,14 @@ const Chats: FunctionComponent = () => {
             if (user) setSearchedUser(user)
           }}
         />
-        <ChatList onClick={(chat) => setSelectedChat(chat)} />
+        <ChatList onClick={(chat) => selectedChatStore.setSelectedChat(chat)} />
       </div>
       <div className='room--container'>
-        {selectedChat ? <Room chat={selectedChat} /> : 'Please, select a chat :)'}
+        {selectedChat ? (
+          <Room chat={selectedChat} />
+        ) : (
+          'Please, select a chat :)'
+        )}
       </div>
     </div>
   )

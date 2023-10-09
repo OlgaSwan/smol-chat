@@ -1,17 +1,14 @@
-import React, { FunctionComponent, useEffect, useState } from 'react'
-import { Query } from 'appwrite'
-import {
-  databases,
-  DATABASE_ID,
-  COLLECTION_ID_CHATS,
-  COLLECTION_ID_CHATS_MEMBERS,
-} from '../../appwrite-config'
+import React, { FunctionComponent, useEffect } from 'react'
+
+import { useStore } from '@nanostores/react'
+
+import { chatsStore } from '../store'
 
 import ChatGlobal from './chat-global'
 import ChatComponent from './chat-component'
 import { useAuth } from '../../context/auth-context'
 
-import { Chat, ChatsMembers } from '../../types/chat'
+import { Chat } from '../../types/chat'
 
 import { Divider } from '@mui/material'
 
@@ -21,30 +18,10 @@ interface ChatListProps {
 
 const ChatList: FunctionComponent<ChatListProps> = ({ onClick }) => {
   const { user } = useAuth()
-  const [chats, setChats] = useState<Chat[]>([])
-
-  const getChats = async (user_id: string) => {
-    const userChats = await databases.listDocuments<ChatsMembers>(
-      DATABASE_ID,
-      COLLECTION_ID_CHATS_MEMBERS,
-      [Query.equal('user_id', user_id)]
-    )
-
-    const chats = await Promise.all(
-      userChats.documents.map(async (d) => {
-        const response = await databases.listDocuments<Chat>(
-          DATABASE_ID,
-          COLLECTION_ID_CHATS,
-          [Query.equal('chat_id', d.chat_id), Query.limit(1)]
-        )
-        return response.documents[0]
-      })
-    )
-    if (chats.length > 0) setChats(chats)
-  }
+  const chats = useStore(chatsStore.chats)
 
   useEffect(() => {
-    if (user) getChats(user.$id)
+    if (user) chatsStore.getChats(user.$id)
   }, [user])
 
   return (
