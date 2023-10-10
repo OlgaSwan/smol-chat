@@ -1,6 +1,6 @@
 import { Query } from 'appwrite'
 import { COLLECTION_ID_USERS, DATABASE_ID, databases } from '../appwrite-config'
-import { User } from '../types/auth-context'
+import { User } from '../types/user'
 
 export const searchUserByName = async (searchText: string): Promise<User[]> => {
   if (!searchText.trim()) return []

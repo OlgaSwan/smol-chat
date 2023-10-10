@@ -6,7 +6,7 @@ import { chatsStore } from '../store'
 
 import ChatGlobal from './chat-global'
 import ChatComponent from './chat-component'
-import { useAuth } from '../../context/auth-context'
+import { useAuth } from '../../hooks/useAuth'
 
 import { Chat } from '../../types/chat'
 

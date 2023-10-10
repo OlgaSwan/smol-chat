@@ -8,8 +8,8 @@ import {
 
 import { getUser } from '../../utils/getUser'
 import { getUserPhoto } from '../../utils/getUserPhoto'
-import { User } from '../../types/auth-context'
-import { useAuth } from '../../context/auth-context'
+import { User } from '../../types/user'
+import { useAuth } from '../../hooks/useAuth'
 
 import { Chat, ChatsMembers } from '../../types/chat'
 

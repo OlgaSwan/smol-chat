@@ -1,14 +1,8 @@
 import React, { FunctionComponent, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
-import { useAuth } from '../context/auth-context'
-
-export type CredentialsRegister = {
-  name: string
-  email: string
-  password: string
-  password1: string
-}
+import { useAuth } from '../hooks/useAuth'
+import { CredentialsRegister } from '../types/user'
 
 const RegisterPage: FunctionComponent = () => {
   const { handleUserRegister } = useAuth()
@@ -18,6 +12,7 @@ const RegisterPage: FunctionComponent = () => {
     password: '',
     password1: '',
   })
+  const navigate = useNavigate()
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const name = e.target.name
@@ -28,7 +23,11 @@ const RegisterPage: FunctionComponent = () => {
   return (
     <div className='auth--container'>
       <div className='form--wrapper'>
-        <form onSubmit={(e) => handleUserRegister(e, credentials)}>
+        <form
+          onSubmit={async (e) => {
+            if (await handleUserRegister(e, credentials)) navigate('/')
+          }}
+        >
           <div className='field--wrapper'>
             <label>Name</label>
             <input

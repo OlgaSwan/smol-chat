@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useEffect, useState } from 'react'
 
-import { User } from '../types/auth-context'
+import { User } from '../types/user'
 import { getUser } from '../utils/getUser'
 import { getUserPhoto } from '../utils/getUserPhoto'
 import { Avatar } from '@mui/material'

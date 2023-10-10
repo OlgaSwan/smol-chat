@@ -4,7 +4,7 @@ import { Avatar } from '@mui/material'
 import { Logout } from '@mui/icons-material'
 
 import Profile from './profile'
-import { useAuth } from '../context/auth-context'
+import { useAuth } from '../hooks/useAuth'
 import { getUserPhoto } from '../utils/getUserPhoto'
 
 const Header: FunctionComponent = () => {

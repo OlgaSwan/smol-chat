@@ -2,7 +2,7 @@ import { FunctionComponent, useEffect, useMemo, useState } from 'react'
 import { searchUserByName } from '../utils/searchUserByName'
 import { getUserPhoto } from '../utils/getUserPhoto'
 
-import { User } from '../types/auth-context'
+import { User } from '../types/user'
 import { Autocomplete, Avatar, TextField, debounce } from '@mui/material'
 
 interface UserSearchProps {
@@ -63,7 +63,9 @@ const UserSearch: FunctionComponent<UserSearchProps> = ({ onUserChanged }) => {
       renderInput={(params) => (
         <TextField
           {...params}
-          InputLabelProps={{ style: { color: '#c7d8eb', fontFamily: 'Segoe UI' } }}
+          InputLabelProps={{
+            style: { color: '#c7d8eb', fontFamily: 'Segoe UI' },
+          }}
           label='Search'
           fullWidth
         />

@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
-import { AuthProvider } from './context/auth-context'
+import Loading from './components/loading'
 import PrivateRoutes from './components/private-routes'
 import LoginPage from './pages/login-page'
 import RegisterPage from './pages/register-page'
@@ -10,7 +10,7 @@ import GlobalChatPage from './pages/global-chat-page'
 function App() {
   return (
     <BrowserRouter>
-      <AuthProvider>
+      <Loading>
         <Routes>
           <Route path='/login' element={<LoginPage />} />
           <Route path='/register' element={<RegisterPage />} />
@@ -20,7 +20,7 @@ function App() {
             <Route path='/chats' element={<Chats />} />
           </Route>
         </Routes>
-      </AuthProvider>
+      </Loading>
     </BrowserRouter>
   )
 }

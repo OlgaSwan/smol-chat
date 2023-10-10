@@ -1,5 +1,5 @@
 import { Models } from 'appwrite'
-import { User } from './auth-context'
+import { User } from './user'
 
 export type MessageExternal = {
   body: string

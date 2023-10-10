@@ -7,7 +7,7 @@ import {
   COLLECTION_ID_MESSAGES,
 } from '../../appwrite-config'
 
-import { useAuth } from '../../context/auth-context'
+import { useAuth } from '../../hooks/useAuth'
 import { useFriendId } from '../../hooks/useFriend'
 
 import { MessageExternal, MessageInternal } from '../../types/message'

@@ -14,12 +14,12 @@ import { selectedChatStore } from '../model/store'
 import UserSearch from '../components/userSearch'
 import { createPrivateChatId } from '../utils/getPrivateChatId'
 import { getChat } from '../utils/getChat'
-import { useAuth } from '../context/auth-context'
+import { useAuth } from '../hooks/useAuth'
 
 import ChatList from '../model/chat/chat-list'
 import Room from './room'
 
-import { User } from '../types/auth-context'
+import { User } from '../types/user'
 import { Chat, ChatType, ChatsMembers } from '../types/chat'
 
 const Chats: FunctionComponent = () => {

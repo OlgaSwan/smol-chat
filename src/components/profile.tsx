@@ -12,7 +12,7 @@ import { isEqual } from 'lodash-es'
 
 import { Avatar, Dialog, Snackbar } from '@mui/material'
 
-import { useAuth } from '../context/auth-context'
+import { useAuth } from '../hooks/useAuth'
 import { updateUser } from '../utils/updateUser'
 import { getUserPhoto } from '../utils/getUserPhoto'
 

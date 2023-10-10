@@ -8,7 +8,7 @@ import {
 
 import MiniProfile from '../../components/mini-profile'
 
-import { useAuth } from '../../context/auth-context'
+import { useAuth } from '../../hooks/useAuth'
 import { MessageInternal } from '../../types/message'
 
 import { Popover } from '@mui/material'

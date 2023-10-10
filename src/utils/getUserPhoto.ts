@@ -1,5 +1,5 @@
 import { BUCKET_ID, storage } from '../appwrite-config'
-import { User } from '../types/auth-context'
+import { User } from '../types/user'
 
 export const getUserPhoto = (user: User): string | null => {
   if (!user.photo_id) return null

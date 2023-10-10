@@ -1,13 +1,8 @@
 import React, { FunctionComponent, useEffect, useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 
-import { useAuth } from '../context/auth-context'
-
-export interface Credentials {
-  email: string
-  password: string
-  password1?: string
-}
+import { useAuth } from '../hooks/useAuth'
+import { Credentials } from '../types/user'
 
 const LoginPage: FunctionComponent = () => {
   const { user, handleUserLogin } = useAuth()
@@ -32,7 +27,11 @@ const LoginPage: FunctionComponent = () => {
   return (
     <div className='auth--container'>
       <div className='form--wrapper'>
-        <form onSubmit={(e) => handleUserLogin(e, credentials)}>
+        <form
+          onSubmit={async (e) => {
+            if (await handleUserLogin(e, credentials)) navigate('/')
+          }}
+        >
           <div className='field--wrapper'>
             <label>Email</label>
             <input

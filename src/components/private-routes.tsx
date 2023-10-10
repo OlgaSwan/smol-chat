@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import { Outlet, Navigate } from 'react-router-dom'
-import { useAuth } from '../context/auth-context'
+import { useAuth } from '../hooks/useAuth'
 import Header from './header'
 
 const PrivateRoutes: FunctionComponent = () => {

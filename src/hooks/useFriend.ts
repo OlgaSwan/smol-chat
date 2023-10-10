@@ -5,7 +5,7 @@ import {
   DATABASE_ID,
   databases,
 } from '../appwrite-config'
-import { useAuth } from '../context/auth-context'
+import { useAuth } from './useAuth'
 import { Query } from 'appwrite'
 
 export const useFriendId = (chat: Chat): string | null => {
