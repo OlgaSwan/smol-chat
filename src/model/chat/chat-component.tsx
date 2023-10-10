@@ -19,9 +19,14 @@ import { Lock } from '@mui/icons-material'
 interface ChatProps {
   chat: Chat
   onClick: (chat: Chat) => void
+  isSelected: boolean
 }
 
-const ChatComponent: FunctionComponent<ChatProps> = ({ chat, onClick }) => {
+const ChatComponent: FunctionComponent<ChatProps> = ({
+  chat,
+  onClick,
+  isSelected,
+}) => {
   const { user } = useAuth()
   const [member, setMember] = useState<User | null>(null)
 
@@ -45,7 +50,12 @@ const ChatComponent: FunctionComponent<ChatProps> = ({ chat, onClick }) => {
   return (
     <>
       {chat && member && (
-        <div className='chat--container' onClick={() => onClick(chat)}>
+        <div
+          className={
+            isSelected ? 'chat--container-selected ' : 'chat--container'
+          }
+          onClick={() => onClick(chat)}
+        >
           <div className='chat-info--container'>
             <Avatar
               src={getUserPhoto(member) ?? ''}

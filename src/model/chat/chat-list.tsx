@@ -3,12 +3,13 @@ import React, { FunctionComponent, useEffect } from 'react'
 import { useStore } from '@nanostores/react'
 
 import { chatsStore } from '../store'
+import { selectedChatStore } from '../store'
 
 import ChatGlobal from './chat-global'
 import ChatComponent from './chat-component'
 import { useAuth } from '../../hooks/useAuth'
 
-import { Chat } from '../../types/chat'
+import { Chat, ChatType } from '../../types/chat'
 
 import { Divider } from '@mui/material'
 
@@ -19,6 +20,7 @@ interface ChatListProps {
 const ChatList: FunctionComponent<ChatListProps> = ({ onClick }) => {
   const { user } = useAuth()
   const chats = useStore(chatsStore.chats)
+  const selectedChat = useStore(selectedChatStore.selectedChat)
 
   useEffect(() => {
     if (user) chatsStore.getChats(user.$id)
@@ -26,12 +28,18 @@ const ChatList: FunctionComponent<ChatListProps> = ({ onClick }) => {
 
   return (
     <>
-      <ChatGlobal onClick={onClick} />
+      <ChatGlobal
+        onClick={onClick}
+        isSelected={selectedChat?.type === ChatType.Global}
+      />
       <Divider sx={{ bgcolor: 'rgba(40, 41, 57, 1)', height: '1.5px' }} />
       {chats.map((chat) => (
-        <div className='chat-list--container' key={chat.$id}>
-          <ChatComponent chat={chat} onClick={onClick} />
-        </div>
+        <ChatComponent
+          key={chat.$id}
+          chat={chat}
+          onClick={onClick}
+          isSelected={selectedChat?.chat_id == chat.chat_id}
+        />
       ))}
     </>
   )

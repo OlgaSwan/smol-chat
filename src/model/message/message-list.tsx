@@ -44,7 +44,6 @@ const MessageList: FunctionComponent<MessageListProps> = ({
 
   useEffect(() => {
     messagesStore.getMessages(chat.chat_id)
-    
   }, [chat])
 
   useEffect(() => {

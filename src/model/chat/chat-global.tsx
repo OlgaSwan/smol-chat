@@ -7,9 +7,13 @@ import { Public } from '@mui/icons-material'
 
 interface ChatGlobalProps {
   onClick: (chat: Chat) => void
+  isSelected: boolean
 }
 
-const ChatGlobal: FunctionComponent<ChatGlobalProps> = ({ onClick }) => {
+const ChatGlobal: FunctionComponent<ChatGlobalProps> = ({
+  onClick,
+  isSelected,
+}) => {
   const [chatGlobal, setChatGlobal] = useState<Chat | null>(null)
 
   const loadGlobalChat = async () => {
@@ -24,11 +28,16 @@ const ChatGlobal: FunctionComponent<ChatGlobalProps> = ({ onClick }) => {
   return (
     <>
       {chatGlobal && (
-        <div className='chat--container' onClick={() => onClick(chatGlobal)}>
+        <div
+          className={
+            isSelected ? 'chat--container-selected ' : 'chat--container'
+          }
+          onClick={() => onClick(chatGlobal)}
+        >
           <p className='chat--name'>{chatGlobal.name}</p>
           <div className='chat--type'>
             <p>{chatGlobal.type.toLowerCase()}</p>
-            <Public sx={{ width: '20px'}}/>
+            <Public sx={{ width: '20px' }} />
           </div>
         </div>
       )}

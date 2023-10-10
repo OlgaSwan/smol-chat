@@ -127,7 +127,7 @@ const Profile: FunctionComponent<ProfileProps> = ({ open, onClose }) => {
               width: 130,
               height: 130,
               alignSelf: 'center',
-              border: 'solid 2px #8db3dd',
+              border: 'solid 2px rgb(137, 153, 200)',
             }}
           >
             {user.name.slice(0, 1)}

@@ -7,10 +7,10 @@
   --borderColor2: rgba(79, 86, 105, 1);
   --textColorMain: #fff;
   --textColorSecondary: rgb(226, 227, 232);
-  --themeColorMain: rgba(219, 26, 90, 1);
-  --themeColor: rgb(217, 118, 151);
+  --themeColorMain: rgb(18, 66, 199);
+  --themeColor: rgb(85, 119, 210);
   --themeColorSecondary: #386fd2;
-  --btnColorMain: #8db3dd;
+  --btnColorMain: rgb(137, 153, 200);
 }
 
 * {
@@ -113,13 +113,13 @@ textarea {
 }
 
 .btn--secondary {
-  background-color: #8db3dd;
+  background-color: var(--btnColorMain);
 }
 
 .btn--cancel {
   background: none;
-  border: 1px solid #8db3dd;
-  color: #8db3dd;
+  border: 1px solid var(--btnColorMain);
+  color: var(--btnColorMain);
 }
 
 .btn:hover {
@@ -151,7 +151,7 @@ textarea {
 }
 
 .header--link:hover {
-  color: #8db3dd;
+  color: var(--btnColorMain);
   text-decoration: underline;
 }
 
@@ -168,28 +168,31 @@ textarea {
   gap: 1em;
 }
 
-.chat-list--container {
-
-}
-
 .chat--container {
   display: flex;
   justify-content: space-between;
   padding: 10px;
   border: solid 1px var(--borderColor1);
   border-radius: 5px;
+}
 
+.chat--container-selected {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border: solid 1px var(--themeColorMain);
+  border-radius: 5px;
+}
+
+.chat--container:hover {
+  border-color: var(--borderColor2);
+  cursor: pointer;
 }
 
 .chat-info--container {
   display: flex;
   flex-direction: row;
   gap:0.5em;
-}
-
-.chat--container:hover {
-  border-color: var(--borderColor2);
-  cursor: pointer;
 }
 
 .chat--name {
@@ -361,7 +364,7 @@ textarea {
 }
 
 .delete--btn {
-  color: #8db3dd;
+  color: var(--btnColorMain);
   cursor: pointer;
   transition: 0.3s;
   width: 16px;
@@ -372,7 +375,7 @@ textarea {
 }
 
 .edit--btn {
-  color: #8db3dd;
+  color: var(--btnColorMain);
   cursor: pointer;
   transition: 0.3s;
   width: 16px;
