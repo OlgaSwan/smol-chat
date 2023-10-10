@@ -27,7 +27,7 @@ const ChatList: FunctionComponent<ChatListProps> = ({ onClick }) => {
   return (
     <>
       <ChatGlobal onClick={onClick} />
-      <Divider />
+      <Divider sx={{ bgcolor: 'rgba(40, 41, 57, 1)', height: '1.5px' }} />
       {chats.map((chat) => (
         <div className='chat-list--container' key={chat.$id}>
           <ChatComponent chat={chat} onClick={onClick} />

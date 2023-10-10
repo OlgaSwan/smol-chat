@@ -1,8 +1,7 @@
 import { atom } from 'nanostores'
 
-import { MessageExternal, MessageInternal } from '../types/message'
-import { Chat, ChatsMembers } from '../types/chat'
 import { Query } from 'appwrite'
+
 import client, {
   databases,
   DATABASE_ID,
@@ -10,10 +9,17 @@ import client, {
   COLLECTION_ID_CHATS,
   COLLECTION_ID_CHATS_MEMBERS,
 } from '../appwrite-config'
+
+import { userStore } from './userStore'
+
 import {
   createInternalType,
   createSingleInternalType,
 } from '../utils/createInternalType'
+import { getChat } from '../utils/getChat'
+
+import { MessageExternal, MessageInternal } from '../types/message'
+import { Chat, ChatsMembers } from '../types/chat'
 
 const messages = atom<MessageInternal[]>([])
 const chats = atom<Chat[]>([])
@@ -76,7 +82,12 @@ export const chatsStore = {
         return response.documents[0]
       })
     )
-    if (chatsResponse.length > 0) chats.set(chatsResponse)
+    if (chatsResponse.length > 0)
+      chats.set(
+        chatsResponse.sort(
+          (a, b) => (b.last_updated_time ?? 0) - (a.last_updated_time ?? 0)
+        )
+      )
   },
 }
 
@@ -94,6 +105,23 @@ client.subscribe<MessageExternal | ChatsMembers>(
   ],
   async (response) => {
     if (determineMessageExternal(response.payload)) {
+      if (
+        response.events.includes('databases.*.collections.*.documents.*.create')
+      ) {
+        const chatToUpdate = chats
+          .get()
+          .find((c) => c.chat_id === response.payload.chat_id)
+
+        if (chatToUpdate) {
+          const prevCopyFiltered = chats
+            .get()
+            .filter((c) => c.chat_id !== chatToUpdate.chat_id)
+
+          prevCopyFiltered.unshift(chatToUpdate)
+          chats.set(prevCopyFiltered)
+        }
+      }
+
       if (response.payload.chat_id !== selectedChat.get()?.chat_id) return
       const message = await createSingleInternalType(response.payload)
 
@@ -123,8 +151,26 @@ client.subscribe<MessageExternal | ChatsMembers>(
         }
       }
     }
+
     if (determineChatMembers(response.payload)) {
-      if (response.payload.user_id !== '1') return
+      if (response.payload.user_id !== userStore.user.get()?.$id) return
+
+      switch (true) {
+        case response.events.includes(
+          'databases.*.collections.*.documents.*.create'
+        ): {
+          const chat = await getChat(response.payload.chat_id)
+          if (chat) chats.set([chat, ...chats.get()])
+          break
+        }
+        case response.events.includes(
+          'databases.*.collections.*.documents.*.delete'
+        ):
+          chats.set(
+            chats.get().filter((c) => c.chat_id !== response.payload.chat_id)
+          )
+          break
+      }
     }
   }
 )

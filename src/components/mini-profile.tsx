@@ -44,10 +44,12 @@ const MiniProfile: FunctionComponent<MiniProfileProps> = ({ id }) => {
               <label className='miniprofile-field--label'>Name</label>
               <p>{user.name}</p>
             </div>
-            <div className='miniprofile-field--wrapper'>
-              <label className='miniprofile-field--label'>Bio</label>
-              <p>{user.bio}</p>
-            </div>
+            {user.bio && (
+              <div className='miniprofile-field--wrapper'>
+                <label className='miniprofile-field--label'>Bio</label>
+                <p>{user.bio}</p>
+              </div>
+            )}
           </div>
         </div>
       )}

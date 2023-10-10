@@ -5,6 +5,7 @@ import {
   databases,
   DATABASE_ID,
   COLLECTION_ID_MESSAGES,
+  COLLECTION_ID_CHATS,
 } from '../../appwrite-config'
 
 import { useAuth } from '../../hooks/useAuth'
@@ -69,7 +70,6 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
         message.$id,
         messageSent
       )
-      resetForm()
     } else {
       await databases.createDocument<MessageExternal>(
         DATABASE_ID,
@@ -78,8 +78,14 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
         messageSent,
         permissions
       )
-      setMessageBody('')
+      await databases.updateDocument<Chat>(
+        DATABASE_ID,
+        COLLECTION_ID_CHATS,
+        chat.$id,
+        { last_updated_time: Date.now() }
+      )
     }
+    resetForm()
   }
 
   const onEnterSubmit = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {

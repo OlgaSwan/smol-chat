@@ -1,4 +1,4 @@
-import { atom, onMount, task } from 'nanostores'
+import { atom } from 'nanostores'
 
 import { ID, Permission, Role } from 'appwrite'
 import {
@@ -87,4 +87,3 @@ export const userStore = {
 }
 
 userStore.getUserOnLoad()
-
