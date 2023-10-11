@@ -7,6 +7,7 @@
   --borderColor2: rgba(79, 86, 105, 1);
   --textColorMain: #fff;
   --textColorSecondary: rgb(226, 227, 232);
+  --textColorTr: #c7d8eb;
   --themeColorMain: rgb(18, 66, 199);
   --themeColor: rgb(85, 119, 210);
   --themeColorSecondary: #386fd2;
@@ -146,7 +147,7 @@ textarea {
 }
 
 .header--link {
-  color: #c7d8eb;
+  color: var(--textColorTr);
   transition: 0.3s;
 }
 
@@ -215,6 +216,10 @@ textarea {
   border: 1px solid var(--borderColor1);
   border-radius: 10px;
   width: 100%
+}
+
+.room--nochat {
+  color: var(--textColorTr);
 }
 
 /* Room Styling */

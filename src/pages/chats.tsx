@@ -96,7 +96,7 @@ const Chats: FunctionComponent = () => {
         </div>
       ) : (
         <div className='room--nochat-container'>
-          <p>Please, select a chat to start messaging</p>
+          <p className='room--nochat'>Please, select a chat to start messaging</p>
         </div>
       )}
     </div>

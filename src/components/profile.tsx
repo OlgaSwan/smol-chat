@@ -73,8 +73,11 @@ const Profile: FunctionComponent<ProfileProps> = ({ open, onClose }) => {
     }
 
     if (user.photo_id) {
-      const photo = await storage.getFile(BUCKET_ID, user.photo_id)
-      if (photo) await storage.deleteFile(BUCKET_ID, user.photo_id)
+      try {
+        await storage.deleteFile(BUCKET_ID, user.photo_id)
+      } catch {
+        //ignored
+      }
     }
 
     const photo = await storage.createFile(BUCKET_ID, ID.unique(), fileObj, [
