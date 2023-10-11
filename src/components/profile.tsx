@@ -72,7 +72,10 @@ const Profile: FunctionComponent<ProfileProps> = ({ open, onClose }) => {
       return
     }
 
-    if (user.photo_id) await storage.deleteFile(BUCKET_ID, user.photo_id)
+    if (user.photo_id) {
+      const photo = await storage.getFile(BUCKET_ID, user.photo_id)
+      if (photo) await storage.deleteFile(BUCKET_ID, user.photo_id)
+    }
 
     const photo = await storage.createFile(BUCKET_ID, ID.unique(), fileObj, [
       Permission.write(Role.user(user.$id)),
@@ -91,8 +94,6 @@ const Profile: FunctionComponent<ProfileProps> = ({ open, onClose }) => {
   }
 
   const handleDialogClose = useCallback(() => {
-    //if (isSnackbarOpen) return
-
     if (onClose) onClose()
   }, [onClose])
 

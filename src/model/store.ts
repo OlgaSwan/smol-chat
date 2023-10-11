@@ -24,6 +24,10 @@ import { Chat, ChatsMembers } from '../types/chat'
 const messages = atom<MessageInternal[]>([])
 const chats = atom<Chat[]>([])
 const selectedChat = atom<Chat | null>(null)
+selectedChat.listen((chat) => {
+  if (chat) messagesStore.getMessages(chat.chat_id)
+  else messages.set([])
+})
 
 const limit = 10
 

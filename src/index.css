@@ -206,6 +206,17 @@ textarea {
   color: var(--btnColorMain);
 }
 
+.room--nochat-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2em;
+  background-color: var(--secondaryBgColor);
+  border: 1px solid var(--borderColor1);
+  border-radius: 10px;
+  width: 100%
+}
+
 /* Room Styling */
 
 .room--container {

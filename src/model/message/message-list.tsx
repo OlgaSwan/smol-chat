@@ -6,6 +6,7 @@ import React, {
   useRef,
   memo,
   useCallback,
+  useMemo,
 } from 'react'
 
 import { useStore } from '@nanostores/react'
@@ -28,10 +29,14 @@ const MessageList: FunctionComponent<MessageListProps> = ({
   setMessage,
 }) => {
   const messages = useStore(messagesStore.messages)
-  const lastId = messages.length > 0 ? messages[messages.length - 1].$id : null
   const ref = useRef<HTMLDivElement | null>(null)
   const { isIntersecting, resetObserver } = useObserver(ref)
   const [keepFetching, setKeepFetching] = useState(true)
+
+  const lastId = useMemo(
+    () => (messages.length > 0 ? messages[messages.length - 1].$id : null),
+    [messages]
+  )
 
   const getMoreMessages = useCallback(
     async (lastId: string, chat_id: string) => {
@@ -41,10 +46,6 @@ const MessageList: FunctionComponent<MessageListProps> = ({
     },
     [resetObserver]
   )
-
-  useEffect(() => {
-    messagesStore.getMessages(chat.chat_id)
-  }, [chat])
 
   useEffect(() => {
     if (isIntersecting && lastId && keepFetching)

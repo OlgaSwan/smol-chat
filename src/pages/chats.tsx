@@ -57,13 +57,15 @@ const Chats: FunctionComponent = () => {
             permissions
           )
 
-          const member2 = await databases.createDocument<ChatsMembers>(
-            DATABASE_ID,
-            COLLECTION_ID_CHATS_MEMBERS,
-            ID.unique(),
-            { chat_id: chat_id, user_id: searchedUser.$id },
-            permissions
-          )
+          if (user.$id !== searchedUser.$id) {
+            const member2 = await databases.createDocument<ChatsMembers>(
+              DATABASE_ID,
+              COLLECTION_ID_CHATS_MEMBERS,
+              ID.unique(),
+              { chat_id: chat_id, user_id: searchedUser.$id },
+              permissions
+            )
+          }
 
           selectedChatStore.setSelectedChat(newChat)
         }
@@ -88,13 +90,15 @@ const Chats: FunctionComponent = () => {
         />
         <ChatList onClick={(chat) => selectedChatStore.setSelectedChat(chat)} />
       </div>
-      <div className='room--container'>
-        {selectedChat ? (
+      {selectedChat ? (
+        <div className='room--container'>
           <Room chat={selectedChat} />
-        ) : (
-          'Please, select a chat :)'
-        )}
-      </div>
+        </div>
+      ) : (
+        <div className='room--nochat-container'>
+          <p>Please, select a chat to start messaging</p>
+        </div>
+      )}
     </div>
   )
 }

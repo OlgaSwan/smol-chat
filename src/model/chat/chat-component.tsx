@@ -34,12 +34,18 @@ const ChatComponent: FunctionComponent<ChatProps> = ({
     const response = await databases.listDocuments<ChatsMembers>(
       DATABASE_ID,
       COLLECTION_ID_CHATS_MEMBERS,
-      [Query.equal('chat_id', chat_id), Query.notEqual('user_id', user_id)]
+      [Query.equal('chat_id', chat_id)]
     )
 
-    if (response.total > 0) {
-      const member = await getUser(response.documents[0].user_id)
-      setMember(member)
+    switch (response.total) {
+      case 1:
+        setMember(await getUser(response.documents[0].user_id))
+        break
+      case 2: {
+        const member = response.documents.find((m) => m.user_id !== user_id)
+        if (member) setMember(await getUser(member.user_id))
+        break
+      }
     }
   }
 
