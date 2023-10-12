@@ -15,6 +15,7 @@ function App() {
 
           <Route element={<PrivateRoutes />}>
             <Route path='/' element={<Chats />} />
+            <Route path='*' element={<Chats />} />
           </Route>
         </Routes>
       </Loading>

@@ -15,9 +15,13 @@ const user = atom<User | null>(null)
 export const userStore = {
   user,
   getUserOnLoad: async () => {
-    const authAccount = await account.get()
-    const userResponse = await getUser(authAccount.$id)
-    user.set(userResponse)
+    try {
+      const authAccount = await account.get()
+      const userResponse = await getUser(authAccount.$id)
+      user.set(userResponse)
+    } catch {
+      //ignored
+    }
     loadingStore.set(false)
   },
   handleUserLogin: async (
