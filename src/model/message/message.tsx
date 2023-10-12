@@ -1,10 +1,6 @@
 import React, { Dispatch, forwardRef, useRef, useState } from 'react'
 
-import {
-  databases,
-  DATABASE_ID,
-  COLLECTION_ID_MESSAGES,
-} from '../../appwrite-config'
+import { databases } from '../../appwrite-config'
 
 import MiniProfile from '../../components/mini-profile'
 
@@ -37,8 +33,8 @@ const Message = forwardRef<HTMLDivElement, MessageProps>(
 
     const deleteMessage = async (message_id: string) =>
       await databases.deleteDocument(
-        DATABASE_ID,
-        COLLECTION_ID_MESSAGES,
+        String(process.env.REACT_APP_DATABASE_ID),
+        String(process.env.REACT_APP_COLLECTION_ID_MESSAGES),
         message_id
       )
 

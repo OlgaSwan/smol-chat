@@ -1,11 +1,6 @@
 import { FunctionComponent, useCallback, useEffect, useState } from 'react'
 import { ID, Permission, Query, Role } from 'appwrite'
-import {
-  COLLECTION_ID_CHATS,
-  COLLECTION_ID_CHATS_MEMBERS,
-  DATABASE_ID,
-  databases,
-} from '../appwrite-config'
+import { databases } from '../appwrite-config'
 
 import { useStore } from '@nanostores/react'
 
@@ -38,8 +33,8 @@ const Chats: FunctionComponent = () => {
           // permissions.push(Permission.write(Role.user(searchedUser.$id)))
 
           const newChat = await databases.createDocument<Chat>(
-            DATABASE_ID,
-            COLLECTION_ID_CHATS,
+            import.meta.env.VITE_DATABASE_ID,
+            import.meta.env.VITE_COLLECTION_ID_CHATS,
             ID.unique(),
             {
               type: ChatType.Private,
@@ -50,8 +45,8 @@ const Chats: FunctionComponent = () => {
           )
 
           const member1 = await databases.createDocument<ChatsMembers>(
-            DATABASE_ID,
-            COLLECTION_ID_CHATS_MEMBERS,
+            import.meta.env.VITE_DATABASE_ID,
+            import.meta.env.VITE_COLLECTION_ID_CHATS_MEMBERS,
             ID.unique(),
             { chat_id: chat_id, user_id: user.$id },
             permissions
@@ -59,8 +54,8 @@ const Chats: FunctionComponent = () => {
 
           if (user.$id !== searchedUser.$id) {
             const member2 = await databases.createDocument<ChatsMembers>(
-              DATABASE_ID,
-              COLLECTION_ID_CHATS_MEMBERS,
+              import.meta.env.VITE_DATABASE_ID,
+              import.meta.env.VITE_COLLECTION_ID_CHATS_MEMBERS,
               ID.unique(),
               { chat_id: chat_id, user_id: searchedUser.$id },
               permissions
@@ -96,7 +91,9 @@ const Chats: FunctionComponent = () => {
         </div>
       ) : (
         <div className='room--nochat-container'>
-          <p className='room--nochat'>Please, select a chat to start messaging</p>
+          <p className='room--nochat'>
+            Please, select a chat to start messaging
+          </p>
         </div>
       )}
     </div>

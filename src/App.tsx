@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-
 import Loading from './components/loading'
 import PrivateRoutes from './components/private-routes'
 import LoginPage from './pages/login-page'

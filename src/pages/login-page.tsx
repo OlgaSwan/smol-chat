@@ -15,7 +15,7 @@ const LoginPage: FunctionComponent = () => {
 
   useEffect(() => {
     if (user) navigate('/')
-  }, [])
+  }, [user, navigate])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const name = e.target.name

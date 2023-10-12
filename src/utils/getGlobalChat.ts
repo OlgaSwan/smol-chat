@@ -1,11 +1,11 @@
 import { Query } from 'appwrite'
-import { COLLECTION_ID_CHATS, DATABASE_ID, databases } from '../appwrite-config'
+import { databases } from '../appwrite-config'
 import { Chat } from '../types/chat'
 
 export const getGlobalChat = async (): Promise<Chat | null> => {
   const response = await databases.listDocuments<Chat>(
-    DATABASE_ID,
-    COLLECTION_ID_CHATS,
+    import.meta.env.VITE_DATABASE_ID,
+    import.meta.env.VITE_COLLECTION_ID_CHATS,
     [Query.equal('type', 'Global'), Query.limit(1)]
   )
 

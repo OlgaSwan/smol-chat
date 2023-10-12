@@ -1,12 +1,7 @@
 import React, { FunctionComponent, useState, useEffect, Dispatch } from 'react'
 
 import { Permission, Role, ID } from 'appwrite'
-import {
-  databases,
-  DATABASE_ID,
-  COLLECTION_ID_MESSAGES,
-  COLLECTION_ID_CHATS,
-} from '../../appwrite-config'
+import { databases } from '../../appwrite-config'
 
 import { useAuth } from '../../hooks/useAuth'
 import { useFriendId } from '../../hooks/useFriend'
@@ -65,22 +60,22 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
 
     if (message) {
       await databases.updateDocument<MessageExternal>(
-        DATABASE_ID,
-        COLLECTION_ID_MESSAGES,
+        String(process.env.REACT_APP_DATABASE_ID),
+        String(process.env.REACT_APP_COLLECTION_ID_MESSAGES),
         message.$id,
         messageSent
       )
     } else {
       await databases.createDocument<MessageExternal>(
-        DATABASE_ID,
-        COLLECTION_ID_MESSAGES,
+        String(process.env.REACT_APP_DATABASE_ID),
+        String(process.env.REACT_APP_COLLECTION_ID_MESSAGES),
         ID.unique(),
         messageSent,
         permissions
       )
       await databases.updateDocument<Chat>(
-        DATABASE_ID,
-        COLLECTION_ID_CHATS,
+        String(process.env.REACT_APP_DATABASE_ID),
+        String(process.env.REACT_APP_COLLECTION_ID_CHATS),
         chat.$id,
         { last_updated_time: Date.now() }
       )
@@ -95,7 +90,7 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
   }
 
   return (
-    <form onSubmit={handleSubmit} onReset={resetForm} id='message--form'>
+    <form onSubmit={handleSubmit} onReset={resetForm} id='message--form' name='message-form-unique-name'>
       <div>
         <textarea
           style={{ resize: 'vertical', maxHeight: '400px', minHeight: '100px' }}

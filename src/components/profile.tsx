@@ -6,7 +6,7 @@ import React, {
   useState,
 } from 'react'
 import { Permission, Role, ID } from 'appwrite'
-import { storage, BUCKET_ID } from '../appwrite-config'
+import { storage } from '../appwrite-config'
 
 import { isEqual } from 'lodash-es'
 
@@ -55,12 +55,15 @@ const Profile: FunctionComponent<ProfileProps> = ({ open, onClose }) => {
   }, [initialValue, userInfo])
 
   const changePhotoClick = () => {
-    if (inputRef.current) inputRef.current.click()
+    inputRef.current?.click()
   }
 
   const deletePhotoClick = async () => {
     if (user && user.photo_id) {
-      await storage.deleteFile(BUCKET_ID, user.photo_id)
+      await storage.deleteFile(
+        String(process.env.REACT_APP_BUCKET_ID),
+        user.photo_id
+      )
       await updateUser(user.$id, { photo_id: null })
       await getUserOnLoad()
     }
@@ -74,15 +77,18 @@ const Profile: FunctionComponent<ProfileProps> = ({ open, onClose }) => {
 
     if (user.photo_id) {
       try {
-        await storage.deleteFile(BUCKET_ID, user.photo_id)
+        await storage.deleteFile(import.meta.env.VITE_BUCKET_ID, user.photo_id)
       } catch {
         //ignored
       }
     }
 
-    const photo = await storage.createFile(BUCKET_ID, ID.unique(), fileObj, [
-      Permission.write(Role.user(user.$id)),
-    ])
+    const photo = await storage.createFile(
+      import.meta.env.VITE_BUCKET_ID,
+      ID.unique(),
+      fileObj,
+      [Permission.write(Role.user(user.$id))]
+    )
     await updateUser(user.$id, { photo_id: photo.$id })
     await getUserOnLoad()
 

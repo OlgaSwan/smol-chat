@@ -1,10 +1,6 @@
 import React, { FunctionComponent, useEffect, useState } from 'react'
 import { Query } from 'appwrite'
-import {
-  COLLECTION_ID_CHATS_MEMBERS,
-  DATABASE_ID,
-  databases,
-} from '../../appwrite-config'
+import { databases } from '../../appwrite-config'
 
 import { getUser } from '../../utils/getUser'
 import { getUserPhoto } from '../../utils/getUserPhoto'
@@ -32,8 +28,8 @@ const ChatComponent: FunctionComponent<ChatProps> = ({
 
   const getMembers = async (chat_id: string, user_id: string) => {
     const response = await databases.listDocuments<ChatsMembers>(
-      DATABASE_ID,
-      COLLECTION_ID_CHATS_MEMBERS,
+      import.meta.env.VITE_DATABASE_ID,
+      import.meta.env.VITE_COLLECTION_ID_CHATS_MEMBERS,
       [Query.equal('chat_id', chat_id)]
     )
 

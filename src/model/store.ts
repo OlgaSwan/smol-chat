@@ -2,13 +2,7 @@ import { atom } from 'nanostores'
 
 import { Query } from 'appwrite'
 
-import client, {
-  databases,
-  DATABASE_ID,
-  COLLECTION_ID_MESSAGES,
-  COLLECTION_ID_CHATS,
-  COLLECTION_ID_CHATS_MEMBERS,
-} from '../appwrite-config'
+import client, { databases } from '../appwrite-config'
 
 import { userStore } from './userStore'
 
@@ -35,8 +29,8 @@ export const messagesStore = {
   messages,
   getMessages: async (chat_id: string) => {
     const response = await databases.listDocuments<MessageExternal>(
-      DATABASE_ID,
-      COLLECTION_ID_MESSAGES,
+      import.meta.env.VITE_DATABASE_ID,
+      import.meta.env.VITE_COLLECTION_ID_MESSAGES,
       [
         Query.orderDesc('$createdAt'),
         Query.limit(limit),
@@ -49,8 +43,8 @@ export const messagesStore = {
   },
   getMoreMessages: async (lastId: string, chat_id: string) => {
     const response = await databases.listDocuments<MessageExternal>(
-      DATABASE_ID,
-      COLLECTION_ID_MESSAGES,
+      import.meta.env.VITE_DATABASE_ID,
+      import.meta.env.VITE_COLLECTION_ID_MESSAGES,
       [
         Query.orderDesc('$createdAt'),
         Query.limit(limit),
@@ -71,16 +65,16 @@ export const chatsStore = {
   chats,
   getChats: async (user_id: string) => {
     const userChats = await databases.listDocuments<ChatsMembers>(
-      DATABASE_ID,
-      COLLECTION_ID_CHATS_MEMBERS,
+      import.meta.env.VITE_DATABASE_ID,
+      import.meta.env.VITE_COLLECTION_ID_CHATS_MEMBERS,
       [Query.equal('user_id', user_id)]
     )
 
     const chatsResponse = await Promise.all(
       userChats.documents.map(async (d) => {
         const response = await databases.listDocuments<Chat>(
-          DATABASE_ID,
-          COLLECTION_ID_CHATS,
+          import.meta.env.VITE_DATABASE_ID,
+          import.meta.env.VITE_COLLECTION_ID_CHATS,
           [Query.equal('chat_id', d.chat_id), Query.limit(1)]
         )
         return response.documents[0]
@@ -104,8 +98,12 @@ export const selectedChatStore = {
 
 client.subscribe<MessageExternal | ChatsMembers>(
   [
-    `databases.${DATABASE_ID}.collections.${COLLECTION_ID_MESSAGES}.documents`,
-    `databases.${DATABASE_ID}.collections.${COLLECTION_ID_CHATS_MEMBERS}.documents`,
+    `databases.${import.meta.env.VITE_DATABASE_ID}.collections.${
+      import.meta.env.VITE_COLLECTION_ID_MESSAGES
+    }.documents`,
+    `databases.${import.meta.env.VITE_DATABASE_ID}.collections.${
+      import.meta.env.VITE_COLLECTION_ID_CHATS_MEMBERS
+    }.documents`,
   ],
   async (response) => {
     if (determineMessageExternal(response.payload)) {

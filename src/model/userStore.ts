@@ -1,12 +1,7 @@
 import { atom } from 'nanostores'
 
 import { ID, Permission, Role } from 'appwrite'
-import {
-  COLLECTION_ID_USERS,
-  DATABASE_ID,
-  account,
-  databases,
-} from '../appwrite-config'
+import { account, databases } from '../appwrite-config'
 
 import { getUser } from '../utils/getUser'
 
@@ -71,8 +66,8 @@ export const userStore = {
 
       const permissions = [Permission.write(Role.user(authAccount.$id))]
       const userResponse = await databases.createDocument<User>(
-        DATABASE_ID,
-        COLLECTION_ID_USERS,
+        String(process.env.REACT_APP_DATABASE_ID),
+        String(process.env.REACT_APP_COLLECTION_ID_USERS),
         authAccount.$id,
         { name: credentials.name },
         permissions
