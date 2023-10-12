@@ -60,10 +60,7 @@ const Profile: FunctionComponent<ProfileProps> = ({ open, onClose }) => {
 
   const deletePhotoClick = async () => {
     if (user && user.photo_id) {
-      await storage.deleteFile(
-        String(process.env.REACT_APP_BUCKET_ID),
-        user.photo_id
-      )
+      await storage.deleteFile(import.meta.env.VITE_BUCKET_ID, user.photo_id)
       await updateUser(user.$id, { photo_id: null })
       await getUserOnLoad()
     }
@@ -177,6 +174,7 @@ const Profile: FunctionComponent<ProfileProps> = ({ open, onClose }) => {
               maxLength={MaxSymbolsName}
               value={userInfo.name}
               onChange={handleInputChange}
+              id='textarea-form-name'
             />
           </div>
 
@@ -194,6 +192,7 @@ const Profile: FunctionComponent<ProfileProps> = ({ open, onClose }) => {
               maxLength={MaxSymbolsBio}
               value={userInfo.bio}
               onChange={handleInputChange}
+              id='textarea-form-bio'
             />
             {initialValue.bio !== userInfo.bio && (
               <div className='countdown--symbols'>

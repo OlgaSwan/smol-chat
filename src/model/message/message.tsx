@@ -33,8 +33,8 @@ const Message = forwardRef<HTMLDivElement, MessageProps>(
 
     const deleteMessage = async (message_id: string) =>
       await databases.deleteDocument(
-        String(process.env.REACT_APP_DATABASE_ID),
-        String(process.env.REACT_APP_COLLECTION_ID_MESSAGES),
+        import.meta.env.VITE_BUCKET_ID,
+        import.meta.env.VITE_COLLECTION_ID_MESSAGES,
         message_id
       )
 

@@ -7,7 +7,7 @@ import { useAuth } from '../../hooks/useAuth'
 import { useFriendId } from '../../hooks/useFriend'
 
 import { MessageExternal, MessageInternal } from '../../types/message'
-import { Chat, ChatType } from '../../types/chat'
+import { Chat } from '../../types/chat'
 
 interface MessageFormProps {
   chat: Chat
@@ -60,22 +60,22 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
 
     if (message) {
       await databases.updateDocument<MessageExternal>(
-        String(process.env.REACT_APP_DATABASE_ID),
-        String(process.env.REACT_APP_COLLECTION_ID_MESSAGES),
+        import.meta.env.VITE_DATABASE_ID,
+        import.meta.env.VITE_COLLECTION_ID_MESSAGES,
         message.$id,
         messageSent
       )
     } else {
       await databases.createDocument<MessageExternal>(
-        String(process.env.REACT_APP_DATABASE_ID),
-        String(process.env.REACT_APP_COLLECTION_ID_MESSAGES),
+        import.meta.env.VITE_DATABASE_ID,
+        import.meta.env.VITE_COLLECTION_ID_MESSAGES,
         ID.unique(),
         messageSent,
         permissions
       )
       await databases.updateDocument<Chat>(
-        String(process.env.REACT_APP_DATABASE_ID),
-        String(process.env.REACT_APP_COLLECTION_ID_CHATS),
+        import.meta.env.VITE_DATABASE_ID,
+        import.meta.env.VITE_COLLECTION_ID_CHATS,
         chat.$id,
         { last_updated_time: Date.now() }
       )
@@ -90,7 +90,11 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
   }
 
   return (
-    <form onSubmit={handleSubmit} onReset={resetForm} id='message--form' name='message-form-unique-name'>
+    <form
+      onSubmit={handleSubmit}
+      onReset={resetForm}
+      id='message--form'
+    >
       <div>
         <textarea
           style={{ resize: 'vertical', maxHeight: '400px', minHeight: '100px' }}
@@ -100,6 +104,7 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
           onChange={(e) => setMessageBody(e.target.value)}
           onKeyDown={onEnterSubmit}
           value={messageBody}
+          id='textarea-form-message'
         ></textarea>
       </div>
       <div className='form--footer--wrapper'>

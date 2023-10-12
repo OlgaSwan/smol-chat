@@ -66,8 +66,8 @@ export const userStore = {
 
       const permissions = [Permission.write(Role.user(authAccount.$id))]
       const userResponse = await databases.createDocument<User>(
-        String(process.env.REACT_APP_DATABASE_ID),
-        String(process.env.REACT_APP_COLLECTION_ID_USERS),
+        import.meta.env.VITE_DATABASE_ID,
+        import.meta.env.VITE_COLLECTION_ID_USERS,
         authAccount.$id,
         { name: credentials.name },
         permissions
