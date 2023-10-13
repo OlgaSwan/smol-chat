@@ -17,6 +17,8 @@ import { Chat, ChatsMembers } from '../types/chat'
 
 const messages = atom<MessageInternal[]>([])
 const chats = atom<Chat[]>([])
+const unread = atom<Chat[]>([])
+
 const selectedChat = atom<Chat | null>(null)
 selectedChat.listen((chat) => {
   if (chat) messagesStore.getMessages(chat.chat_id)
@@ -110,17 +112,18 @@ client.subscribe<MessageExternal | ChatsMembers>(
       if (
         response.events.includes('databases.*.collections.*.documents.*.create')
       ) {
-        const chatToUpdate = chats
+        const chatUpdated = chats
           .get()
           .find((c) => c.chat_id === response.payload.chat_id)
 
-        if (chatToUpdate) {
+        if (chatUpdated) {
           const prevCopyFiltered = chats
             .get()
-            .filter((c) => c.chat_id !== chatToUpdate.chat_id)
+            .filter((c) => c.chat_id !== chatUpdated.chat_id)
 
-          prevCopyFiltered.unshift(chatToUpdate)
+          prevCopyFiltered.unshift(chatUpdated)
           chats.set(prevCopyFiltered)
+          // unread.set([chatUpdated, ...unread.get()])
         }
       }
 

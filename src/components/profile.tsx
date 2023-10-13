@@ -108,7 +108,8 @@ const Profile: FunctionComponent<ProfileProps> = ({ open, onClose }) => {
       await updateUser(user.$id, { name: userInfo.name, bio: userInfo.bio })
     setInitialValue(userInfo)
     handleDialogClose()
-  }, [user, userInfo, handleDialogClose])
+    await getUserOnLoad()
+  }, [user, userInfo, handleDialogClose, getUserOnLoad])
 
   const reset = useCallback(() => {
     setUserInfo(initialValue)
@@ -176,6 +177,11 @@ const Profile: FunctionComponent<ProfileProps> = ({ open, onClose }) => {
               onChange={handleInputChange}
               id='textarea-form-name'
             />
+            {initialValue.name !== userInfo.name && (
+              <div className='countdown--symbols'>
+                {userInfo.name && userInfo.name.length + '/' + MaxSymbolsName}
+              </div>
+            )}
           </div>
 
           <div className='profile-field--wrapper'>

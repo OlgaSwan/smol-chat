@@ -9,7 +9,10 @@ const EditedMessage: FunctionComponent<EditedMessageProps> = ({
 }) => {
   return (
     <div id='header--wrapper'>
-      {messageBody.slice(0, 50) + (messageBody.length > 50 ? '...' : '')}
+      <p className='header--link'>
+        {messageBody.slice(0, 50).trim() +
+          (messageBody.length > 50 ? '...' : '')}
+      </p>
     </div>
   )
 }

@@ -69,7 +69,10 @@ const ChatComponent: FunctionComponent<ChatProps> = ({
             >
               {member.name.slice(0, 1)}
             </Avatar>
-            <p className='chat--name'>{member.name}</p>
+            <p className='chat--name'>
+              {member.name.slice(0, 22).trim() +
+                (member.name.length > 22 ? '...' : '')}
+            </p>
           </div>
           <div className='chat--type'>
             <p>{chat.type.toLowerCase()}</p>
