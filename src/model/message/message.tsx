@@ -1,7 +1,6 @@
-import React, { Dispatch, forwardRef, useState } from 'react'
+import React, { Dispatch, forwardRef, useState, useEffect } from 'react'
 
-import { databases } from '../../appwrite-config'
-
+import { messagesStore, messagesUnreadStore } from '../store'
 import MiniProfile from '../../components/mini-profile'
 
 import { useAuth } from '../../hooks/useAuth'
@@ -31,13 +30,6 @@ const Message = forwardRef<HTMLDivElement, MessageProps>(
       setOpen(false)
     }
 
-    const deleteMessage = async (message_id: string) =>
-      await databases.deleteDocument(
-        import.meta.env.VITE_BUCKET_ID,
-        import.meta.env.VITE_COLLECTION_ID_MESSAGES,
-        message_id
-      )
-
     const editMessage = async (message: MessageInternal) => {
       setMessage(message)
     }
@@ -62,7 +54,7 @@ const Message = forwardRef<HTMLDivElement, MessageProps>(
                     />
                     <Trash2
                       className='delete--btn'
-                      onClick={() => deleteMessage(message.$id)}
+                      onClick={() => messagesStore.deleteMessage(message.$id)}
                     />
                   </div>
                 )}

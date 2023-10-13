@@ -11,7 +11,7 @@ import {
   MessageInternal,
   MessageUnread,
 } from '../../types/message'
-import { Chat } from '../../types/chat'
+import { Chat, ChatType } from '../../types/chat'
 
 interface MessageFormProps {
   chat: Chat
@@ -83,12 +83,14 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
         chat.$id,
         { last_updated_time: Date.now() }
       )
-      await databases.createDocument<MessageUnread>(
-        import.meta.env.VITE_DATABASE_ID,
-        import.meta.env.VITE_COLLECTION_ID_MESSAGES_UNREAD,
-        ID.unique(),
-        { message_id: response.$id, user_id: friendId, chat_id: chat.chat_id }
-      )
+      if (chat.type === ChatType.Private && friendId) {
+        await databases.createDocument<MessageUnread>(
+          import.meta.env.VITE_DATABASE_ID,
+          import.meta.env.VITE_COLLECTION_ID_MESSAGES_UNREAD,
+          ID.unique(),
+          { message_id: response.$id, user_id: friendId, chat_id: chat.chat_id }
+        )
+      }
     }
     resetForm()
   }

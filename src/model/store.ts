@@ -18,15 +18,18 @@ import {
   MessageUnread,
 } from '../types/message'
 import { Chat, ChatsMembers } from '../types/chat'
+import { Payload } from '../types/payload'
 
 const messages = atom<MessageInternal[]>([])
-const chats = atom<Chat[]>([])
 const messagesUnread = atom<MessageUnread[]>([])
 
+const chats = atom<Chat[]>([])
 const selectedChat = atom<Chat | null>(null)
 selectedChat.listen((chat) => {
-  if (chat) messagesStore.getMessages(chat.chat_id)
-  else messages.set([])
+  if (chat) {
+    messagesStore.getMessages(chat.chat_id)
+    messagesUnreadStore.deleteByChatId(chat.chat_id)
+  } else messages.set([])
 })
 
 const limit = 10
@@ -65,6 +68,12 @@ export const messagesStore = {
     }
     return false
   },
+  deleteMessage: async (message_id: string) =>
+    await databases.deleteDocument(
+      import.meta.env.VITE_DATABASE_ID,
+      import.meta.env.VITE_COLLECTION_ID_MESSAGES,
+      message_id
+    ),
 }
 
 onMount(messagesUnread, () => {
@@ -83,6 +92,34 @@ export const messagesUnreadStore = {
       [Query.equal('user_id', user_id)]
     )
     messagesUnread.set(response.documents)
+  },
+  deleteMessage: async (message_id: string) => {
+    const messageUnread = await databases.listDocuments<MessageUnread>(
+      import.meta.env.VITE_DATABASE_ID,
+      import.meta.env.VITE_COLLECTION_ID_MESSAGES_UNREAD,
+      [Query.equal('message_id', message_id)]
+    )
+    if (messageUnread.total > 0)
+      await databases.deleteDocument(
+        import.meta.env.VITE_DATABASE_ID,
+        import.meta.env.VITE_COLLECTION_ID_MESSAGES_UNREAD,
+        messageUnread.documents[0].$id
+      )
+  },
+  deleteByChatId: async (chat_id: string) => {
+    const messagesToDelete = await databases.listDocuments<MessageUnread>(
+      import.meta.env.VITE_DATABASE_ID,
+      import.meta.env.VITE_COLLECTION_ID_MESSAGES_UNREAD,
+      [Query.equal('chat_id', chat_id)]
+    )
+
+    messagesToDelete.documents.forEach(async (d) => {
+      await databases.deleteDocument(
+        import.meta.env.VITE_DATABASE_ID,
+        import.meta.env.VITE_COLLECTION_ID_MESSAGES_UNREAD,
+        d.$id
+      )
+    })
   },
 }
 
@@ -121,7 +158,7 @@ export const selectedChatStore = {
 
 // Subscribe
 
-client.subscribe<MessageExternal | ChatsMembers>(
+client.subscribe<Payload>(
   [
     `databases.${import.meta.env.VITE_DATABASE_ID}.collections.${
       import.meta.env.VITE_COLLECTION_ID_MESSAGES
@@ -129,24 +166,22 @@ client.subscribe<MessageExternal | ChatsMembers>(
     `databases.${import.meta.env.VITE_DATABASE_ID}.collections.${
       import.meta.env.VITE_COLLECTION_ID_CHATS_MEMBERS
     }.documents`,
+    `databases.${import.meta.env.VITE_DATABASE_ID}.collections.${
+      import.meta.env.VITE_COLLECTION_ID_MESSAGES_UNREAD
+    }.documents`,
   ],
   async (response) => {
     if (determineMessageExternal(response.payload)) {
       if (
         response.events.includes('databases.*.collections.*.documents.*.create')
       ) {
-        const chatUpdated = chats
-          .get()
-          .find((c) => c.chat_id === response.payload.chat_id)
+        const chatsLocal = chats.get()
+        const chatUpdated = chatsLocal.find((c) => c.chat_id === response.payload.chat_id)
 
         if (chatUpdated) {
-          const prevCopyFiltered = chats
-            .get()
-            .filter((c) => c.chat_id !== chatUpdated.chat_id)
-
+          const prevCopyFiltered = chatsLocal.filter((c) => c.chat_id !== chatUpdated.chat_id)
           prevCopyFiltered.unshift(chatUpdated)
           chats.set(prevCopyFiltered)
-          // unread.set([chatUpdated, ...unread.get()])
         }
       }
 
@@ -180,6 +215,24 @@ client.subscribe<MessageExternal | ChatsMembers>(
       }
     }
 
+    if (determineMessageUnread(response.payload)) {
+      if (response.payload.user_id !== userStore.user.get()?.$id) return
+
+      if (
+        response.events.includes('databases.*.collections.*.documents.*.create')
+      ) {
+        messagesUnread.set([response.payload, ...messagesUnread.get()])
+      }
+
+      if (
+        response.events.includes('databases.*.collections.*.documents.*.delete')
+      ) {
+        messagesUnread.set(
+          messagesUnread.get().filter((m) => m.$id !== response.payload.$id)
+        )
+      }
+    }
+
     if (determineChatMembers(response.payload)) {
       if (response.payload.user_id !== userStore.user.get()?.$id) return
 
@@ -204,7 +257,7 @@ client.subscribe<MessageExternal | ChatsMembers>(
 )
 
 const determineMessageExternal = (
-  toBeDetermined: MessageExternal | ChatsMembers
+  toBeDetermined: Payload
 ): toBeDetermined is MessageExternal => {
   if ((toBeDetermined as MessageExternal).body) {
     return true
@@ -212,8 +265,17 @@ const determineMessageExternal = (
   return false
 }
 
+const determineMessageUnread = (
+  toBeDetermined: Payload
+): toBeDetermined is MessageUnread => {
+  if ((toBeDetermined as MessageUnread).message_id) {
+    return true
+  }
+  return false
+}
+
 const determineChatMembers = (
-  toBeDetermined: MessageExternal | ChatsMembers
+  toBeDetermined: Payload
 ): toBeDetermined is ChatsMembers => {
   if (!(toBeDetermined as ChatsMembers).body) {
     return true
