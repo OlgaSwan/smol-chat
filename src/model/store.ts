@@ -1,6 +1,6 @@
 import { atom, onMount, task } from 'nanostores'
 
-import { Query } from 'appwrite'
+import { Query, RealtimeResponseEvent } from 'appwrite'
 
 import client, { databases } from '../appwrite-config'
 
@@ -171,15 +171,19 @@ client.subscribe<Payload>(
     }.documents`,
   ],
   async (response) => {
-    if (determineMessageExternal(response.payload)) {
+    if (determineMessageExternal(response)) {
       if (
         response.events.includes('databases.*.collections.*.documents.*.create')
       ) {
         const chatsLocal = chats.get()
-        const chatUpdated = chatsLocal.find((c) => c.chat_id === response.payload.chat_id)
+        const chatUpdated = chatsLocal.find(
+          (c) => c.chat_id === response.payload.chat_id
+        )
 
         if (chatUpdated) {
-          const prevCopyFiltered = chatsLocal.filter((c) => c.chat_id !== chatUpdated.chat_id)
+          const prevCopyFiltered = chatsLocal.filter(
+            (c) => c.chat_id !== chatUpdated.chat_id
+          )
           prevCopyFiltered.unshift(chatUpdated)
           chats.set(prevCopyFiltered)
         }
@@ -215,7 +219,7 @@ client.subscribe<Payload>(
       }
     }
 
-    if (determineMessageUnread(response.payload)) {
+    if (determineMessageUnread(response)) {
       if (response.payload.user_id !== userStore.user.get()?.$id) return
 
       if (
@@ -233,9 +237,8 @@ client.subscribe<Payload>(
       }
     }
 
-    if (determineChatMembers(response.payload)) {
+    if (determineChatMembers(response)) {
       if (response.payload.user_id !== userStore.user.get()?.$id) return
-
       switch (true) {
         case response.events.includes(
           'databases.*.collections.*.documents.*.create'
@@ -257,28 +260,23 @@ client.subscribe<Payload>(
 )
 
 const determineMessageExternal = (
-  toBeDetermined: Payload
-): toBeDetermined is MessageExternal => {
-  if ((toBeDetermined as MessageExternal).body) {
-    return true
-  }
-  return false
+  toBeDetermined: RealtimeResponseEvent<Payload>
+): toBeDetermined is RealtimeResponseEvent<MessageExternal> => {
+  return toBeDetermined.channels.includes(getChannel(import.meta.env.VITE_COLLECTION_ID_MESSAGES))
 }
 
 const determineMessageUnread = (
-  toBeDetermined: Payload
-): toBeDetermined is MessageUnread => {
-  if ((toBeDetermined as MessageUnread).message_id) {
-    return true
-  }
-  return false
+  toBeDetermined: RealtimeResponseEvent<Payload>
+): toBeDetermined is RealtimeResponseEvent<MessageUnread> => {
+  return toBeDetermined.channels.includes(getChannel(import.meta.env.VITE_COLLECTION_ID_MESSAGES_UNREAD))
 }
 
 const determineChatMembers = (
-  toBeDetermined: Payload
-): toBeDetermined is ChatsMembers => {
-  if (!(toBeDetermined as ChatsMembers).body) {
-    return true
-  }
-  return false
+  toBeDetermined: RealtimeResponseEvent<Payload>
+): toBeDetermined is RealtimeResponseEvent<ChatsMembers> => {
+  return toBeDetermined.channels.includes(getChannel(import.meta.env.VITE_COLLECTION_ID_CHATS_MEMBERS))
+}
+
+const getChannel = (collection_id:string) : string => {
+  return `databases.${import.meta.env.VITE_DATABASE_ID}.collections.${collection_id}.documents`
 }
