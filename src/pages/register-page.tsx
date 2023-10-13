@@ -1,7 +1,10 @@
 import React, { FunctionComponent, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
+import { metadata } from '../components/head-meta/metadata'
+
 import SmolChatLogo from '../components/smolchat-logo'
+import { Head } from '../components/head-meta/head'
 import { useAuth } from '../hooks/useAuth'
 
 import { CredentialsRegister } from '../types/user'
@@ -24,6 +27,7 @@ const RegisterPage: FunctionComponent = () => {
   }
   return (
     <div className='auth--container'>
+      <Head title={metadata.register} />
       <SmolChatLogo />
       <div className='form--wrapper'>
         <form
@@ -39,7 +43,7 @@ const RegisterPage: FunctionComponent = () => {
                 type='text'
                 required
                 name='name'
-                autoComplete="on"
+                autoComplete='on'
                 placeholder='Enter your name...'
                 value={credentials.name}
                 onChange={handleInputChange}
@@ -51,7 +55,7 @@ const RegisterPage: FunctionComponent = () => {
                 type='email'
                 required
                 name='email'
-                autoComplete="on"
+                autoComplete='on'
                 placeholder='Enter your email...'
                 value={credentials.email}
                 onChange={handleInputChange}
@@ -63,7 +67,7 @@ const RegisterPage: FunctionComponent = () => {
                 type='password'
                 required
                 name='password'
-                autoComplete="off"
+                autoComplete='off'
                 placeholder='Enter password'
                 value={credentials.password}
                 onChange={handleInputChange}
@@ -76,7 +80,7 @@ const RegisterPage: FunctionComponent = () => {
                 type='password'
                 required
                 name='password1'
-                autoComplete="off"
+                autoComplete='off'
                 placeholder='Confirm your password'
                 value={credentials.password1}
                 onChange={handleInputChange}

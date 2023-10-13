@@ -1,12 +1,14 @@
 import { FunctionComponent, useCallback, useEffect, useState } from 'react'
-import { ID, Permission, Query, Role } from 'appwrite'
+import { ID, Permission, Role } from 'appwrite'
 import { databases } from '../appwrite-config'
 
 import { useStore } from '@nanostores/react'
 
 import { selectedChatStore } from '../model/store'
+import { metadata } from '../components/head-meta/metadata'
 
 import UserSearch from '../components/userSearch'
+import { Head } from '../components/head-meta/head'
 import { createPrivateChatId } from '../utils/getPrivateChatId'
 import { getChat } from '../utils/getChat'
 import { useAuth } from '../hooks/useAuth'
@@ -77,6 +79,7 @@ const Chats: FunctionComponent = () => {
 
   return (
     <div className='chats--container'>
+      <Head title={metadata.chats} />
       <div className='chats-search--container'>
         <UserSearch
           onUserChanged={(user) => {

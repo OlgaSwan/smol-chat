@@ -1,7 +1,10 @@
 import React, { FunctionComponent, useEffect, useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 
+import { metadata } from '../components/head-meta/metadata'
+
 import SmolChatLogo from '../components/smolchat-logo'
+import { Head } from '../components/head-meta/head'
 import { useAuth } from '../hooks/useAuth'
 
 import { Credentials } from '../types/user'
@@ -28,6 +31,7 @@ const LoginPage: FunctionComponent = () => {
 
   return (
     <div className='auth--container'>
+      <Head title={metadata.login} />
       <SmolChatLogo />
       <div className='form--wrapper'>
         <form
@@ -43,7 +47,7 @@ const LoginPage: FunctionComponent = () => {
                 type='email'
                 required
                 name='email'
-                autoComplete="on"
+                autoComplete='on'
                 placeholder='Enter your email...'
                 value={credentials.email}
                 onChange={handleInputChange}
@@ -55,7 +59,7 @@ const LoginPage: FunctionComponent = () => {
                 type='password'
                 required
                 name='password'
-                autoComplete="on"
+                autoComplete='on'
                 placeholder='Enter password'
                 value={credentials.password}
                 onChange={handleInputChange}
