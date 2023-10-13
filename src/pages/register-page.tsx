@@ -1,7 +1,9 @@
 import React, { FunctionComponent, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
+import SmolChatLogo from '../components/smolchat-logo'
 import { useAuth } from '../hooks/useAuth'
+
 import { CredentialsRegister } from '../types/user'
 
 const RegisterPage: FunctionComponent = () => {
@@ -22,58 +24,61 @@ const RegisterPage: FunctionComponent = () => {
   }
   return (
     <div className='auth--container'>
+      <SmolChatLogo />
       <div className='form--wrapper'>
         <form
+          className='form--login'
           onSubmit={async (e) => {
             if (await handleUserRegister(e, credentials)) navigate('/')
           }}
         >
-          <div className='field--wrapper'>
-            <label>Name</label>
-            <input
-              type='text'
-              required
-              name='name'
-              placeholder='Enter your name...'
-              value={credentials.name}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className='field--wrapper'>
-            <label>Email</label>
-            <input
-              type='email'
-              required
-              name='email'
-              placeholder='Enter your email...'
-              value={credentials.email}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className='field--wrapper'>
-            <label>Password</label>
-            <input
-              type='password'
-              required
-              name='password'
-              placeholder='Enter password'
-              value={credentials.password}
-              onChange={handleInputChange}
-            />
-          </div>
+          <div className='form-fields--wrapper'>
+            <div className='field--wrapper'>
+              <label>Name</label>
+              <input
+                type='text'
+                required
+                name='name'
+                placeholder='Enter your name...'
+                value={credentials.name}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className='field--wrapper'>
+              <label>Email</label>
+              <input
+                type='email'
+                required
+                name='email'
+                placeholder='Enter your email...'
+                value={credentials.email}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className='field--wrapper'>
+              <label>Password</label>
+              <input
+                type='password'
+                required
+                name='password'
+                placeholder='Enter password'
+                value={credentials.password}
+                onChange={handleInputChange}
+              />
+            </div>
 
-          <div className='field--wrapper'>
-            <label>Confirm Password</label>
-            <input
-              type='password'
-              required
-              name='password1'
-              placeholder='Confirm your password'
-              value={credentials.password1}
-              onChange={handleInputChange}
-            />
+            <div className='field--wrapper'>
+              <label>Confirm Password</label>
+              <input
+                type='password'
+                required
+                name='password1'
+                placeholder='Confirm your password'
+                value={credentials.password1}
+                onChange={handleInputChange}
+              />
+            </div>
           </div>
-
           <div className='field--wrapper'>
             <input
               className='btn btn--lg btn--main'

@@ -48,14 +48,30 @@ body {
 .auth--container {
   height: 100vh;
   display: flex;
+  flex-direction: column;
+  gap: 3em;
   align-items: center;
   justify-content: center;
 }
 
 .form--wrapper {
-  width: 600px;
-  width: 600px;
+  width: 500px;
   padding: 2em;
+  background-color: var(--secondaryBgColor);
+  border: 1px solid var(--borderColor1);
+  border-radius: 10px;
+}
+
+.form--login {
+  display: flex;
+  flex-direction: column;
+  gap: 2.8em;
+}
+
+.form-fields--wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8em;
 }
 
 .field--wrapper {
@@ -105,7 +121,8 @@ textarea {
 }
 
 .btn--lg {
-  padding: 1em 2em;
+  padding: 1em;
+  font-size: 16px;
 }
 
 .btn--main {
