@@ -28,7 +28,6 @@ const selectedChat = atom<Chat | null>(null)
 selectedChat.listen((chat) => {
   if (chat) {
     messagesStore.getMessages(chat.chat_id)
-    messagesUnreadStore.deleteByChatId(chat.chat_id)
   } else messages.set([])
 })
 

@@ -19,6 +19,7 @@ const Message = forwardRef<HTMLDivElement, MessageProps>(
     const { user } = useAuth()
     const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null)
     const [open, setOpen] = useState(false)
+    const [isRead, setIsRead] = useState(false)
 
     const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
       setAnchorEl(event.currentTarget)
@@ -33,6 +34,13 @@ const Message = forwardRef<HTMLDivElement, MessageProps>(
     const editMessage = async (message: MessageInternal) => {
       setMessage(message)
     }
+
+    useEffect(() => {
+      if (!isRead) {
+        messagesUnreadStore.deleteMessage(message.$id)
+        setIsRead(true)
+      }
+    }, [message.$id, isRead])
 
     return (
       <div className='message--wrapper' ref={ref}>
