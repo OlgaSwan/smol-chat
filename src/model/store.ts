@@ -1,4 +1,4 @@
-import { atom } from 'nanostores'
+import { atom, onMount, task } from 'nanostores'
 
 import { Query } from 'appwrite'
 
@@ -12,12 +12,16 @@ import {
 } from '../utils/createInternalType'
 import { getChat } from '../utils/getChat'
 
-import { MessageExternal, MessageInternal } from '../types/message'
+import {
+  MessageExternal,
+  MessageInternal,
+  MessageUnread,
+} from '../types/message'
 import { Chat, ChatsMembers } from '../types/chat'
 
 const messages = atom<MessageInternal[]>([])
 const chats = atom<Chat[]>([])
-const unread = atom<Chat[]>([])
+const messagesUnread = atom<MessageUnread[]>([])
 
 const selectedChat = atom<Chat | null>(null)
 selectedChat.listen((chat) => {
@@ -60,6 +64,25 @@ export const messagesStore = {
       return true
     }
     return false
+  },
+}
+
+onMount(messagesUnread, () => {
+  task(async () => {
+    const user = userStore.user.get()
+    if (user) await messagesUnreadStore.getMessagesUnread(user.$id)
+  })
+})
+
+export const messagesUnreadStore = {
+  messagesUnread,
+  getMessagesUnread: async (user_id: string) => {
+    const response = await databases.listDocuments<MessageUnread>(
+      import.meta.env.VITE_DATABASE_ID,
+      import.meta.env.VITE_COLLECTION_ID_MESSAGES_UNREAD,
+      [Query.equal('user_id', user_id)]
+    )
+    messagesUnread.set(response.documents)
   },
 }
 

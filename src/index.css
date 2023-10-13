@@ -23,7 +23,7 @@
 }
 
 a {
-  color: #40e0d0;
+  color: var(--btnColorMain);
 }
 
 body {

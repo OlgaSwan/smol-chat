@@ -4,9 +4,13 @@ import { Permission, Role, ID } from 'appwrite'
 import { databases } from '../../appwrite-config'
 
 import { useAuth } from '../../hooks/useAuth'
-import { useFriendId } from '../../hooks/useFriend'
+import { useFriendId } from '../../hooks/useFriendId'
 
-import { MessageExternal, MessageInternal } from '../../types/message'
+import {
+  MessageExternal,
+  MessageInternal,
+  MessageUnread,
+} from '../../types/message'
 import { Chat } from '../../types/chat'
 
 interface MessageFormProps {
@@ -66,7 +70,7 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
         messageSent
       )
     } else {
-      await databases.createDocument<MessageExternal>(
+      const response = await databases.createDocument<MessageExternal>(
         import.meta.env.VITE_DATABASE_ID,
         import.meta.env.VITE_COLLECTION_ID_MESSAGES,
         ID.unique(),
@@ -79,6 +83,12 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
         chat.$id,
         { last_updated_time: Date.now() }
       )
+      await databases.createDocument<MessageUnread>(
+        import.meta.env.VITE_DATABASE_ID,
+        import.meta.env.VITE_COLLECTION_ID_MESSAGES_UNREAD,
+        ID.unique(),
+        { message_id: response.$id, user_id: friendId, chat_id: chat.chat_id }
+      )
     }
     resetForm()
   }
@@ -90,11 +100,7 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
   }
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      onReset={resetForm}
-      id='message--form'
-    >
+    <form onSubmit={handleSubmit} onReset={resetForm} id='message--form'>
       <div>
         <textarea
           style={{ resize: 'vertical', maxHeight: '400px', minHeight: '100px' }}

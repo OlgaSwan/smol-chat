@@ -10,3 +10,9 @@ export type MessageExternal = {
 export type MessageInternal = {
   user: User
 } & MessageExternal
+
+export type MessageUnread = {
+  message_id: string
+  user_id: string
+  chat_id: string
+} & Models.Document

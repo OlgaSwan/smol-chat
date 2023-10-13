@@ -2,14 +2,18 @@ import React, { FunctionComponent, useEffect, useState } from 'react'
 import { Query } from 'appwrite'
 import { databases } from '../../appwrite-config'
 
+import { useStore } from '@nanostores/react'
+
+import { messagesUnreadStore } from '../store'
+
 import { getUser } from '../../utils/getUser'
 import { getUserPhoto } from '../../utils/getUserPhoto'
-import { User } from '../../types/user'
 import { useAuth } from '../../hooks/useAuth'
 
+import { User } from '../../types/user'
 import { Chat, ChatsMembers } from '../../types/chat'
 
-import { Avatar } from '@mui/material'
+import { Avatar, Box } from '@mui/material'
 import { Lock } from '@mui/icons-material'
 
 interface ChatProps {
@@ -25,6 +29,18 @@ const ChatComponent: FunctionComponent<ChatProps> = ({
 }) => {
   const { user } = useAuth()
   const [member, setMember] = useState<User | null>(null)
+
+  const messagesUnread = useStore(messagesUnreadStore.messagesUnread)
+
+  const counter = messagesUnread.filter((m) => m.chat_id == chat.chat_id).length
+
+  const shapeStyles = {
+    bgcolor: 'rgb(18, 66, 199)',
+    color: '#c7d8eb',
+    width: 22,
+    height: 22,
+  }
+  const shapeCircleStyles = { borderRadius: '50%' }
 
   const getMembers = async (chat_id: string, user_id: string) => {
     const response = await databases.listDocuments<ChatsMembers>(
@@ -74,9 +90,21 @@ const ChatComponent: FunctionComponent<ChatProps> = ({
                 (member.name.length > 22 ? '...' : '')}
             </p>
           </div>
+
           <div className='chat--type'>
             <p>{chat.type.toLowerCase()}</p>
-            <Lock sx={{ width: '20px' }} />
+            {counter > 0 ? (
+              <Box
+                display='flex'
+                justifyContent='center'
+                alignItems='center'
+                sx={{ ...shapeStyles, ...shapeCircleStyles }}
+              >
+                {counter < 99 ? counter : '99+'}
+              </Box>
+            ) : (
+              <Lock sx={{ width: '20px' }} />
+            )}
           </div>
         </div>
       )}
