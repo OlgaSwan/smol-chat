@@ -43,6 +43,7 @@ const LoginPage: FunctionComponent = () => {
                 type='email'
                 required
                 name='email'
+                autoComplete="on"
                 placeholder='Enter your email...'
                 value={credentials.email}
                 onChange={handleInputChange}
@@ -54,6 +55,7 @@ const LoginPage: FunctionComponent = () => {
                 type='password'
                 required
                 name='password'
+                autoComplete="on"
                 placeholder='Enter password'
                 value={credentials.password}
                 onChange={handleInputChange}

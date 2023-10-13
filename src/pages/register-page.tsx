@@ -39,6 +39,7 @@ const RegisterPage: FunctionComponent = () => {
                 type='text'
                 required
                 name='name'
+                autoComplete="on"
                 placeholder='Enter your name...'
                 value={credentials.name}
                 onChange={handleInputChange}
@@ -50,6 +51,7 @@ const RegisterPage: FunctionComponent = () => {
                 type='email'
                 required
                 name='email'
+                autoComplete="on"
                 placeholder='Enter your email...'
                 value={credentials.email}
                 onChange={handleInputChange}
@@ -61,6 +63,7 @@ const RegisterPage: FunctionComponent = () => {
                 type='password'
                 required
                 name='password'
+                autoComplete="off"
                 placeholder='Enter password'
                 value={credentials.password}
                 onChange={handleInputChange}
@@ -73,6 +76,7 @@ const RegisterPage: FunctionComponent = () => {
                 type='password'
                 required
                 name='password1'
+                autoComplete="off"
                 placeholder='Confirm your password'
                 value={credentials.password1}
                 onChange={handleInputChange}
