@@ -1,4 +1,4 @@
-import React, { Dispatch, forwardRef, useState, useEffect } from 'react'
+import React, { Dispatch, forwardRef, useState, useEffect, useRef } from 'react'
 
 import { messagesStore, messagesUnreadStore } from '../store'
 import MiniProfile from '../../components/mini-profile'
@@ -17,9 +17,9 @@ interface MessageProps {
 const Message = forwardRef<HTMLDivElement, MessageProps>(
   ({ message, setMessage }, ref) => {
     const { user } = useAuth()
+    const isEffectRun = useRef(false);
     const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null)
     const [open, setOpen] = useState(false)
-    const [isRead, setIsRead] = useState(false)
 
     const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
       setAnchorEl(event.currentTarget)
@@ -36,11 +36,11 @@ const Message = forwardRef<HTMLDivElement, MessageProps>(
     }
 
     useEffect(() => {
-      if (!isRead) {
-        messagesUnreadStore.deleteMessage(message.$id)
-        setIsRead(true)
+      if (!isEffectRun.current) {
+        messagesUnreadStore.deleteMessage(message.$id);
+        isEffectRun.current = true;
       }
-    }, [message.$id, isRead])
+    }, [message.$id]);
 
     return (
       <div className='message--wrapper' ref={ref}>

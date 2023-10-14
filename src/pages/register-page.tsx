@@ -42,7 +42,7 @@ const RegisterPage: FunctionComponent = () => {
       await handleUserRegister(credentials)
       navigate('/')
     } catch (error) {
-      if (error instanceof AppwriteException || error instanceof Error) {
+      if (error instanceof Error) {
         setError(error.message)
         setOpen(true)
       }
