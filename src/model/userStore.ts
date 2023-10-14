@@ -24,12 +24,7 @@ export const userStore = {
     }
     loadingStore.set(false)
   },
-  handleUserLogin: async (
-    e: React.FormEvent<HTMLFormElement>,
-    credentials: Credentials
-  ): Promise<void> => {
-    e.preventDefault()
-
+  handleUserLogin: async (credentials: Credentials): Promise<void> => {
     const session = await account.createEmailSession(
       credentials.email,
       credentials.password
@@ -42,10 +37,8 @@ export const userStore = {
     user.set(null)
   },
   handleUserRegister: async (
-    e: React.FormEvent<HTMLFormElement>,
     credentials: CredentialsRegister
   ): Promise<void> => {
-    e.preventDefault()
     const authAccount = await account.create(
       ID.unique(),
       credentials.email,

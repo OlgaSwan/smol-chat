@@ -13,7 +13,6 @@ import { Credentials } from '../types/user'
 
 import { Snackbar } from '@mui/material'
 
-
 const LoginPage: FunctionComponent = () => {
   const { user, handleUserLogin } = useAuth()
   const [open, setOpen] = useState(false)
@@ -33,14 +32,15 @@ const LoginPage: FunctionComponent = () => {
   }
 
   const onSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
     try {
-      await handleUserLogin(e, credentials)
+      await handleUserLogin(credentials)
       navigate('/')
     } catch (error) {
-      if (error instanceof AppwriteException){
+      if (error instanceof AppwriteException) {
         setError(error.message)
         setOpen(true)
-      } 
+      }
     }
   }
 

@@ -34,18 +34,15 @@ const RegisterPage: FunctionComponent = () => {
   }
 
   const onSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
     try {
       if (credentials.password !== credentials.password1) {
         throw new Error('Passwords do NOT match')
       }
-      await handleUserRegister(e, credentials)
+      await handleUserRegister(credentials)
       navigate('/')
     } catch (error) {
-      if (error instanceof AppwriteException) {
-        setError(error.message)
-        setOpen(true)
-      }
-      if (error instanceof Error) {
+      if (error instanceof AppwriteException || error instanceof Error) {
         setError(error.message)
         setOpen(true)
       }

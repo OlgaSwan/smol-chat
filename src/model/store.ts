@@ -224,7 +224,9 @@ client.subscribe<Payload>(
       if (
         response.events.includes('databases.*.collections.*.documents.*.create')
       ) {
-        messagesUnread.set([response.payload, ...messagesUnread.get()])
+        if (response.payload.chat_id === selectedChat.get()?.chat_id)
+          await deleteUnreadMessage(response.payload.$id)
+        else messagesUnread.set([response.payload, ...messagesUnread.get()])
       }
 
       if (
@@ -276,6 +278,14 @@ const determineChatMembers = (
   return toBeDetermined.channels.includes(getChannel(import.meta.env.VITE_COLLECTION_ID_CHATS_MEMBERS))
 }
 
-const getChannel = (collection_id:string) : string => {
+const getChannel = (collection_id: string): string => {
   return `databases.${import.meta.env.VITE_DATABASE_ID}.collections.${collection_id}.documents`
+}
+
+const deleteUnreadMessage = async (message_unread_id: string) => {
+  await databases.deleteDocument(
+    import.meta.env.VITE_DATABASE_ID,
+    import.meta.env.VITE_COLLECTION_ID_MESSAGES_UNREAD,
+    message_unread_id
+  )
 }
