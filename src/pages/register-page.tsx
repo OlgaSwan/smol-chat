@@ -1,16 +1,23 @@
 import React, { FunctionComponent, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { AppwriteException } from 'appwrite'
 
 import { metadata } from '../components/head-meta/metadata'
 
 import SmolChatLogo from '../components/smolchat-logo'
+import { Alert } from '../components/alert'
 import { Head } from '../components/head-meta/head'
 import { useAuth } from '../hooks/useAuth'
 
 import { CredentialsRegister } from '../types/user'
 
+import { Snackbar } from '@mui/material'
+
 const RegisterPage: FunctionComponent = () => {
   const { handleUserRegister } = useAuth()
+  const [open, setOpen] = useState(false)
+  const [error, setError] = useState('')
+
   const [credentials, setCredentials] = useState<CredentialsRegister>({
     name: '',
     email: '',
@@ -25,17 +32,51 @@ const RegisterPage: FunctionComponent = () => {
 
     setCredentials({ ...credentials, [name]: value })
   }
+
+  const onSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
+    try {
+      if (credentials.password !== credentials.password1) {
+        throw new Error('Passwords do NOT match')
+      }
+      await handleUserRegister(e, credentials)
+      navigate('/')
+    } catch (error) {
+      if (error instanceof AppwriteException) {
+        setError(error.message)
+        setOpen(true)
+      }
+      if (error instanceof Error) {
+        setError(error.message)
+        setOpen(true)
+      }
+    }
+  }
+
+  const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === 'clickaway') return
+
+    setOpen(false)
+  }
+
   return (
     <div className='auth--container'>
       <Head title={metadata.register} />
       <SmolChatLogo />
       <div className='form--wrapper'>
-        <form
-          className='form--login'
-          onSubmit={async (e) => {
-            if (await handleUserRegister(e, credentials)) navigate('/')
-          }}
+        <Snackbar
+          open={open}
+          autoHideDuration={6000}
+          onClose={handleClose}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
         >
+          <Alert onClose={handleClose} severity='error' sx={{ width: '100%' }}>
+            {error}
+          </Alert>
+        </Snackbar>
+        <form className='form--login' onSubmit={onSubmitForm}>
           <div className='form-fields--wrapper'>
             <div className='field--wrapper'>
               <label>Name</label>

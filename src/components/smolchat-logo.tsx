@@ -1,6 +1,6 @@
-import React, { FC } from 'react'
+import React, { FunctionComponent } from 'react'
 
-const SmolChatLogo: FC = () => {
+const SmolChatLogo: FunctionComponent = () => {
   return (
     <svg
       width='313'

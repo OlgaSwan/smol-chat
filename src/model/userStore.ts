@@ -27,21 +27,15 @@ export const userStore = {
   handleUserLogin: async (
     e: React.FormEvent<HTMLFormElement>,
     credentials: Credentials
-  ): Promise<boolean> => {
+  ): Promise<void> => {
     e.preventDefault()
 
-    try {
-      const session = await account.createEmailSession(
-        credentials.email,
-        credentials.password
-      )
-      const userResponse = await getUser(session.userId)
-      user.set(userResponse)
-      return true
-    } catch (error) {
-      console.warn(error)
-      return false
-    }
+    const session = await account.createEmailSession(
+      credentials.email,
+      credentials.password
+    )
+    const userResponse = await getUser(session.userId)
+    user.set(userResponse)
   },
   handleUserLogOut: async () => {
     await account.deleteSession('current')
@@ -50,38 +44,26 @@ export const userStore = {
   handleUserRegister: async (
     e: React.FormEvent<HTMLFormElement>,
     credentials: CredentialsRegister
-  ): Promise<boolean> => {
+  ): Promise<void> => {
     e.preventDefault()
+    const authAccount = await account.create(
+      ID.unique(),
+      credentials.email,
+      credentials.password,
+      credentials.name
+    )
 
-    if (credentials.password !== credentials.password1) {
-      alert('Passwords do not match')
-      return false
-    }
+    await account.createEmailSession(credentials.email, credentials.password)
 
-    try {
-      const authAccount = await account.create(
-        ID.unique(),
-        credentials.email,
-        credentials.password,
-        credentials.name
-      )
-
-      await account.createEmailSession(credentials.email, credentials.password)
-
-      const permissions = [Permission.write(Role.user(authAccount.$id))]
-      const userResponse = await databases.createDocument<User>(
-        import.meta.env.VITE_DATABASE_ID,
-        import.meta.env.VITE_COLLECTION_ID_USERS,
-        authAccount.$id,
-        { name: credentials.name },
-        permissions
-      )
-      user.set(userResponse)
-      return true
-    } catch (error) {
-      console.error(error)
-      return false
-    }
+    const permissions = [Permission.write(Role.user(authAccount.$id))]
+    const userResponse = await databases.createDocument<User>(
+      import.meta.env.VITE_DATABASE_ID,
+      import.meta.env.VITE_COLLECTION_ID_USERS,
+      authAccount.$id,
+      { name: credentials.name },
+      permissions
+    )
+    user.set(userResponse)
   },
 }
 

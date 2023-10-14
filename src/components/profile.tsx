@@ -8,13 +8,16 @@ import React, {
 import { Permission, Role, ID } from 'appwrite'
 import { storage } from '../appwrite-config'
 
-import { isEqual } from 'lodash-es'
+import { metadata } from './head-meta/metadata'
 
-import { Avatar, Dialog, Snackbar } from '@mui/material'
+import { isEqual } from 'lodash-es'
 
 import { useAuth } from '../hooks/useAuth'
 import { updateUser } from '../utils/updateUser'
 import { getUserPhoto } from '../utils/getUserPhoto'
+import { Head } from './head-meta/head'
+
+import { Avatar, Dialog, Snackbar } from '@mui/material'
 
 type UserInfo = {
   name: string
@@ -126,6 +129,7 @@ const Profile: FunctionComponent<ProfileProps> = ({ open, onClose }) => {
       sx={{ backdropFilter: 'blur(7px) sepia(5%)' }}
       PaperProps={{ sx: { borderRadius: '10px' } }}
     >
+      <Head title={metadata.profile} />
       <div className='profile--container'>
         <div className='profile-photo--wrapper'>
           <Avatar
