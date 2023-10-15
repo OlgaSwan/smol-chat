@@ -1,9 +1,9 @@
 import { Client, Databases, Permission, ID, Role } from 'node-appwrite';
 
-const createPrivateChatId = (firstUser, secondUser) => {
-  return firstUser.$id > secondUser.$id
-    ? `${firstUser.$id}_${secondUser.$id}`
-    : `${secondUser.$id}_${firstUser.$id}`
+const createPrivateChatId = (id1, id2) => {
+  return id1 > id2
+    ? `${id1}_${id2}`
+    : `${id2}_${id1}`
 }
 
 export default async ({ req, res, log, error }) => {
