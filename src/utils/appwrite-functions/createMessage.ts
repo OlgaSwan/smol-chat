@@ -5,8 +5,8 @@ import { ChatType } from '../../types/chat'
 
 export const createMessage = async (
   message: Omit<MessageExternal, keyof Models.Document>,
-  friendId: string,
   chatType: ChatType,
+  friendId: string | null,
   editedMessageId?: string
 ) => {
   const body = {

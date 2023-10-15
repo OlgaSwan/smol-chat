@@ -12,6 +12,7 @@ import {
   MessageUnread,
 } from '../../types/message'
 import { Chat, ChatType } from '../../types/chat'
+import { createMessage } from '../../utils/appwrite-functions/createMessage'
 
 interface MessageFormProps {
   chat: Chat
@@ -53,45 +54,8 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
       chat_id: chat.chat_id,
     }
 
-    const permissions = [Permission.write(Role.user(user.$id))]
+    await createMessage(messageSent, chat.type, friendId, message?.$id)
 
-    // if (chat.type === ChatType.Global)
-    //   permissions.push(Permission.read(Role.users()))
-    // if (chat.type === ChatType.Private && friendId) {
-    //   permissions.push(Permission.read(Role.user(user.$id)))
-    //   permissions.push(Permission.read(Role.user(friendId)))
-    // }
-
-    if (message) {
-      await databases.updateDocument<MessageExternal>(
-        import.meta.env.VITE_DATABASE_ID,
-        import.meta.env.VITE_COLLECTION_ID_MESSAGES,
-        message.$id,
-        messageSent
-      )
-    } else {
-      const response = await databases.createDocument<MessageExternal>(
-        import.meta.env.VITE_DATABASE_ID,
-        import.meta.env.VITE_COLLECTION_ID_MESSAGES,
-        ID.unique(),
-        messageSent,
-        permissions
-      )
-      await databases.updateDocument<Chat>(
-        import.meta.env.VITE_DATABASE_ID,
-        import.meta.env.VITE_COLLECTION_ID_CHATS,
-        chat.$id,
-        { last_updated_time: Date.now() }
-      )
-      if (chat.type === ChatType.Private && friendId) {
-        await databases.createDocument<MessageUnread>(
-          import.meta.env.VITE_DATABASE_ID,
-          import.meta.env.VITE_COLLECTION_ID_MESSAGES_UNREAD,
-          ID.unique(),
-          { message_id: response.$id, user_id: friendId, chat_id: chat.chat_id }
-        )
-      }
-    }
     resetForm()
   }
 

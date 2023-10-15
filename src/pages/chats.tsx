@@ -1,6 +1,4 @@
 import { FunctionComponent, useCallback, useEffect, useState } from 'react'
-import { ID, Permission, Role } from 'appwrite'
-import { databases } from '../appwrite-config'
 
 import { useStore } from '@nanostores/react'
 
@@ -17,7 +15,7 @@ import ChatList from '../model/chat/chat-list'
 import Room from './room'
 
 import { User } from '../types/user'
-import { Chat, ChatType, ChatsMembers } from '../types/chat'
+import { createChat } from '../utils/appwrite-functions/createChat'
 
 const Chats: FunctionComponent = () => {
   const { user } = useAuth()
@@ -31,39 +29,7 @@ const Chats: FunctionComponent = () => {
         selectedChatStore.setSelectedChat(chat)
       } else {
         if (user && searchedUser) {
-          const permissions = [Permission.write(Role.user(user.$id))]
-          // permissions.push(Permission.write(Role.user(searchedUser.$id)))
-
-          const newChat = await databases.createDocument<Chat>(
-            import.meta.env.VITE_DATABASE_ID,
-            import.meta.env.VITE_COLLECTION_ID_CHATS,
-            ID.unique(),
-            {
-              type: ChatType.Private,
-              last_updated_time: Date.now(),
-              chat_id: chat_id,
-            },
-            permissions
-          )
-
-          const member1 = await databases.createDocument<ChatsMembers>(
-            import.meta.env.VITE_DATABASE_ID,
-            import.meta.env.VITE_COLLECTION_ID_CHATS_MEMBERS,
-            ID.unique(),
-            { chat_id: chat_id, user_id: user.$id },
-            permissions
-          )
-
-          if (user.$id !== searchedUser.$id) {
-            const member2 = await databases.createDocument<ChatsMembers>(
-              import.meta.env.VITE_DATABASE_ID,
-              import.meta.env.VITE_COLLECTION_ID_CHATS_MEMBERS,
-              ID.unique(),
-              { chat_id: chat_id, user_id: searchedUser.$id },
-              permissions
-            )
-          }
-
+          const newChat = await createChat(user.$id, searchedUser.$id)
           selectedChatStore.setSelectedChat(newChat)
         }
       }
