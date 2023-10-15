@@ -4,11 +4,12 @@ import { databases } from '../appwrite-config'
 import { useAuth } from './useAuth'
 import { Query } from 'appwrite'
 
-export const useFriendId = (chat: Chat): string | null => {
+export const useFriendId = (chat: Chat | null): string | null => {
   const { user } = useAuth()
   const [friendId, setFriendId] = useState<string | null>(null)
 
   const getFriend = useCallback(async () => {
+    if (!chat) return
     if (chat.type === ChatType.Private && user) {
       const response = await databases.listDocuments<ChatsMembers>(
         import.meta.env.VITE_DATABASE_ID,
@@ -21,7 +22,7 @@ export const useFriendId = (chat: Chat): string | null => {
       if (response.documents.length > 0)
         setFriendId(response.documents[0].user_id)
     }
-  }, [user, chat.chat_id, chat.type])
+  }, [user, chat])
 
   useEffect(() => {
     getFriend()

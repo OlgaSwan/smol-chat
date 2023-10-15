@@ -38,7 +38,7 @@ const ChatList: FunctionComponent<ChatListProps> = ({ onClick }) => {
           key={chat.$id}
           chat={chat}
           onClick={onClick}
-          isSelected={selectedChat?.chat_id == chat.chat_id}
+          isSelected={selectedChat?.chat_id === chat.chat_id}
         />
       ))}
     </>

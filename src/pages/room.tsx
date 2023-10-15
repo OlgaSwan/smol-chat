@@ -1,24 +1,19 @@
-import { FunctionComponent, useState } from 'react'
+import { FunctionComponent } from 'react'
+
+import { editedMessageStore } from '../model/editedMessage'
 
 import EditedMessage from '../model/message/edited-message'
 import MessageForm from '../model/message/message-form'
 import MemoizedMessageList from '../model/message/message-list'
+import { useStore } from '@nanostores/react'
 
-import { MessageInternal } from '../types/message'
-import { Chat } from '../types/chat'
-
-interface RoomProps {
-  chat: Chat
-}
-
-const Room: FunctionComponent<RoomProps> = ({chat}) => {
-  const [message, setMessage] = useState<MessageInternal | null>(null)
-
+const Room: FunctionComponent = () => {
+  const editedMessage = useStore(editedMessageStore.editedMessage)
   return (
     <div>
-      {message && <EditedMessage messageBody={message.body} />}
-      <MessageForm chat={chat} message={message} setMessage={setMessage} />
-      <MemoizedMessageList chat={chat} setMessage={setMessage} />
+      {editedMessage && <EditedMessage messageBody={editedMessage.body} />}
+      <MessageForm />
+      <MemoizedMessageList />
     </div>
   )
 }

@@ -56,7 +56,7 @@ const Chats: FunctionComponent = () => {
       </div>
       {selectedChat ? (
         <div className='room--container'>
-          <Room chat={selectedChat} />
+          <Room />
         </div>
       ) : (
         <div className='room--nochat-container'>

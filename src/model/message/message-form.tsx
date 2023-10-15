@@ -1,35 +1,31 @@
-import React, { FunctionComponent, useState, useEffect, Dispatch } from 'react'
+import React, { FunctionComponent, useState, useEffect } from 'react'
+
+import { useStore } from '@nanostores/react'
+
+import { selectedChatStore } from '../store'
+import { editedMessageStore } from '../editedMessage'
 
 import { useAuth } from '../../hooks/useAuth'
 import { useFriendId } from '../../hooks/useFriendId'
 import { createMessage } from '../../utils/appwrite-functions/createMessage'
 
-import { MessageInternal } from '../../types/message'
-import { Chat } from '../../types/chat'
-
-interface MessageFormProps {
-  chat: Chat
-  message: MessageInternal | null
-  setMessage: Dispatch<React.SetStateAction<MessageInternal | null>>
-}
-
-const MessageForm: FunctionComponent<MessageFormProps> = ({
-  chat,
-  message,
-  setMessage,
-}) => {
+const MessageForm: FunctionComponent = () => {
   const { user } = useAuth()
-  const friendId = useFriendId(chat)
+
+  const selectedChat = useStore(selectedChatStore.selectedChat)
+  const editedMessage = useStore(editedMessageStore.editedMessage)
+  const friendId = useFriendId(selectedChat)
   const [messageBody, setMessageBody] = useState('')
-  
+
   const MaxSymbolsMessage = 500
 
   useEffect(() => {
-    if (message) setMessageBody(message.body)
-  }, [message])
+    if (editedMessage) setMessageBody(editedMessage.body)
+    else setMessageBody('')
+  }, [editedMessage])
 
   const resetForm = () => {
-    setMessage(null)
+    editedMessageStore.setEditedMessage(null)
     setMessageBody('')
   }
 
@@ -40,15 +36,15 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
   ) => {
     e.preventDefault()
 
-    if (!user) return
+    if (!user || !selectedChat) return
 
     const messageSent = {
       body: messageBody.trimStart().trimEnd(),
       user_id: user.$id,
-      chat_id: chat.chat_id,
+      chat_id: selectedChat.chat_id,
     }
 
-    await createMessage(messageSent, chat, friendId, message?.$id)
+    await createMessage(messageSent, selectedChat, friendId, editedMessage?.$id)
 
     resetForm()
   }
@@ -78,7 +74,7 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
           {messageBody && messageBody.length + '/' + MaxSymbolsMessage}
         </div>
         <div className='send-btn--wrapper'>
-          {message && (
+          {editedMessage && (
             <button className='btn btn--cancel' type='reset'>
               Cancel
             </button>
@@ -87,7 +83,7 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
           <input
             className='btn btn--secondary'
             type='submit'
-            value={message ? 'Edit' : 'Send'}
+            value={editedMessage ? 'Edit' : 'Send'}
             disabled={!messageBody.trim().length}
             accessKey='s'
           />

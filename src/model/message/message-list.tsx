@@ -1,6 +1,5 @@
 import React, {
   FunctionComponent,
-  Dispatch,
   useState,
   useEffect,
   useRef,
@@ -11,24 +10,14 @@ import React, {
 
 import { useStore } from '@nanostores/react'
 
-import { messagesStore } from '../store'
+import { messagesStore, selectedChatStore } from '../store'
 
 import Message from '../message/message'
 import useObserver from '../../hooks/useObserver'
 
-import { MessageInternal } from '../../types/message'
-import { Chat } from '../../types/chat'
-
-interface MessageListProps {
-  chat: Chat
-  setMessage: Dispatch<React.SetStateAction<MessageInternal | null>>
-}
-
-const MessageList: FunctionComponent<MessageListProps> = ({
-  chat,
-  setMessage,
-}) => {
+const MessageList: FunctionComponent = () => {
   const messages = useStore(messagesStore.messages)
+  const selectedChat = useStore(selectedChatStore.selectedChat)
   const ref = useRef<HTMLDivElement | null>(null)
   const { isIntersecting, resetObserver } = useObserver(ref)
   const [keepFetching, setKeepFetching] = useState(true)
@@ -48,9 +37,9 @@ const MessageList: FunctionComponent<MessageListProps> = ({
   )
 
   useEffect(() => {
-    if (isIntersecting && lastId && keepFetching)
-      getMoreMessages(lastId, chat.chat_id)
-  }, [isIntersecting, lastId, keepFetching, getMoreMessages, chat.chat_id])
+    if (isIntersecting && lastId && keepFetching && selectedChat)
+      getMoreMessages(lastId, selectedChat.chat_id)
+  }, [isIntersecting, lastId, keepFetching, getMoreMessages, selectedChat])
 
   return (
     <div className='message--list'>
@@ -58,7 +47,6 @@ const MessageList: FunctionComponent<MessageListProps> = ({
         <Message
           key={message.$id}
           message={message}
-          setMessage={setMessage}
           ref={index == messages.length - 1 ? ref : null}
         />
       ))}
