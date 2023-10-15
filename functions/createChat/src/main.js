@@ -14,7 +14,7 @@ export default async ({ req, res, log, error }) => {
 
     const databases = new Databases(client);
     
-    const {user_id, friendId} = req.body
+    const {user_id, friendId} = JSON.parse(req.body) 
 
     const chat_id = createPrivateChatId(user_id, friendId)
     const permissions = [
