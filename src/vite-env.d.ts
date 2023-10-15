@@ -9,6 +9,9 @@ interface ImportMetaEnv {
   readonly VITE_COLLECTION_ID_CHATS: string
   readonly VITE_COLLECTION_ID_CHATS_MEMBERS: string
   readonly VITE_BUCKET_ID: string
+
+  readonly VITE_FUNCTION_ID_CREATE_MESSAGE: string
+  readonly VITE_FUNCTION_ID_CREATE_CHAT: string
 }
 
 interface ImportMeta {
