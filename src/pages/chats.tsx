@@ -9,13 +9,13 @@ import UserSearch from '../components/userSearch'
 import { Head } from '../components/head-meta/head'
 import { createPrivateChatId } from '../utils/getPrivateChatId'
 import { getChat } from '../utils/getChat'
+import { createChat } from '../utils/appwrite-functions/createChat'
 import { useAuth } from '../hooks/useAuth'
 
 import ChatList from '../model/chat/chat-list'
 import Room from './room'
 
 import { User } from '../types/user'
-import { createChat } from '../utils/appwrite-functions/createChat'
 
 const Chats: FunctionComponent = () => {
   const { user } = useAuth()

@@ -1,18 +1,11 @@
 import React, { FunctionComponent, useState, useEffect, Dispatch } from 'react'
 
-import { Permission, Role, ID } from 'appwrite'
-import { databases } from '../../appwrite-config'
-
 import { useAuth } from '../../hooks/useAuth'
 import { useFriendId } from '../../hooks/useFriendId'
-
-import {
-  MessageExternal,
-  MessageInternal,
-  MessageUnread,
-} from '../../types/message'
-import { Chat, ChatType } from '../../types/chat'
 import { createMessage } from '../../utils/appwrite-functions/createMessage'
+
+import { MessageInternal } from '../../types/message'
+import { Chat } from '../../types/chat'
 
 interface MessageFormProps {
   chat: Chat
@@ -28,6 +21,7 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
   const { user } = useAuth()
   const friendId = useFriendId(chat)
   const [messageBody, setMessageBody] = useState('')
+  
   const MaxSymbolsMessage = 500
 
   useEffect(() => {
