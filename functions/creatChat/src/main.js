@@ -28,8 +28,8 @@ export default async ({ req, res, log, error }) => {
     }
     
           const newChat = await databases.createDocument(
-            import.meta.env.VITE_DATABASE_ID,
-            import.meta.env.VITE_COLLECTION_ID_CHATS,
+            process.env.APPWRITE_DATABASE_ID,
+            process.env.APPWRITE_COLLECTION_ID_CHATS,
             ID.unique(),
             {
               type: 'Private',
@@ -40,8 +40,8 @@ export default async ({ req, res, log, error }) => {
           )
 
           await databases.createDocument(
-            import.meta.env.VITE_DATABASE_ID,
-            import.meta.env.VITE_COLLECTION_ID_CHATS_MEMBERS,
+            process.env.APPWRITE_DATABASE_ID,
+            process.env.APPWRITE_COLLECTION_ID_CHATS_MEMBERS,
             ID.unique(),
             { chat_id: chat_id, user_id: user_id },
             permissions
@@ -49,8 +49,8 @@ export default async ({ req, res, log, error }) => {
 
           if (user_id !== friendId) {
             await databases.createDocument(
-              import.meta.env.VITE_DATABASE_ID,
-              import.meta.env.VITE_COLLECTION_ID_CHATS_MEMBERS,
+              process.env.APPWRITE_DATABASE_ID,
+              process.env.APPWRITE_COLLECTION_ID_CHATS_MEMBERS,
               ID.unique(),
               { chat_id: chat_id, user_id: friendId },
               permissions
