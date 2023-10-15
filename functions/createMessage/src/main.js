@@ -59,4 +59,6 @@ export default async ({ req, res, log, error }) => {
             [Permission.read(Role.user(friendId)), Permission.delete(Role.user(friendId))]
           )
       }
+
+      return res.send('Success')
 };
