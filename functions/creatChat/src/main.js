@@ -57,5 +57,5 @@ export default async ({ req, res, log, error }) => {
             )
           }
     
-          res.json(newChat)
+          return res.json(newChat)
 };
