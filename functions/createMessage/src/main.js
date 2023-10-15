@@ -8,7 +8,8 @@ export default async ({ req, res, log, error }) => {
 
     const databases = new Databases(client);
     
-    const {message, friendId, chatType, editedMessageId} = req.body
+    const {friendId, chatType, editedMessageId} = req.body
+    const message = req.body.message
     log(req.body)
     log(message)
 
