@@ -10,9 +10,10 @@ export default async ({ req, res, log, error }) => {
     
     const {message, friendId, chatType, editedMessageId} = req.body
     log(req.body)
+    log(message)
 
     const selectedChatId = message.chat_id
-
+  
     if (editedMessageId) {
       await databases.updateDocument(
         process.env.APPWRITE_DATABASE_ID,
