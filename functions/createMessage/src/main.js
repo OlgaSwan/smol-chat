@@ -8,11 +8,7 @@ export default async ({ req, res, log, error }) => {
 
     const databases = new Databases(client);
     
-    const {message, friendId, chatType, editedMessageId} = JSON.parse(req.body)
-    log(req.body)
-    log(message)
-
-    const selectedChatId = message.chat_id
+    const {message, friendId, chat, editedMessageId} = JSON.parse(req.body)
   
     if (editedMessageId) {
       await databases.updateDocument(
@@ -26,7 +22,7 @@ export default async ({ req, res, log, error }) => {
 
     const permissions = [Permission.write(Role.user(message.user_id))]
 
-    switch (chatType) {
+    switch (chat.type) {
       case 'Private': {
         permissions.push(Permission.read(Role.user(message.user_id)))
         permissions.push(Permission.read(Role.user(friendId)))
@@ -45,11 +41,11 @@ export default async ({ req, res, log, error }) => {
         permissions
       )
 
-      if (chatType === 'Private' && friendId) {
+      if (chat.type === 'Private' && friendId) {
         await databases.updateDocument(
           process.env.APPWRITE_DATABASE_ID,
           process.env.APPWRITE_COLLECTION_ID_CHATS,
-          selectedChatId,
+          chat.$id,
           { last_updated_time: Date.now() }
           )
 
@@ -57,7 +53,7 @@ export default async ({ req, res, log, error }) => {
             process.env.APPWRITE_DATABASE_ID,
             process.env.APPWRITE_COLLECTION_ID_MESSAGES_UNREAD,
             ID.unique(),
-            { message_id: newMessage.$id, user_id: friendId, chat_id: selectedChatId },
+            { message_id: newMessage.$id, user_id: friendId, chat_id: chat.chat_id },
             [Permission.read(Role.user(friendId)), Permission.delete(Role.user(friendId))]
           )
       }

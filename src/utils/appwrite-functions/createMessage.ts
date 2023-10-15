@@ -1,18 +1,18 @@
 import { Models } from 'appwrite'
 import { functions } from '../../appwrite-config'
 import { MessageExternal } from '../../types/message'
-import { ChatType } from '../../types/chat'
+import { Chat} from '../../types/chat'
 
 export const createMessage = async (
   message: Omit<MessageExternal, keyof Models.Document>,
-  chatType: ChatType,
+  chat: Chat,
   friendId: string | null,
   editedMessageId?: string
 ) => {
   const body = {
     message,
     friendId,
-    chatType,
+    chat,
     editedMessageId,
   }
 

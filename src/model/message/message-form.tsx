@@ -48,7 +48,7 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
       chat_id: chat.chat_id,
     }
 
-    await createMessage(messageSent, chat.type, friendId, message?.$id)
+    await createMessage(messageSent, chat, friendId, message?.$id)
 
     resetForm()
   }
