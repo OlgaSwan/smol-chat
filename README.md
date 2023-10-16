@@ -6,22 +6,24 @@
 
 ## 💥 Introduction
 
-Smol Chat - is a chat application designed to foster meaningful connections and facilitate seamless communication between individuals. With a unique combination of private, one-on-one conversations and a global chat, Smol Chat offers a versatile and engaging chatting experience for users
+Smol Chat is a user-friendly chat app powered by React and TypeScript. Chat privately with friends and join global conversations. Share messages and enjoy a secure and polished interface. Join Smol Chat and experience modern chatting with ease.
 
 ## 🚀 Features
 
 - Private Chats: With Smol Chat, users can effortlessly create private chat rooms, ensuring secure and confidential communication with their selected contacts.
-- Global Chat: Engage in open discussions or casual conversations with individuals from all over the world in the global chat feature, promoting a sense of community and global interaction.
+- Global Chat: Engage in open discussions or casual conversations with individuals in the global chat feature, promoting a sense of community and global interaction.
 - Real-Time Notifications: Receive instant alerts for new messages, so you can stay connected with your contacts in real time.
-- Privacy: Smol Chat takes user messages seriously by setting up permissions using [Server SDK of Appwrite](https://appwrite.io/docs/sdks#server) through [Appwrite Functions](https://appwrite.io/docs/products/functions).
+- Privacy: Smol Chat takes user privacy seriously by setting up permissions using [Server SDK of Appwrite](https://appwrite.io/docs/sdks#server) through [Appwrite Functions](https://appwrite.io/docs/products/functions).
 - Customization: Personalize your Smol Chat experience with customizable profiles, avatars to reflect your unique personality.
+
+![image](/public/github_showcase.png)
 
 ## 📜 Packages
 
 - [`React`](https://react.dev/) - for building user interfaces
-- [`Typescript`](https://www.typescriptlang.org/)
+- [`Typescript`](https://www.typescriptlang.org/) - (do u still use JS?)
 - [`Appwrite`](https://appwrite.io/) - open source backend services
-- [`React Router V6`](https://reactrouter.com/) - lightweight, fully-featured routing library
+- [`React Router V6`](https://reactrouter.com/) - lightweight routing library
 - [`Nanostores`](https://github.com/nanostores/nanostores/) - tiny state manager
 - [`Material UI`](https://mui.com/) - simple, customizable, and accessible library of React components
 - [`Node.js`](https://nodejs.org/en) - used for writing [Appwrite Functions](https://appwrite.io/docs/products/functions)
@@ -37,11 +39,11 @@ Once you've connected your application to AppWrite. Run the commands:
 
 ## ↔️ Entity relationship diagram
 
-![image](https://github.com/OlgaSwan/smol-chat/assets/49041144/e4b534d7-1f1f-4da0-a4cc-e8ef242c8bbf)
+![image](/public/db_github.png)
 
 ## ⚙️ Example .env file
 
-| First Header  | Second Header |
+| Variable name  | Value |
 | ------------- | ------------- |
 | `VITE_PROJECT_ID`  | ID of your Appwrite project  |
 | `VITE_DATABASE_ID`  | ID of your database  |
