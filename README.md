@@ -6,15 +6,15 @@
 
 ## 💥 Introduction
 
-Smol Chat is a user-friendly chat app powered by React and TypeScript. Chat privately with friends and join global conversations. Share messages and enjoy a secure and polished interface. Join Smol Chat and experience modern chatting with ease.
+Smol Chat is a user-friendly chat app powered by React and TypeScript. Chat privately with friends and join global conversations. Share messages and enjoy a secure and simple interface. Join Smol Chat and experience modern chatting with ease.
 
 ## 🚀 Features
 
-- Private Chats: With Smol Chat, users can effortlessly create private chat rooms, ensuring secure and confidential communication with their selected contacts.
-- Global Chat: Engage in open discussions or casual conversations with individuals in the global chat feature, promoting a sense of community and global interaction.
-- Real-Time Notifications: Receive instant alerts for new messages, so you can stay connected with your contacts in real time.
-- Privacy: Smol Chat takes user privacy seriously by setting up permissions using [Server SDK of Appwrite](https://appwrite.io/docs/sdks#server) through [Appwrite Functions](https://appwrite.io/docs/products/functions).
-- Customization: Personalize your Smol Chat experience with customizable profiles, avatars to reflect your unique personality.
+- **Private Chats**: With Smol Chat, users can effortlessly create private chat rooms, ensuring secure and confidential communication with their selected contacts.
+- **Global Chat**: Engage in open discussions or casual conversations with individuals in the global chat feature, promoting a sense of community and global interaction.
+- **Real-Time Notifications**: Receive instant alerts for new messages, so you can stay connected with your contacts in real time.
+- **Privacy**: Smol Chat takes user privacy seriously by setting up permissions using [Server SDK of Appwrite](https://appwrite.io/docs/sdks#server) through [Appwrite Functions](https://appwrite.io/docs/products/functions).
+- **Customization**: Personalize your Smol Chat experience with customizable profiles, avatars to reflect your unique personality.
 
 ![image](/public/github_showcase.png)
 
