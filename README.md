@@ -24,6 +24,7 @@ Smol Chat is a user-friendly chat app powered by React and TypeScript. Chat priv
 - [`Typescript`](https://www.typescriptlang.org/) - (do u still use JS?)
 - [`Appwrite`](https://appwrite.io/) - open source backend services
 - [`React Router V6`](https://reactrouter.com/) - lightweight routing library
+- [`React Helmet`](https://www.npmjs.com/package/react-helmet) - a document head manager
 - [`Nanostores`](https://github.com/nanostores/nanostores/) - tiny state manager
 - [`Material UI`](https://mui.com/) - simple, customizable, and accessible library of React components
 - [`Node.js`](https://nodejs.org/en) - used for writing [Appwrite Functions](https://appwrite.io/docs/products/functions)
