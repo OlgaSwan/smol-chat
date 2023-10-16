@@ -1,5 +1,55 @@
-# <img src="/public/logo.svg">
+# ![Logo](/public/logo.svg) Smol Chat
 
 <p align="center">
 <img src="/public/full-logo.svg" alt="SmolChat Banner">
 </p>
+
+## 💥 Introduction
+
+Smol Chat - is a chat application designed to foster meaningful connections and facilitate seamless communication between individuals. With a unique combination of private, one-on-one conversations and a global chat, Smol Chat offers a versatile and engaging chatting experience for users
+
+## 🚀 Features
+
+- Private Chats: With Smol Chat, users can effortlessly create private chat rooms, ensuring secure and confidential communication with their selected contacts.
+- Global Chat: Engage in open discussions or casual conversations with individuals from all over the world in the global chat feature, promoting a sense of community and global interaction.
+- Real-Time Notifications: Receive instant alerts for new messages, so you can stay connected with your contacts in real time.
+- Privacy: Smol Chat takes user messages seriously by setting up permissions using [Server SDK of Appwrite](https://appwrite.io/docs/sdks#server) through [Appwrite Functions](https://appwrite.io/docs/products/functions).
+- Customization: Personalize your Smol Chat experience with customizable profiles, avatars to reflect your unique personality.
+
+## 📜 Packages
+
+- [`React`](https://react.dev/) - for building user interfaces
+- [`Typescript`](https://www.typescriptlang.org/)
+- [`Appwrite`](https://appwrite.io/) - open source backend services
+- [`React Router V6`](https://reactrouter.com/) - lightweight, fully-featured routing library
+- [`Nanostores`](https://github.com/nanostores/nanostores/) - tiny state manager
+- [`Material UI`](https://mui.com/) - simple, customizable, and accessible library of React components
+- [`Node.js`](https://nodejs.org/en) - used for writing [Appwrite Functions](https://appwrite.io/docs/products/functions)
+
+## 🛠️ Local development
+
+To ensure that you are able to install everything properly, I would recommend you to have <b>Yarn</b>, <b>React</b> and <b>Vite</b> installed.
+You'll have to set up an AppWrite account, and then add all of the details into your .env file.
+Once you've connected your application to AppWrite. Run the commands:
+
+- `yarn` to install dependencies
+- `yarn run dev` to start local dev server
+
+## ↔️ Entity relationship diagram
+
+![image](https://github.com/OlgaSwan/smol-chat/assets/49041144/e4b534d7-1f1f-4da0-a4cc-e8ef242c8bbf)
+
+## ⚙️ Example .env file
+
+| First Header  | Second Header |
+| ------------- | ------------- |
+| `VITE_PROJECT_ID`  | ID of your Appwrite project  |
+| `VITE_DATABASE_ID`  | ID of your database  |
+| `VITE_COLLECTION_ID_USERS`  | ID of `users` collection  |
+| `VITE_COLLECTION_ID_MESSAGES`  | ID of `messages` collection |
+| `VITE_COLLECTION_ID_CHATS`  | ID of `chats` collection  |
+| `VITE_COLLECTION_ID_CHATS_MEMBERS`  | ID of `chats_members` collection  |
+| `VITE_BUCKET_ID`  | ID of `photos` bucket  |
+| `VITE_COLLECTION_ID_MESSAGES_UNREAD`  | ID of `messages_unread` collection  |
+| `VITE_FUNCTION_ID_CREATE_MESSAGE`  | ID of `createMessage` function  |
+| `VITE_FUNCTION_ID_CREATE_CHAT`  | ID of `createChat` function  |
