@@ -10,7 +10,8 @@ import React, {
 
 import { useStore } from '@nanostores/react'
 
-import { messagesStore, selectedChatStore } from '../store'
+import { messagesStore } from '../../stores/messages-store'
+import { selectedChatStore } from '../../stores/selected-chat-store'
 
 import Message from '../message/message'
 import useObserver from '../../hooks/useObserver'

@@ -1,12 +1,14 @@
 import React, { FunctionComponent } from 'react'
 
-interface EditedMessageProps {
-  messageBody: string
-}
+import { useStore } from '@nanostores/react'
 
-const EditedMessage: FunctionComponent<EditedMessageProps> = ({
-  messageBody,
-}) => {
+import { editedMessageStore } from '../../stores/edited-message'
+
+const EditedMessage: FunctionComponent = () => {
+  const editedMessage = useStore(editedMessageStore.editedMessage)
+  if (!editedMessage) return
+  const messageBody = editedMessage.body
+
   return (
     <div id='header--wrapper'>
       <p className='header--link'>

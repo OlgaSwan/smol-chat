@@ -5,9 +5,7 @@ import { cacheGetOrAdd } from './cacheGetOrAdd'
 export const createInternalType = async (
   arr: MessageExternal[]
 ): Promise<MessageInternal[]> => {
-  return await Promise.all(
-    arr.map(async (elem) => await createSingleInternalType(elem))
-  )
+  return await Promise.all(arr.map(createSingleInternalType))
 }
 
 export const createSingleInternalType = async (
@@ -17,8 +15,6 @@ export const createSingleInternalType = async (
   const user = await cacheGetOrAdd(key, () => getUser(obj.user_id))
   return {
     ...obj,
-    body: obj.body,
-    user_id: obj.user_id,
     user,
   } as MessageInternal
 }

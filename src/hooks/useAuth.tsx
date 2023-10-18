@@ -1,5 +1,5 @@
 import { useStore } from '@nanostores/react'
-import { userStore } from '../model/userStore'
+import { userStore } from '../stores/user-store'
 
 export const useAuth = () => {
   const user = useStore(userStore.user)

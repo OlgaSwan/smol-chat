@@ -1,6 +1,5 @@
 import React, {
   FunctionComponent,
-  useCallback,
   useEffect,
   useRef,
   useState,
@@ -12,6 +11,7 @@ import { metadata } from './head-meta/metadata'
 
 import { isEqual } from 'lodash-es'
 
+import { MAX_SYMBOLS_NAME, MAX_SYMBOLS_BIO } from '../constants'
 import { useAuth } from '../hooks/useAuth'
 import { updateUser } from '../utils/updateUser'
 import { getUserPhoto } from '../utils/getUserPhoto'
@@ -40,9 +40,6 @@ const Profile: FunctionComponent<ProfileProps> = ({ open, onClose }) => {
   const [userInfo, setUserInfo] = useState<UserInfo>(emptyUserInfo)
 
   const [isSnackbarOpen, setIsSnackbarOpen] = useState(false)
-
-  const MaxSymbolsName = 40
-  const MaxSymbolsBio = 200
 
   useEffect(() => {
     if (!user) return
@@ -102,21 +99,21 @@ const Profile: FunctionComponent<ProfileProps> = ({ open, onClose }) => {
     setUserInfo((prev) => ({ ...prev, [name]: value }))
   }
 
-  const handleDialogClose = useCallback(() => {
+  const handleDialogClose = () => {
     if (onClose) onClose()
-  }, [onClose])
+  }
 
-  const saveChanges = useCallback(async () => {
+  const saveChanges = async () => {
     if (user)
       await updateUser(user.$id, { name: userInfo.name, bio: userInfo.bio })
     setInitialValue(userInfo)
     handleDialogClose()
     await getUserOnLoad()
-  }, [user, userInfo, handleDialogClose, getUserOnLoad])
+  }
 
-  const reset = useCallback(() => {
+  const reset = () => {
     setUserInfo(initialValue)
-  }, [initialValue])
+  }
 
   if (!user) {
     return <p>Loading...</p>
@@ -176,14 +173,14 @@ const Profile: FunctionComponent<ProfileProps> = ({ open, onClose }) => {
               name='name'
               required
               placeholder='Enter your name...'
-              maxLength={MaxSymbolsName}
+              maxLength={MAX_SYMBOLS_NAME}
               value={userInfo.name}
               onChange={handleInputChange}
               id='textarea-form-name'
             />
             {initialValue.name !== userInfo.name && (
               <div className='countdown--symbols'>
-                {userInfo.name && userInfo.name.length + '/' + MaxSymbolsName}
+                {userInfo.name && userInfo.name.length + '/' + MAX_SYMBOLS_NAME}
               </div>
             )}
           </div>
@@ -199,14 +196,14 @@ const Profile: FunctionComponent<ProfileProps> = ({ open, onClose }) => {
               name='bio'
               required
               placeholder='Enter your bio...'
-              maxLength={MaxSymbolsBio}
+              maxLength={MAX_SYMBOLS_BIO}
               value={userInfo.bio}
               onChange={handleInputChange}
               id='textarea-form-bio'
             />
             {initialValue.bio !== userInfo.bio && (
               <div className='countdown--symbols'>
-                {userInfo.bio && userInfo.bio.length + '/' + MaxSymbolsBio}
+                {userInfo.bio && userInfo.bio.length + '/' + MAX_SYMBOLS_BIO}
               </div>
             )}
           </div>

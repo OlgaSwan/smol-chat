@@ -1,6 +1,5 @@
 import React, { FunctionComponent, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { AppwriteException } from 'appwrite'
 
 import { metadata } from '../components/head-meta/metadata'
 

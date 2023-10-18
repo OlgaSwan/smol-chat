@@ -2,7 +2,7 @@ import React, { FunctionComponent, PropsWithChildren } from 'react'
 import { useStore } from '@nanostores/react'
 import { InfinitySpin } from 'react-loader-spinner'
 
-import { loadingStore } from '../model/userStore'
+import { loadingStore } from '../stores/user-store'
 
 const Loading: FunctionComponent<PropsWithChildren> = ({ children }) => {
   const loading = useStore(loadingStore)

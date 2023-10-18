@@ -2,9 +2,10 @@ import React, { FunctionComponent, useState, useEffect } from 'react'
 
 import { useStore } from '@nanostores/react'
 
-import { selectedChatStore } from '../store'
-import { editedMessageStore } from '../editedMessage'
+import { editedMessageStore } from '../../stores/edited-message'
+import { selectedChatStore } from '../../stores/selected-chat-store'
 
+import { MAX_SYMBOLS_MESSAGE } from '../../constants'
 import { useAuth } from '../../hooks/useAuth'
 import { useFriendId } from '../../hooks/useFriendId'
 import { createMessage } from '../../utils/appwrite-functions/createMessage'
@@ -16,8 +17,6 @@ const MessageForm: FunctionComponent = () => {
   const editedMessage = useStore(editedMessageStore.editedMessage)
   const friendId = useFriendId(selectedChat)
   const [messageBody, setMessageBody] = useState('')
-
-  const MaxSymbolsMessage = 500
 
   useEffect(() => {
     if (editedMessage) setMessageBody(editedMessage.body)
@@ -61,7 +60,7 @@ const MessageForm: FunctionComponent = () => {
         <textarea
           style={{ resize: 'vertical', maxHeight: '400px', minHeight: '100px' }}
           required
-          maxLength={MaxSymbolsMessage}
+          maxLength={MAX_SYMBOLS_MESSAGE}
           placeholder='Say something...'
           onChange={(e) => setMessageBody(e.target.value)}
           onKeyDown={onEnterSubmit}
@@ -71,7 +70,7 @@ const MessageForm: FunctionComponent = () => {
       </div>
       <div className='form--footer--wrapper'>
         <div className='countdown--symbols'>
-          {messageBody && messageBody.length + '/' + MaxSymbolsMessage}
+          {messageBody && messageBody.length + '/' + MAX_SYMBOLS_MESSAGE}
         </div>
         <div className='send-btn--wrapper'>
           {editedMessage && (

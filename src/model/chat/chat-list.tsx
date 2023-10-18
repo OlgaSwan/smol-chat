@@ -1,13 +1,12 @@
-import React, { FunctionComponent, useEffect } from 'react'
+import React, { FunctionComponent } from 'react'
 
 import { useStore } from '@nanostores/react'
 
-import { chatsStore } from '../store'
-import { selectedChatStore } from '../store'
+import { chatsStore } from '../../stores/chat-store'
+import { selectedChatStore } from '../../stores/selected-chat-store'
 
 import ChatGlobal from './chat-global'
 import ChatComponent from './chat-component'
-import { useAuth } from '../../hooks/useAuth'
 
 import { Chat, ChatType } from '../../types/chat'
 
@@ -18,13 +17,8 @@ interface ChatListProps {
 }
 
 const ChatList: FunctionComponent<ChatListProps> = ({ onClick }) => {
-  const { user } = useAuth()
   const chats = useStore(chatsStore.chats)
   const selectedChat = useStore(selectedChatStore.selectedChat)
-
-  useEffect(() => {
-    if (user) chatsStore.getChats(user.$id)
-  }, [user])
 
   return (
     <>

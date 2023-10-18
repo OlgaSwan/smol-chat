@@ -1,7 +1,8 @@
-import React, { Dispatch, forwardRef, useState, useEffect, useRef } from 'react'
+import React, { forwardRef, useState, useEffect, useRef } from 'react'
 
-import { messagesStore, messagesUnreadStore } from '../store'
-import { editedMessageStore } from '../editedMessage'
+import { editedMessageStore } from '../../stores/edited-message'
+import { messagesStore } from '../../stores/messages-store'
+import { messagesUnreadStore } from '../../stores/messages-unread-store'
 
 import MiniProfile from '../../components/mini-profile'
 import { useAuth } from '../../hooks/useAuth'

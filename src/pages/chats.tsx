@@ -2,12 +2,12 @@ import { FunctionComponent, useCallback, useEffect, useState } from 'react'
 
 import { useStore } from '@nanostores/react'
 
-import { selectedChatStore } from '../model/store'
+import { selectedChatStore } from '../stores/selected-chat-store'
 import { metadata } from '../components/head-meta/metadata'
 
-import UserSearch from '../components/userSearch'
+import UserSearch from '../components/user-search'
 import { Head } from '../components/head-meta/head'
-import { createPrivateChatId } from '../utils/getPrivateChatId'
+import { createPrivateChatId } from '../utils/createPrivateChatId'
 import { getChat } from '../utils/getChat'
 import { createChat } from '../utils/appwrite-functions/createChat'
 import { useAuth } from '../hooks/useAuth'
@@ -47,11 +47,7 @@ const Chats: FunctionComponent = () => {
     <div className='chats--container'>
       <Head title={metadata.chats} />
       <div className='chats-search--container'>
-        <UserSearch
-          onUserChanged={(user) => {
-            if (user) setSearchedUser(user)
-          }}
-        />
+        <UserSearch onUserChanged={(user) => setSearchedUser(user)} />
         <ChatList onClick={(chat) => selectedChatStore.setSelectedChat(chat)} />
       </div>
       {selectedChat ? (

@@ -4,7 +4,7 @@ import { databases } from '../../appwrite-config'
 
 import { useStore } from '@nanostores/react'
 
-import { messagesUnreadStore } from '../store'
+import { messagesUnreadStore } from '../../stores/messages-unread-store'
 
 import { getUser } from '../../utils/getUser'
 import { getUserPhoto } from '../../utils/getUserPhoto'
