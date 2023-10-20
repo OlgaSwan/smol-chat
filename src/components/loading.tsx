@@ -1,4 +1,4 @@
-import React, { FunctionComponent, PropsWithChildren } from 'react'
+import { FunctionComponent, PropsWithChildren } from 'react'
 import { useStore } from '@nanostores/react'
 import { InfinitySpin } from 'react-loader-spinner'
 

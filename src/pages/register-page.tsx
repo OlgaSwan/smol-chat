@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react'
+import React, {FunctionComponent, useCallback, useState} from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 import { metadata } from '../components/head-meta/metadata'
@@ -48,14 +48,14 @@ const RegisterPage: FunctionComponent = () => {
     }
   }
 
-  const handleClose = (
-    event?: React.SyntheticEvent | Event,
-    reason?: string
+  const handleClose = useCallback((
+      _event?: React.SyntheticEvent | Event,
+      reason?: string
   ) => {
-    if (reason === 'clickaway') return
+    if (reason === "clickaway") return;
 
-    setOpen(false)
-  }
+    setOpen(false);
+  }, []);
 
   return (
     <div className='auth--container'>

@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react'
+import { FunctionComponent } from 'react'
 import { Outlet, Navigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import Header from './header'

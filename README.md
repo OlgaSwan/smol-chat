@@ -32,7 +32,7 @@ Smol Chat is a user-friendly chat app powered by React and TypeScript. Chat priv
 ## 🛠️ Local development
 
 To ensure that you are able to install everything properly, I would recommend you to have <b>Yarn</b>, <b>React</b> and <b>Vite</b> installed.
-You'll have to set up an AppWrite account, and then add all of the details into your .env file.
+You'll have to set up an AppWrite account, and then add all the details into your .env file.
 Once you've connected your application to AppWrite. Run the commands:
 
 - `yarn` to install dependencies

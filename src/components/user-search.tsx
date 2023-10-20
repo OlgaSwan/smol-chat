@@ -51,13 +51,13 @@ const UserSearch: FunctionComponent<UserSearchProps> = ({ onUserChanged }) => {
       noOptionsText='No users'
       isOptionEqualToValue={(option, value) => option.$id === value.$id}
       value={value}
-      onChange={(event, newValue: User | null) => {
+      onChange={(_event, newValue: User | null) => {
         setOptions(newValue ? [newValue, ...options] : options)
         setValue(newValue)
 
         if (onUserChanged) onUserChanged(newValue)
       }}
-      onInputChange={(event, newInputValue) => {
+      onInputChange={(_event, newInputValue) => {
         setInputValue(newInputValue)
       }}
       renderInput={(params) => (

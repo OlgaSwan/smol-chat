@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react'
+import { FunctionComponent, useEffect, useState } from 'react'
 
 import { User } from '../types/user'
 import { getUser } from '../utils/getUser'

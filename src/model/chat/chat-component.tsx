@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react'
+import { FunctionComponent, useEffect, useState } from 'react'
 import { Query } from 'appwrite'
 import { databases } from '../../appwrite-config'
 
